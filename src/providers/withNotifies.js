@@ -7,7 +7,11 @@ import { selectGame } from '../store/actions/search.actions';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import uuid from 'react-native-uuid';
-import { TYPE_FRIENDSHIP_REQUEST, TYPE_NEW_GAME, TYPE_PULL_ACTIVITIES,  TYPE_GAME_INVITATION } from '../commons/notifies-list';
+
+export const TYPE_NEW_GAME              = 'new-game';
+export const TYPE_FRIENDSHIP_REQUEST    = 'friend-request';
+export const TYPE_PULL_ACTIVITIES       = 'pull-news';
+export const TYPE_GAME_INVITATION       = 'game-invitation';
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     addNotify,

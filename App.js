@@ -1,49 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import { createAppContainer } from 'react-navigation';
+import store from './src/store/store';
+import AppNavigator from './src/configs/navigators';
+import { Provider as ReduxProvider } from 'react-redux';
+import { Root } from 'native-base';
+import { connect } from 'react-redux';
+import { initializeSession } from './src/store/actions/session.actions';
+//import { FirebaseManager } from './src/services';
+import { AppSplash, ModalLoader } from './src/commons/loaders';
+import { MainTheme } from './src/commons/themes';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+const AppContainer = createAppContainer(AppNavigator);
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+const mapStateToProps = ({global, session}) => ({
+    loading : global.loadingState,
+    reading : session.reading,
+    logged  : session.logged,
 });
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
-  }
+class AppComponent extends React.PureComponent {
+    componentDidMount() {
+        store.dispatch(initializeSession());
+    }    
+    render() {
+        const {loading, reading, logged} = this.props;
+        if(reading) return (<AppSplash />);
+        return (
+            <>
+                <AppContainer/>
+                {/* (!reading && logged) && (<FirebaseManager />) */}
+                {loading && (<ModalLoader />)}
+            </>
+        );
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const AppWrapper = connect(mapStateToProps, null)(AppComponent);
+
+/**
+ * This is the main application component, here we can put every component we need to
+ * keep alive.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export default class App extends Component {
+    render() {
+        return (
+            <ReduxProvider store={store}>
+                <MainTheme>
+                    <Root>                                    
+                        <AppWrapper/>
+                    </Root>
+                </MainTheme>
+            </ReduxProvider>
+        );
+    }
+}

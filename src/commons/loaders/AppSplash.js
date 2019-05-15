@@ -3,7 +3,7 @@ import {
     StyleSheet,
     View,
  } from 'react-native';
-import { LoadingSpinner } from '.';
+import LoadingSpinner from './LoadingSpinner';
 
  const AppSplash = () => (
      <View style = { styles.root }>
