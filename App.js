@@ -6,7 +6,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { Root } from 'native-base';
 import { connect } from 'react-redux';
 import { initializeSession } from './src/store/actions/session.actions';
-//import { FirebaseManager } from './src/services';
+import { FirebaseManager } from './src/services';
 import { AppSplash, ModalLoader } from './src/commons/loaders';
 import { MainTheme } from './src/commons/themes';
 
@@ -28,7 +28,7 @@ class AppComponent extends React.PureComponent {
         return (
             <>
                 <AppContainer/>
-                {/* (!reading && logged) && (<FirebaseManager />) */}
+                {(!reading && logged) && (<FirebaseManager />) }
                 {loading && (<ModalLoader />)}
             </>
         );

@@ -7,6 +7,7 @@
 .env
 .env.dev
 .env.prod
+android/app/google-services.json
 .idea/
 build/
 *.pbxuser

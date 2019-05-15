@@ -3,6 +3,10 @@ package com.wojoo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
+import io.invertase.firebase.functions.RNFirebaseFunctionsPackage; // <-- Add this line
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
 import codes.simen.IMEI.IMEI;
@@ -30,6 +34,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(), // <-- Add this line
+            new RNFirebaseNotificationsPackage(), // <-- Add this line
+            new RNFirebaseFunctionsPackage(), // <-- Add this line
             new RNDeviceInfo(),
             new VectorIconsPackage(),
             new IMEI(),
