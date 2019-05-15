@@ -8,6 +8,7 @@
 .env.dev
 .env.prod
 android/app/google-services.json
+android/app/my-release-key.keystore
 .idea/
 build/
 *.pbxuser
