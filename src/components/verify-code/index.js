@@ -75,6 +75,8 @@ class VerifyCode extends React.Component {
                 isValid  = { validCode                  }
                 onChange = { this.onChange.bind(this)   }
                 onSubmit = { () => this.onSubmit()      }
+                onCancel = { this.props.onCancel        }
+                phone    = { this.props.userNumber      }
             />
         );
     }
@@ -86,6 +88,7 @@ VerifyCode.propTypes = {
     doPost          : PropTypes.func,
     doGet           : PropTypes.func,
     onCodeVerified  : PropTypes.func,
+    onCancel        : PropTypes.func,
     userNumber      : PropTypes.string.isRequired,
     imei            : PropTypes.string.isRequired,
 };

@@ -19,7 +19,7 @@ const LoginForm = ({form, onChange, onSubmit}) => (
             <Form style={styles.form}>
                 <View style={{alignItems : "center"}}>
                     <Text >
-                        Ingresa a jako
+                        Ingresa a Wojoo
                     </Text>
                 </View>
                 <Item floatingLabel style={styles.row}>

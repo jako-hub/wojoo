@@ -23,7 +23,7 @@ const RegisterForm = ({form, onChange, error, onSubmit, goToLogin}) => {
                 <Form style={styles.form}>
                     <View style={{alignItems : "center"}}>
                         <Text uppercase>
-                            Ingresa a jako
+                            Ingresa a Wojoo
                         </Text>
                     </View>
                     <Item 

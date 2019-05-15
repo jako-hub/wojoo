@@ -214,6 +214,12 @@ class RegisterComponent extends React.Component {
         });
     }
 
+    cancelVerify() {
+        this.setState({
+            openVerify : false,
+        });
+    }
+
     render() {
         const {
             form,
@@ -231,6 +237,7 @@ class RegisterComponent extends React.Component {
                 userNumber      = {form.phoneNumber             }
                 imei            = { imei                        }
                 onCodeVerified  = { this.onVerifyCode.bind(this) } 
+                onCancel        = { this.cancelVerify.bind(this) }
             />
            );
         }

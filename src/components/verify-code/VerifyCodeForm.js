@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-    View,
     StyleSheet,
     ScrollView,
 } from 'react-native';
-import { 
+import {
+    View,
+    Text, 
     Form,
     Item,
     Label,
@@ -17,16 +18,21 @@ import { SubmitButton } from '../../commons/forms';
  * This component renders the verification code form only
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  */
-const VerifyCodeForm = ({code, isValid, onSubmit, error, onChange}) => (
+const VerifyCodeForm = ({code, phone, onCancel, isValid, onSubmit, error, onChange}) => (
     <View style={styles.root}>
             <ScrollView>
+                <View>
+                    <Text note style = {{textAlign : "center"}} >Se enviará un mensaje de texto al {phone} para verificar tu identidad</Text>
+                </View>
                 <Form style={styles.form}>
                     <Item 
                         floatingLabel
                         style           = { styles.row } 
                         error           = { error }
                     >
-                        <Label>Ingresa el código de verificación</Label>
+                        <Label>
+                            <Text>Ingresa el código de verificación</Text>
+                        </Label>
                         <Input                             
                             keyboardType    = "numeric"
                             value           = { code                   }
@@ -43,6 +49,13 @@ const VerifyCodeForm = ({code, isValid, onSubmit, error, onChange}) => (
                             disabled    = { !isValid } 
                             onPress     = { onSubmit }
                             label       = "Verificar"
+                        />
+                    </View>
+                    <View style = { styles.buttonRow }>
+                        <SubmitButton 
+                            block 
+                            onPress     = { onCancel }
+                            label       = "Cancelar"
                         />
                     </View>
                 </Form>
@@ -70,5 +83,7 @@ VerifyCodeForm.propTypes = {
     code        : PropTypes.string,
     onSubmit    : PropTypes.func,
     isValid     : PropTypes.bool,
+    onCancel    : PropTypes.func,
+    phone       : PropTypes.string,
 };
 export default VerifyCodeForm;
