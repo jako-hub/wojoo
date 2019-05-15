@@ -3,6 +3,12 @@ package com.wojoo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import codes.simen.IMEI.IMEI;
+import com.imagepicker.ImagePickerPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -22,7 +28,13 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+            new VectorIconsPackage(),
+            new IMEI(),
+            new ImagePickerPackage(),
+            new RNGestureHandlerPackage(),
+            new ReactNativeContacts(),
+            new AsyncStoragePackage()
       );
     }
 
