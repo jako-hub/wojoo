@@ -139,14 +139,14 @@ class FriendshipRequestsReceived extends React.Component {
         );
         return (
             <View style = { styles.list }>
-                <List>
+                <View style = { styles.requestsList }>
                     {players.map((item, key) => (
                         <RequestItem 
-                            key = { `friendship-request-item-list-${key}-${item.codigo_jugador_solicitud}` }
-                            request = { item }
-                            onAccept = { () => this.onAccept(item) }
-                            onCancel = { () => this.onCancel(item) }
-                            onViewProfile = { () => this.onViewProfile(item) }
+                            key             = { `friendship-request-item-list-${key}-${item.codigo_jugador_solicitud}` }
+                            request         = { item }
+                            onAccept        = { () => this.onAccept(item) }
+                            onCancel        = { () => this.onCancel(item) }
+                            onViewProfile   = { () => this.onViewProfile(item) }
                         />
                     ))}
                     {!showOthers && (totalOthers > 0) && (
@@ -159,7 +159,7 @@ class FriendshipRequestsReceived extends React.Component {
                             </Button>
                         </View>
                     )}
-                </List>
+                </View>
             </View>
         );
     }
@@ -212,7 +212,10 @@ const styles = StyleSheet.create({
         justifyContent  : "center",
         alignItems      : "center",
     },
-    buttonHide : {alignItems : "center", flexDirection : "row", justifyContent : "center"}
+    buttonHide : {alignItems : "center", flexDirection : "row", justifyContent : "center"},
+    requestsList : {
+        paddingTop : 10,
+    },
 });
 
 FriendshipRequestsReceived.propTypes = {

@@ -55,6 +55,7 @@ export const fetchMyFriends = (playerCode, fromOther) => (dispatch) => (new Prom
             const { error, error_controlado } = response;
             if(error || error_controlado) {
                 addMessage("Error al consultar tus amigos");                
+                consoleError("Error fetching friends: ", response);
                 reject(false);
             } else {                
                 if(!fromOther) {

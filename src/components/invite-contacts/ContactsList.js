@@ -10,8 +10,6 @@ import {
     Right,
     Thumbnail,
     CheckBox,
-    Input,
-    Item,
 } from 'native-base';
 import { StyleSheet, ScrollView } from 'react-native';
 import Contacts from 'react-native-contacts';
@@ -23,6 +21,7 @@ import Filter from './Filter';
 import { withSearch } from '../../providers';
 import { PrettyButton } from '../../commons/forms';
 import InviteForm from './InviteForm';
+import { LoadingSpinner } from '../../commons/loaders';
 
 const ContactItem = ({contact, onSelectContact, registered}) => {
     const {thumbnailPath, hasThumbnail, givenName, phoneNumbers=[]} = contact;
@@ -76,10 +75,14 @@ const ButtonFreeNumber = ({onPress}) => (
  */
 class ContactsList extends React.Component {
     state = {
-        contacts : [],        
-        selectedContacts : [],
-        friends : [],
-        openedForm : false,
+        contacts            : [],        
+        selectedContacts    : [],
+        totalContacts       : 0,
+        displaying          : 20,
+        encreaseRange       : 20,
+        friends             : [],
+        openedForm          : false,
+        loading             : true,
     };
 
     permissions = [
@@ -113,7 +116,9 @@ class ContactsList extends React.Component {
                     return 0;
                 });
                 this.setState({
-                    contacts : sortedContacts,
+                    contacts        : sortedContacts,
+                    totalContacts   : contacts.length,
+                    loading         : false,
                 });
             }
         });
@@ -142,7 +147,7 @@ class ContactsList extends React.Component {
     }
 
     getFilteredContacts() {
-        const {contacts=[], filter} = this.state;
+        const {contacts=[], filter, displaying=10} = this.state;
         let filteredContacts = [...contacts];
         if(filter) {
             filteredContacts = filteredContacts.filter(item => {
@@ -150,6 +155,7 @@ class ContactsList extends React.Component {
                 return `${item.givenName.toLowerCase()}`.match(regExp);
             });
         }
+        filteredContacts = filteredContacts.slice(0, displaying);
         return filteredContacts;
     }
     filterPhoneNumber(phoneNumber) {
@@ -164,13 +170,41 @@ class ContactsList extends React.Component {
         return Boolean(usuario);
     }
 
+    showMoreContacts() {
+        const {totalContacts=0, displaying=10, encreaseRange} = this.state;
+        let newDisplay = displaying;
+        if(displaying < totalContacts) {
+            newDisplay += encreaseRange;
+            if(newDisplay > totalContacts) newDisplay = totalContacts;
+            this.setState({
+                displaying : newDisplay,
+            });
+        }        
+    }
+
+    onListScroll({nativeEvent}) {
+        if(this.isCloseToBottom(nativeEvent)) {
+            this.showMoreContacts();
+        }
+    }
+
+    isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+        const paddingToBottom = 20;
+        return layoutMeasurement.height + contentOffset.y >=
+          contentSize.height - paddingToBottom;
+      };
+
     renderList() {
         const contacts = this.getFilteredContacts();
         const {showIfRegistered} = this.props;
     
         return (
             <>
-            <ScrollView style = { styles.scrollView }>
+            <ScrollView 
+                style = { styles.scrollView }
+                onScroll = { this.onListScroll.bind(this) }
+                scrollEventThrottle={400}
+            >
                 <List style = { styles.listItem }>
                     {contacts.map((contact, key) => (
                        <ContactItem 
@@ -195,6 +229,7 @@ class ContactsList extends React.Component {
     onClear() {
         this.setState({
             filter : "",
+            displaying : 20,
         });
     }
 
@@ -221,14 +256,25 @@ class ContactsList extends React.Component {
         );
     }
 
+    renderLoader() {
+        return (
+            <View style = { styles.loaderWrapper }>
+                <Text>Buscando contactos</Text>
+                <LoadingSpinner />
+            </View>
+        );
+    }
+
     render() {
-        const { contacts=[], selectedContacts=[], filter, openedForm, } = this.state;        
+        const { contacts=[], selectedContacts=[], filter, openedForm, loading} = this.state;        
         const totalContacts = contacts.length;
         const addedContacts = selectedContacts.length;        
         const rootStyles = [styles.root, (addedContacts > 0? styles.rootPadding : {})];
         const enabledFormAdd = this.props.enabledFormAdd;
         let content = null;
-        if(!openedForm) {
+        if(loading) {
+            content = this.renderLoader();
+        } else if(!openedForm) {
             content = (
                 <>
                     <View style = { styles.header }>
@@ -282,6 +328,11 @@ const styles = StyleSheet.create({
         paddingVertical : 10,
         justifyContent : "center",
     },
+    loaderWrapper : {
+        paddingVertical : 20,
+        justifyContent : "center",
+        alignItems : "center",
+    },
     emptyList : {
         flexDirection : "row",
         justifyContent : "center",
@@ -292,8 +343,8 @@ const styles = StyleSheet.create({
         textAlign : "center",
     },
     thumbnail : {
-        width : 50,
-        height : 50,
+        width : 30,
+        height : 30,
         backgroundColor : "#e0e0e0",
     },
     listItem : {

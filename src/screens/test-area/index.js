@@ -4,6 +4,7 @@ import { withUserData } from '../../providers';
 import FriendshipSuggestion from '../../components/my-profile/friendship-suggestion';
 import ContactsList from '../../components/invite-contacts/ContactsList';
 import GameInvitations from '../../components/game-invitations';
+import FriendshipRequestsReceived from '../../components/my-profile/friendship-requests-received';
 
 
 class TestAreaScreen extends React.Component {
@@ -22,6 +23,9 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >                
+                <FriendshipRequestsReceived
+                    navigation = { navigation }
+                 />
             </BaseScreen>
         );
     }
