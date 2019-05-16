@@ -1,7 +1,8 @@
 package com.wojoo;
 
 import android.app.Application;
-
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line

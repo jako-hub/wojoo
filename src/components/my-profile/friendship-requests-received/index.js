@@ -54,7 +54,7 @@ class FriendshipRequestsReceived extends React.Component {
      * @param {*} request 
      */
     async onAccept({codigo_jugador_solicitud:requestCode, jugador_nombre_corto:playerName}) {
-        const {doPost, startLoading, stopLoading, removeFriendshipRequest,} = this.props;
+        const {doPost, startLoading, stopLoading, removeFriendshipRequest,fetchMyFriends, userCode} = this.props;
         startLoading();
         const response = await doPost(endpoints.jugador_solicitud.respuesta, {
             solicitud : requestCode,
@@ -66,7 +66,8 @@ class FriendshipRequestsReceived extends React.Component {
             addMessage("Ocurrió un error al aceptar la solicitud");
         } else {
             addMessage(`${playerName} y tu ahora son amigos`);
-            removeFriendshipRequest(requestCode);
+            await removeFriendshipRequest(requestCode);
+            await fetchMyFriends(userCode);
         }
         stopLoading();
     }
@@ -204,8 +205,8 @@ const styles = StyleSheet.create({
         padding         : 15,
     },
     headerText : {
-        textAlign : "center",
-        color : "#707070",
+        textAlign   : "center",
+        color       : "#707070",
     },
     empty : {
         paddingVertical : 15,
@@ -221,16 +222,17 @@ const styles = StyleSheet.create({
 FriendshipRequestsReceived.propTypes = {
     navigation                  : PropTypes.any.isRequired,
     userCode                    : PropTypes.any,
+    onlyIfResults               : PropTypes.bool,
+    maxResults                  : PropTypes.number,
     friendshipRequests          : PropTypes.array,
     friendshipRequestsReceived  : PropTypes.array,
     fetchFriendshipRequest      : PropTypes.func,
     removeFriendshipRequest     : PropTypes.func,
-    maxResults                  : PropTypes.number,
     doPost                      : PropTypes.func,
     startLoading                : PropTypes.func,
     stopLoading                 : PropTypes.func,
-    onlyIfResults               : PropTypes.bool,
     onViewProfile               : PropTypes.func,
+    fetchMyFriends              : PropTypes.func,
 };
 
 export default withUserData(withApi(FriendshipRequestsReceived));

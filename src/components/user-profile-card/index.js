@@ -5,7 +5,6 @@ import Header       from './Header';
 import GameResume   from './GamesResume';
 import FriendsList  from './FriendsList';
 import { withApi, withUserData        } from '../../providers';
-import { LoadingSpinner } from '../../commons/loaders';
 import { consoleError   } from '../../utils/functions';
 import { 
     View, 
@@ -14,9 +13,7 @@ import {
     ScrollView,
     RefreshControl,
 } from 'react-native';
-import { CommonTabs } from '../../commons/others';
 import { IMAGES_SERVER, DEFAULT_USER_IMG } from 'react-native-dotenv';
-import FriendshipRequestButtons from '../friendship-requests-buttons';
 import FriendshipRequestsReceived from '../my-profile/friendship-requests-received';
 import ViewUserPhoto from './ViewUserPhoto';
 
@@ -41,7 +38,7 @@ class UserProfileCard extends React.Component {
 
     state = {
         loading         : true,
-        loadingFriends  : true,
+        loadingFriends  : false,
         error   : null,
         userInfo: {
             codigo_jugador  : null,
@@ -66,10 +63,7 @@ class UserProfileCard extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchUserInfo();
-        if(this.props.isPlayer) {
-            this.fetchMyFriends();
-        }
+        this.fetchUserInfo();             
     }
 
     async fetchUserInfo() {
@@ -101,6 +95,7 @@ class UserProfileCard extends React.Component {
     }
 
     async fetchMyFriends() {
+        /* 
         this.setState({loadingFriends : true});
         const {playerCode, isPlayer} = this.props;
         const response = await this.props.fetchMyFriends(playerCode, isPlayer);
@@ -109,7 +104,8 @@ class UserProfileCard extends React.Component {
             this.setState({loadingFriends : false, friends : response});
         } else {
             this.setState({loadingFriends : false});
-        }            
+        } 
+        */
     }
 
     onViewProfile({codigo_jugador_amigo:playerCode, seudonimo:playerAlias}) {
@@ -186,7 +182,6 @@ class UserProfileCard extends React.Component {
                 inasistencia,
              },
              loadingFriends,
-             friends=[],
              userPhotoUrl,   
              userPhotoThumbUrl,       
          } = this.state;
@@ -195,6 +190,7 @@ class UserProfileCard extends React.Component {
             openImagePicker,
             userPhoto,
             me,
+            friends,
             playerCode,
             navigation,
             isPlayer,
@@ -301,6 +297,7 @@ UserProfileCard.propTypes = {
     friendshipRequests  : PropTypes.array,
     friendshipRequestsSended : PropTypes.array,
     fetchFriendshipRequest : PropTypes.func,
+    fetchMyFriends      : PropTypes.func,
 };
 
 export default withApi(withUserData(UserProfileCard));
