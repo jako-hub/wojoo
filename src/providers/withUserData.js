@@ -20,12 +20,14 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     removeFriendshipRequest,
 }, dispatch);
 
-const mapStateToProps = ({session:{userCode}, userData}) => ({
+const mapStateToProps = ({session:{userCode}, games:{pendingClose}, userData}) => ({
     userCode,
+    pendingToCloseGames : pendingClose,
     ...userData,
 });
 
 export const propTypes = {
+    pendingToCloseGames : PropTypes.array,
     fetchMyFriends      : PropTypes.func,
     userCode            : PropTypes.any,
     setUserData         : PropTypes.func,

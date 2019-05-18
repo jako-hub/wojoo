@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { selectGame } from '../store/actions/search.actions';
 import {
     fetchMyGames, 
     fetchGameInvitations, 
@@ -14,12 +15,14 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchGameInvitations,
     rejectGameInvitation,
     fetchPendingCloseGames,
+    selectGame,
 }, dispatch);
 
-const mapStateToProps = ({games={}, session:{userCode}}) => ({
+const mapStateToProps = ({games={}, search:{selectedGame}, session:{userCode}}) => ({
     myGames : games.myGames,
     gameInvitations : games.gameInvitations,
     pendingGamesToClose : games.pendingClose,
+    selectedGame,
     userCode,
 });
 
@@ -32,6 +35,8 @@ export const propTypes = {
     rejectGameInvitation : PropTypes.func,
     fetchPendingCloseGames: PropTypes.func,
     pendingGamesToClose : PropTypes.array,
+    selectGame : PropTypes.func,
+    selectedGame : PropTypes.object,
 };
 
 /**

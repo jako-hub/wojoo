@@ -9,6 +9,7 @@ import stylesPalette from "../../utils/stylesPalette";
 import ListMyGamesComponent from './my-games-list';
 import {withGames, withSearch} from "../../providers";
 import ShareGameModal from '../../commons/buttons/share-game-button/ShareGameModal';
+import { PendingCloseGames } from '..';
 
 /**
  * This component allows to handle the user games
@@ -74,13 +75,14 @@ class MyGamesComponent extends React.Component {
     }
 
     render() {
-        const { myGames=[] } = this.props;
+        const { myGames=[], navigation} = this.props;
         const {
             selectedGame,
         } = this.state;
         return (
             <>
                 <Container>
+                    <PendingCloseGames navigation = { navigation } />
                     <ListMyGamesComponent
                         games        = { myGames }
                         onSelectGame = { this.onSelectGame.bind(this)   }

@@ -34,7 +34,7 @@ class MyGamesScreen extends React.PureComponent {
      }
 
     render() {
-        const {sessionStack, navigation} = this.props;    
+        const {sessionStack, navigation, pendingToCloseGames=[]} = this.props;    
         return (
             <BaseScreen 
                 navigation={navigation} 
@@ -43,10 +43,12 @@ class MyGamesScreen extends React.PureComponent {
                 allowUserStatus
             >
                 <MyGamesComponent navigation={navigation}/>
-                <FabButton 
-                    icon = "plus"
-                    onPress = {() => navigation.navigate("CreateGame", {prevRoute : "MyGames"})}
-                />
+                {pendingToCloseGames.length === 0 && (
+                    <FabButton 
+                        icon = "plus"
+                        onPress = {() => navigation.navigate("CreateGame", {prevRoute : "MyGames"})}
+                    />
+                )}
             </BaseScreen>
         );
     }
@@ -56,6 +58,7 @@ MyGamesScreen.propTypes = {
     navigation      : PropTypes.object,
     sessionStack    : PropTypes.object,
     selectGame      : PropTypes.func,
+    pendingToCloseGames    : PropTypes.array,
 };
 
 export default withSession(withSearch(withUserData(MyGamesScreen)));

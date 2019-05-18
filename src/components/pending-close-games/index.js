@@ -10,6 +10,7 @@ import {
 import { withGames } from '../../providers';
 import PendingGameItem from './PendingGameItem';
 import { SimpleTouch } from '../../commons/touchables';
+import { ErrorHeader } from '../../commons/containers';
 
 const ActionButton = ({onPress, title}) => (
     <SimpleTouch onPress = { onPress }>
@@ -36,8 +37,10 @@ class PendingCloseGames extends React.Component {
         await this.props.fetchPendingCloseGames();
     }
 
-    onPress(game) {
-        alert(game.codigo_juego);
+    onPress({codigo_juego}) {
+        const {selectGame, navigation} = this.props;
+        selectGame({codigo_juego});
+        navigation.navigate('GameDetail', {});        
     }
 
     toggleViewMore() {
@@ -58,6 +61,10 @@ class PendingCloseGames extends React.Component {
         if(!displayIfNull && games.length === 0) return null;
         return (
             <View style = { styles.root }>
+                <ErrorHeader title = {"Juegos sin terminar"} />
+                <View style = { styles.errorMessageBox }>
+                    <Text style = { styles.errorMessageText }>Para poder crear nuevos juegos debes terminar todos los juegos que ya han pasado </Text>
+                </View>
                 {games.map((game, key) => (
                     <PendingGameItem 
                         key     = {`pending-game-item-${key}`   }
@@ -67,7 +74,7 @@ class PendingCloseGames extends React.Component {
                     />
                 ))}
                 {others > 0 && (
-                    <ActionButton onPress = { () => this.toggleViewMore() } title = { `Ver ${others} más ` } />
+                    <ActionButton onPress = { () => this.toggleViewMore() } title = { `Ver ${others} más por cerrar` } />
                 )}
                 {viewMore && (
                     <ActionButton onPress = { () => this.toggleViewMore() } title = { `Ver menos` } />
@@ -85,6 +92,17 @@ const styles = StyleSheet.create({
     viewMoreText : {
         textAlign : "center",
     },
+    errorMessageBox : {
+        paddingVertical     : 10,
+        paddingHorizontal   : 10,
+        borderBottomColor   : "#ffcdd2",
+        borderBottomWidth   : 1, 
+        marginBottom        : 10,
+    },
+    errorMessageText : {
+        textAlign   : "center",
+        fontSize    : 12,        
+    },
 });
 
 PendingCloseGames.propTypes = {
@@ -92,6 +110,8 @@ PendingCloseGames.propTypes = {
     fetchPendingCloseGames: PropTypes.func,
     pendingGamesToClose      : PropTypes.array,
     maxDisplayItems         : PropTypes.number,
+    selectGame : PropTypes.func,
+    selectedGame : PropTypes.object,
 };
 
 
