@@ -5,6 +5,7 @@ import FriendshipSuggestion from '../../components/my-profile/friendship-suggest
 import ContactsList from '../../components/invite-contacts/ContactsList';
 import GameInvitations from '../../components/game-invitations';
 import FriendshipRequestsReceived from '../../components/my-profile/friendship-requests-received';
+import { PendingCloseGames } from '../../components';
 
 
 class TestAreaScreen extends React.Component {
@@ -23,9 +24,9 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >                
-                <FriendshipRequestsReceived
+                <PendingCloseGames 
                     navigation = { navigation }
-                 />
+                />
             </BaseScreen>
         );
     }

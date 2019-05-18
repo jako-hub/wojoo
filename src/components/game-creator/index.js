@@ -12,6 +12,7 @@ import { withApi, withSearch } from '../../providers';
 import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError, upcfirst } from '../../utils/functions';
 
+
 class GameCreatorComponent extends React.Component {
     state = {
         name         : "",
@@ -99,7 +100,7 @@ class GameCreatorComponent extends React.Component {
         }));
     }
 
-    onSubmitForm() {
+    async onSubmitForm() {
         const {
             scenario,
             date:fecha,
@@ -113,8 +114,8 @@ class GameCreatorComponent extends React.Component {
         const jugador = this.props.userCode;
         const escenario = scenario.codigo_escenario;
         const initialDate = `${fecha} ${startAt}`;
-        const endDate = `${fecha} ${endsAt}`;        
-        this.props.startLoading();
+        const endDate = `${fecha} ${endsAt}`;                
+
         const data = {
             jugador,
             nombre,
@@ -128,12 +129,16 @@ class GameCreatorComponent extends React.Component {
             fecha_hasta : endDate,
             invitar_amigos : sendInvitation,
         };
-        this.props.doPost(endpoints.juego.nuevo, data).then(response => {
+
+        this.props.startLoading();
+        try {
+            const response = await this.props.doPost(endpoints.juego.nuevo, data);
             const {error, error_controlado, codigo_juego} = response;
-            if(error || error_controlado) {
+            if(error) {
                 consoleError("Saving the game controlled", response);
-                console.log("data", JSON.stringify(data));
                 addMessage("Ocurrió un error al guardar el juego");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
             } else {
                 this.props.onChangeQuery(nombre);
                 this.setState({codigo_juego}, () => {
@@ -143,14 +148,12 @@ class GameCreatorComponent extends React.Component {
                     addMessage("Juego guardado");
                 });                
             }
-            
-            this.props.stopLoading();
-        })
-        .catch(response => {
+        } catch(response)  {
             consoleError("Saving game", response);
-            addMessage("Ocurrió un error al guardar el juego");
-            
-        });
+            addMessage("Ocurrió un error al guardar el juego");            
+        } finally {
+            this.props.stopLoading();
+        }
 
     }
 

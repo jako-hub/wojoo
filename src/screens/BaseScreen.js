@@ -43,7 +43,7 @@ import FriendsSearchSuggester from '../components/friends-search-suggester';
          const {goToHome} = navigation.state.params||{};
 
          if(goToHome) {
-             Linking.openURL("jakoapp://home");
+             Linking.openURL("wojoo://home");
          } else {
              navigation.goBack(null);
          }

@@ -56,7 +56,7 @@ const InviteForm = ({onCancel, onSend}) => {
         <View style = { styles.root }>
             <View style = { styles.header }>
                 <Text style = { {textAlign : "center" }}>
-                    Comparte JAKO con tus amigos
+                    Comparte Wojoo con tus amigos
                 </Text>
             </View>
             <View style = { styles.row }>

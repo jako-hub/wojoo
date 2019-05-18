@@ -58,7 +58,7 @@ class FriendSearchSuggester extends React.Component {
                     </Text>
                     <View style = { styles.action }>
                         <PrettyButton primary onPress = {() => this.goToSearch()}>
-                            Buscar en JAKO
+                            Buscar en Wojoo
                         </PrettyButton>
                         <PrettyButton onPress = { () => this.toggleInvite() }>
                             Invita contactos

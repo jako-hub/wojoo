@@ -63,11 +63,6 @@ class MyProfileScreen extends React.Component {
                 )}
                 
                 
-                <FabButton 
-                    icon = "plus"
-                    onPress = {() => navigation.navigate("CreateGame", {prevRoute : "Search"})}                    
-                />
-                
             </BaseScreen>
         );
     }

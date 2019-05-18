@@ -16,7 +16,7 @@ const PostsHeader = () => {
                 <Icon name = "newspaper-o" size = {18} />
             </View>
             <View style = { styles.textWrapper }>
-                <Text>Actividad en Jako</Text>
+                <Text>Actividad</Text>
             </View>
         </View>
     );

@@ -24,6 +24,10 @@ import {
 } from '../../commons/forms/Layout';
 import TeamManager from './TeamManager';
 
+/**
+ * This component only renders the Game Form.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 const GameForm = (props) => {
     const {
         onChange, 
@@ -116,6 +120,7 @@ const styles = StyleSheet.create({
     root : {        
         paddingHorizontal : 10,
         paddingVertical : 10,
+        paddingBottom : 50,
     },
     inviteZone : { 
         flex : 1,

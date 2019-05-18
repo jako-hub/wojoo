@@ -78,7 +78,7 @@ const palette = stylesPalette();
 
 const styles = StyleSheet.create({
     root : {
-
+        paddingBottom : 100,
     },
     friendCard : {
         flex : 1,
