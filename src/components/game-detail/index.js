@@ -227,6 +227,10 @@ class GameDetailComponent extends React.Component {
         this.setState({
             juego_cerrado : true,
         });
+        const {fetchMyGames, userCode} = this.props;
+        if(fetchMyGames) {
+            fetchMyGames(userCode);
+        }
     }
 
     render() {
@@ -373,6 +377,7 @@ GameDetailComponent.propTypes = {
     onRefresh       : PropTypes.func,
     userCode        : PropTypes.any,
     myGames         : PropTypes.array,
+    fetchMyGames    : PropTypes.func,
 };
 
 export default withApi(withGames(GameDetailComponent));
