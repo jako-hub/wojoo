@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import {
     StyleSheet,
 } from 'react-native';
-import {
-    View,
-    Text,
-} from 'native-base';
-import { SubmitButton } from '../../commons/forms';
+import { PrettyButton } from '../../commons/forms';
 import ModalTerminate from './ModalTerminate';
-import { withApi } from '../../providers';
+import { withApi, withGames } from '../../providers';
 import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 class TerminateGame extends React.Component {
@@ -71,7 +67,7 @@ class TerminateGame extends React.Component {
         };
     }
 
-    onSubmit() {
+    async onSubmit() {
         const noAttendance = [];
         const {gameCode:juego} = this.props;
         if(this.state.players.length > 0) {
@@ -80,25 +76,29 @@ class TerminateGame extends React.Component {
             });
         }
         this.props.startLoading();
-        this.props.doPost(endpoints.juego.cerrar, {
-            juego,
-            juegos_detalles : noAttendance,
-        })
-        .then(response => {
-            this.props.stopLoading();
+        try {
+            const response = await this.props.doPost(endpoints.juego.cerrar, {
+                juego,
+                juegos_detalles : noAttendance,
+            });
             const {error, error_controlado} = response;
-            if(error || error_controlado) {
+            if(error) {
                 addMessage("Ocurrió un error al cerrar el juego");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
             } else {                
                 addMessage("Se ha cerrado el juego exítosamente");
+                if(this.props.onTerminate) this.props.onTerminate();
+                this.props.removePendingCloseGame(juego);
             }
             this.toggleModal();
-        })
-        .catch(response => {
-            this.props.stopLoading();
+        } catch(response ) {
+            
             consoleError("Closing game: ", response);
             addMessage("Ocurrió un error al cerrar el juego");
-        });
+        } finally {
+            this.props.stopLoading();
+        }
     }
 
     render(){
@@ -114,25 +114,22 @@ class TerminateGame extends React.Component {
             noAttendance,
         } = this.calculateAttendies();
         return (
-            <>            
-            <View style = { styles.root }>
-                <SubmitButton 
-                    label = "Cerrar juego"
-                    primary
-                    block
-                    onPress = { () => this.toggleModal() }
-                />    
-            </View>
-            <ModalTerminate
-                open = { openModalTerminate }
-                onClose = { () => this.toggleModal() }
-                teams = { teams }
-                onValueChange = { this.onChangePlayer.bind(this) }
-                players = {players}
-                onSubmit = {() => this.onSubmit() }
-                attendance = { attendance }
-                noAttendance = { noAttendance }
-            />
+            <>
+            <PrettyButton onPress = { () => this.toggleModal() }>
+                Terminar
+            </PrettyButton>  
+            {openModalTerminate && (
+                <ModalTerminate
+                    open = { openModalTerminate }
+                    onClose = { () => this.toggleModal() }
+                    teams = { teams }
+                    onValueChange = { this.onChangePlayer.bind(this) }
+                    players = {players}
+                    onSubmit = {() => this.onSubmit() }
+                    attendance = { attendance }
+                    noAttendance = { noAttendance }
+                />
+            )}
             </> 
         );
     }
@@ -152,6 +149,8 @@ TerminateGame.propTypes = {
     stopLoading     : PropTypes.func,
     doPost          : PropTypes.func,
     userCode        : PropTypes.any,
+    onTerminate     : PropTypes.func,
+    removePendingCloseGame : PropTypes.func,
 };
 
-export default withApi(TerminateGame);
+export default withApi(withGames(TerminateGame));

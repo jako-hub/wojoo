@@ -7,6 +7,7 @@ import {
     fetchMyGames, 
     fetchGameInvitations, 
     rejectGameInvitation,
+    removePendingCloseGame,
     fetchPendingCloseGames,
 } from "../store/actions/game.actions";
 
@@ -15,6 +16,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchGameInvitations,
     rejectGameInvitation,
     fetchPendingCloseGames,
+    removePendingCloseGame,
     selectGame,
 }, dispatch);
 
@@ -27,6 +29,7 @@ const mapStateToProps = ({games={}, search:{selectedGame}, session:{userCode}}) 
 });
 
 export const propTypes = {
+    removePendingCloseGame : PropTypes.func,
     fetchMyGames    : PropTypes.func,
     myGames         : PropTypes.array,
     userCode        : PropTypes.any,

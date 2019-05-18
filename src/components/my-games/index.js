@@ -31,11 +31,10 @@ class MyGamesComponent extends React.Component {
     /**
      * This function request the user games to the API.
      */
-    fetchGames() {
+    async fetchGames() {
         this.setState({loading : true});
-        this.props.fetchMyGames(this.props.userCode)
-            .then(() => this.setState({loading : false}))
-            .catch(() => this.setState({loading : false}));
+        await this.props.fetchMyGames(this.props.userCode);
+        this.setState({loading : false});
     }
 
     /**
@@ -58,8 +57,9 @@ class MyGamesComponent extends React.Component {
         this.props.navigation.navigate("PlayerProfile", {playerCode : juego_codigo_jugador, playerAlias : jugador_seudonimo});
     }
 
-    onRefresh() {
-        this.fetchGames();
+    async onRefresh() {
+        await this.fetchGames();
+        await this.props.fetchPendingCloseGames();
     }
 
     onShareGame(selectedGame) {
@@ -120,6 +120,7 @@ MyGamesComponent.propTypes = {
     fetchMyGames    : PropTypes.func,
     myGames         : PropTypes.array,
     userCode        : PropTypes.any,
+    fetchPendingCloseGames: PropTypes.func,
 };
 
 export default withGames(withSearch(MyGamesComponent));

@@ -21,6 +21,8 @@ import TeamsList from './TeamsList';
 import TerminateGame from '../terminate-game';
 import ShareGameModal from '../../commons/buttons/share-game-button/ShareGameModal';
 import TabButtons from '../../commons/buttons/TabButtons';
+import moment from 'moment';
+import { Badge } from '../../commons/containers';
 
 /**
  * This component handles the game detail display.
@@ -52,7 +54,7 @@ class GameDetailComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        if(this.props.navigation.state.params.disallowJoin) {
+        if(this.props.navigation.state.params && this.props.navigation.state.params.disallowJoin) {
             this.state.allowJoin = false;
         }
     }
@@ -214,6 +216,19 @@ class GameDetailComponent extends React.Component {
         this.fetchGameInfo();  
     }
 
+    gameExpired() {
+        const {fecha_hasta} = this.state;
+        const objDateTo = moment(fecha_hasta);
+        const currentDate = moment();
+        return objDateTo.diff(currentDate) < 0;
+    }
+
+    onTerminate() {
+        this.setState({
+            juego_cerrado : true,
+        });
+    }
+
     render() {
         const {selectedGame, userCode} = this.props;
         const {
@@ -226,8 +241,10 @@ class GameDetailComponent extends React.Component {
             jugador_seudonimo,
             openShare,
             loading,
+            juego_cerrado,
         } = this.state;
         const isInGame = this.isInGame();
+        const expiredGame = this.gameExpired();   
         return (
             <>
             <View style={styles.root}>
@@ -244,24 +261,29 @@ class GameDetailComponent extends React.Component {
                             game = {this.state}
                         />
                     )}
-                    <Actions 
-                        onComment = {() => this.toggleComment()}
-                        onAdd     = {() => this.onJoinToGame(selectedGame)}
-                        canJoin   = { allowJoin }
-                        user      = { jugador_seudonimo }
-                        onViewProfile = {() => this.onViewHostProfile()}
-                        gameCode    = { codigo_juego }
-                        isInGame    = { isInGame }
-                        onShareGame = { () => this.onShareGame() }
-                    />                    
-                    <View styles = { {flex : 1,} }>
-                        {isInGame && (
+                    {!expiredGame && (
+                        <Actions 
+                            onComment = {() => this.toggleComment()}
+                            onAdd     = {() => this.onJoinToGame(selectedGame)}
+                            canJoin   = { allowJoin }
+                            user      = { jugador_seudonimo }
+                            onViewProfile = {() => this.onViewHostProfile()}
+                            gameCode    = { codigo_juego }
+                            isInGame    = { isInGame }
+                            onShareGame = { () => this.onShareGame() }
+                        />    
+                    )}                
+                    <View style = { styles.buttonActions }>
+                        {isInGame && !juego_cerrado && (
                             <TerminateGame 
                                 gameCode = { codigo_juego }
                                 teams    = { detalles     }
+                                onTerminate = { this.onTerminate.bind(this) }
                             />
                         )}
-
+                        {juego_cerrado && (
+                            <Badge title = { "Terminado" } />
+                        )}
                     </View>
                     <TabButtons 
                         currentTab  = { currentTab              }
@@ -277,12 +299,14 @@ class GameDetailComponent extends React.Component {
                     )}
                     {currentTab === 1 && (
                         <>
-                            <CommentGameComponent 
-                                setCommentRef = { this.setCommentRef.bind(this) }
-                                onClose       = { () => this.toggleComment()    }
-                                gameCode      = { selectedGame.codigo_juego     }
-                                onSaveComment = { this.onSaveComment.bind(this) }
-                            />
+                            {!juego_cerrado && (
+                                <CommentGameComponent 
+                                    setCommentRef = { this.setCommentRef.bind(this) }
+                                    onClose       = { () => this.toggleComment()    }
+                                    gameCode      = { selectedGame.codigo_juego     }
+                                    onSaveComment = { this.onSaveComment.bind(this) }
+                                />
+                            )}
                             <CommentsList 
                                 comments = { comentarios }
                                 loading  = { loadingComments }
@@ -326,6 +350,12 @@ const styles = StyleSheet.create({
     },
     tabUnderLine : {
         backgroundColor : palette.primary.color,
+    },
+    buttonActions : {
+        flexDirection : "row",
+        alignItems : "center",
+        justifyContent : "center",
+        paddingHorizontal : 10,
     },
 });
 
