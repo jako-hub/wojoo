@@ -5,16 +5,13 @@ import FriendshipSuggestion from '../../components/my-profile/friendship-suggest
 import ContactsList from '../../components/invite-contacts/ContactsList';
 import GameInvitations from '../../components/game-invitations';
 import FriendshipRequestsReceived from '../../components/my-profile/friendship-requests-received';
-import { PendingCloseGames, GameDetailComponent } from '../../components';
+import { PendingCloseGames, GameDetailComponent, GameCreatorComponent } from '../../components';
 
 
 class TestAreaScreen extends React.Component {
     state = {
         open : false,
     };
-    componentDidMount() {
-        this.props.selectGame({codigo_juego : 2});
-    }
     toggle() {
         this.setState({
             open : !this.state.open,
@@ -28,12 +25,9 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >                
-                {selectedGame.codigo_juego && (
-                    <GameDetailComponent 
-                        navigation={navigation} 
-                        selectedGame={selectedGame} 
-                    />
-                )}
+                <GameCreatorComponent 
+                    navigation = { navigation }
+                />
             </BaseScreen>
         );
     }

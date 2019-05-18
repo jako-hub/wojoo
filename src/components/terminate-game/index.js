@@ -115,7 +115,7 @@ class TerminateGame extends React.Component {
         } = this.calculateAttendies();
         return (
             <>
-            <PrettyButton onPress = { () => this.toggleModal() }>
+            <PrettyButton small onPress = { () => this.toggleModal() }>
                 Terminar
             </PrettyButton>  
             {openModalTerminate && (

@@ -9,7 +9,7 @@ import {
     Text,
 } from 'native-base';
 import { withGames, withSearch } from '../../providers';
-import {SimpleHeader} from '../../commons/containers';
+import {SimpleHeader} from '../../commons/containers/index.js';
 import { LoadingSpinner } from '../../commons/loaders';
 import {DEFAULT_USER_IMG, IMAGES_SERVER} from 'react-native-dotenv';
 import { PrettyButton } from '../../commons/forms';

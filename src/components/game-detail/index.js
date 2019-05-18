@@ -270,17 +270,13 @@ class GameDetailComponent extends React.Component {
                             onViewProfile = {() => this.onViewHostProfile()}
                             gameCode    = { codigo_juego }
                             isInGame    = { isInGame }
+                            gameClosed  = { juego_cerrado }
                             onShareGame = { () => this.onShareGame() }
+                            onTerminate = { this.onTerminate.bind(this) }
+                            teams    = { detalles     }
                         />    
                     )}                
                     <View style = { styles.buttonActions }>
-                        {isInGame && !juego_cerrado && (
-                            <TerminateGame 
-                                gameCode = { codigo_juego }
-                                teams    = { detalles     }
-                                onTerminate = { this.onTerminate.bind(this) }
-                            />
-                        )}
                         {juego_cerrado && (
                             <Badge title = { "Terminado" } />
                         )}

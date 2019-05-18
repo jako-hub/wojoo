@@ -10,9 +10,9 @@ import {
     Thumbnail,
 } from 'native-base';
 import { DEFAULT_USER_IMG, IMAGES_SERVER } from 'react-native-dotenv';
-import { IconButton, PrettyButton } from '../../commons/forms';
+import { PrettyButton } from '../../commons/forms';
 import { FriendshipButton } from '../../commons/buttons';
-import { SimpleHeader } from '../../commons/containers';
+import { SimpleHeader } from '../../commons/containers/index.js';
 import stylesPalette from '../../utils/stylesPalette';
 
 const FriendCard = ({friend, onViewProfile, onRequest, sended, onCancel}) => (

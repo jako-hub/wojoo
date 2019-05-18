@@ -10,7 +10,7 @@ import {
 import { withGames } from '../../providers';
 import PendingGameItem from './PendingGameItem';
 import { SimpleTouch } from '../../commons/touchables';
-import { ErrorHeader } from '../../commons/containers';
+import { ErrorHeader } from '../../commons/containers/index.js';
 
 const ActionButton = ({onPress, title}) => (
     <SimpleTouch onPress = { onPress }>

@@ -11,6 +11,7 @@ import {
     Item,    
     Text,
     CheckBox,
+    Picker,
 } from 'native-base';
 import ScenarioPicker from '../../components/scenario-picker';
 import { 
@@ -48,6 +49,8 @@ const GameForm = (props) => {
         defEndsAt,      
         toggleInvitation,
         sendInvitation,
+        gameType,
+        gameTypes
     } = props;
     return (
         <View style={styles.root}>            
@@ -59,6 +62,7 @@ const GameForm = (props) => {
                         onChangeText = { text => onChange("name", text)  }
                     />
                 </Item>
+                
                 <DateTimePicker
                     date        = { defDate      } 
                     value       = { date         }
@@ -148,6 +152,8 @@ GameForm.propTypes = {
     defDate          : PropTypes.any,
     defStartAt       : PropTypes.any,
     defEndsAt        : PropTypes.any,
+    gameType         : PropTypes.any,
+    gameTypes        : PropTypes.array,
 };
 
 export default GameForm;

@@ -24,9 +24,11 @@ class GameCreatorComponent extends React.Component {
         endsAt       : null,
         defEndsat    : null,
         codigo_juego : null,
+        gameType     : 1,
         teams        : [],
         teamNames    : {},
         sendInvitation : false,
+        gameTypes : [],
     };
 
     constructor(props) {
@@ -36,6 +38,34 @@ class GameCreatorComponent extends React.Component {
         this.state.defEndsat      = new Date();
     }
     
+    componentDidMount() {
+        this.fetchGameTypes();
+    }
+
+    async fetchGameTypes() {
+        const { doPost } = this.props;
+        let types = [];
+        try {
+            const response = await doPost(endpoints.juego.listaTipos, {});
+            const {error, error_controlado} = response;            
+            if(error) {
+                addMessage("Ocurrió un error al listar los tipos de juego");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                types = response;
+            }
+        } catch (response) {
+            consoleError("fetch game types");
+            addMessage("Ocurrió un error al listar los tipos de juego");
+        } finally {
+            this.setState({
+                gameTypes: types,
+            });
+        }
+    }
+    
+
     toggleInvitation() {
         this.setState({
             sendInvitation : !this.state.sendInvitation,
@@ -183,6 +213,8 @@ class GameCreatorComponent extends React.Component {
             defStartat,
             defEndsat,
             sendInvitation,
+            gameTypes,
+            gameType,
         } = this.state;
         return (
             <ScrollView>                
@@ -194,6 +226,8 @@ class GameCreatorComponent extends React.Component {
                         onSubmit         = { this.onSubmitForm.bind(this)    }
                         onChange         = { this.onChange.bind(this)        }
                         teams            = { teams      }
+                        gameType         = { gameType   }
+                        gameTypes        = { gameTypes  }
                         gameName         = { name       }
                         scenario         = { scenario   }
                         date             = { date       }

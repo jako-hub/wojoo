@@ -21,6 +21,7 @@ export default {
         compartirConAmigos : '/v1/juego/compartir/amigos',
         invitaciones : '/v1/juego/invitaciones',
         pendientesCierre : '/v1/juego/pendientes/cierre',
+        listaTipos : '/v1/juego/lista/tipos',
     },
     escenarios : {
         lista : '/v1/escenario/lista',        

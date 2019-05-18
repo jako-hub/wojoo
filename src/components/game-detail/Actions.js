@@ -12,8 +12,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ShareGameButton } from '../../commons/buttons';
 import { PrettyButton } from '../../commons/forms';
+import { TerminateGame } from '..';
 
-const Actions = ({onAdd, canJoin=true, user, onViewProfile, gameCode, isInGame, onShareGame}) => (
+const Actions = ({onAdd, canJoin=true, user, onViewProfile, gameClosed, onTerminate, teams, gameCode, isInGame, onShareGame}) => (
     <View style={styles.root}>
         <View style = { styles.wrapper } >
             <View style = {styles.hostWrapper}>
@@ -31,9 +32,19 @@ const Actions = ({onAdd, canJoin=true, user, onViewProfile, gameCode, isInGame, 
                     <Icon name="user-plus" size={13} /> Unirme
                 </PrettyButton>
             )}
-            <PrettyButton small onPress = { onShareGame }>
-                <Icon name="share-alt" size={13} /> Compartir
-            </PrettyButton>
+            {!gameClosed && (
+                <PrettyButton small onPress = { onShareGame }>
+                    <Icon name="share-alt" size={13} /> Compartir
+                </PrettyButton>
+            )}
+            
+            {isInGame && !gameClosed && (
+                <TerminateGame 
+                    gameCode = { gameCode }
+                    teams    = { teams     }
+                    onTerminate = { onTerminate }
+                />
+            )}
         </View>
     </View>
 );
