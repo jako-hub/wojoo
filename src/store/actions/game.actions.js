@@ -8,6 +8,8 @@ export const ADD_TO_MY_GAMES    = '[GAME] ADD_TO_MY_GAMES';
 export const SET_POSITIONS      = '[GAME] SET_POSITIONS';
 export const SET_GAME_INVITATIONS = '[GAME] SET_GAME_INVITATIONS';
 export const REMOVE_GAME_INVITATION = '[GAME] REMOVE_GAME_INVITATION';
+export const SET_PENDING_CLOSE_GAMES = '[GAME] SET_PENDING_CLOSE_GAMES';
+export const REMOVE_PENDING_CLOSE_GAME = '[GAME] REMOVE_PENDING_CLOSE_GAME';
 // export const UPDATE_GAME = '[GAME] UPDATE_GAME';
 
 export const setGames = (games=[]) => ({
@@ -33,6 +35,16 @@ export const setGameInvitations = (invitations) => ({
 export const removeGameInvitation = invitationCode => ({
     type : REMOVE_GAME_INVITATION,
     invitationCode,
+});
+
+export const setPendingCloseGames = games => ({
+    type : SET_PENDING_CLOSE_GAMES,
+    games : games,
+});
+
+export const removePendingCloseGame = gameCode => ({
+    type : REMOVE_PENDING_CLOSE_GAME,
+    gameCode,
 });
 
 /***************************
@@ -116,6 +128,28 @@ export const rejectGameInvitation = (invitationCode) => async (dispatch) => {
             consoleError("Rejecting invitation", response);
         } else {
             dispatch(removeGameInvitation(invitationCode));
+        }
+    };
+    return await sendRequest();
+};
+
+/**
+ * This function allows to list the games that need to be closed.
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const fetchPendingCloseGames = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const sendRequest = async () => {
+        const response = await Api.doPost(endpoints.juego.pendientesCierre, {
+            jugador : userCode,
+        });
+        const {error, error_controlado} = response;
+        if(error) {
+            addMessage("Ocurrió un error inesperado");
+        } else if(error_controlado) {
+            addMessage(error_controlado);
+        } else {
+            dispatch(setPendingCloseGames(response));
         }
     };
     return await sendRequest();

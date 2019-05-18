@@ -26,6 +26,7 @@ class TestAreaScreen extends React.Component {
             >                
                 <PendingCloseGames 
                     navigation = { navigation }
+                    displayIfNull
                 />
             </BaseScreen>
         );

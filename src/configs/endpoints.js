@@ -20,6 +20,7 @@ export default {
         cerrar : '/v1/juego/cerrar',
         compartirConAmigos : '/v1/juego/compartir/amigos',
         invitaciones : '/v1/juego/invitaciones',
+        pendientesCierre : '/v1/juego/pendientes/cierre',
     },
     escenarios : {
         lista : '/v1/escenario/lista',        

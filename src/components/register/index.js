@@ -10,7 +10,6 @@ import { PermissionsAndroid } from 'react-native';
 import NoPermission from '../login/NoPermission';
 import VerifyCode  from '../verify-code';
 import DeviceInfo from 'react-native-device-info';
-import { API_SERVER } from 'react-native-dotenv';
 //import RNSimData from 'react-native-sim-data'
 
 /**
@@ -165,7 +164,6 @@ class RegisterComponent extends React.Component {
             usuario : `${phoneNumber}`,
             imei    : imei,
         };
-        alert(API_SERVER);
         this.props.doPost(endpoints.usuarios.validar, data)
             .then(response => {
                 const {error_controlado, validacion, verificado, codigo_usuario, crear_juego} = response;
