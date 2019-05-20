@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-    Modal,
-    View,
-    Text,
+    Modal,    
     StyleSheet,
-    TouchableOpacity,
+    ScrollView,
 } from 'react-native';
+import {
+    Text,
+    View,
+} from 'native-base';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { ScrollView } from 'react-native-gesture-handler';
+import { IconButton } from '../forms';
 
 class FullScreenModal extends React.PureComponent {
-    
-    componentWillUnmount() {
-        this.props.onClose();
-    }
 
     render() {
         const {open, onClose, disableScroll, animation="fade", children, title} = this.props;
@@ -23,25 +20,22 @@ class FullScreenModal extends React.PureComponent {
                 visible         = {open}
                 onRequestClose  = {onClose}
                 animationType   = {animation}
-                transparent
-            >
-                <View style={styles.backDrop}>                
-                        <View style={styles.header}>
-                            <Text style={styles.headerText}>
-                                {title}
-                            </Text>                  
-                            <TouchableOpacity onPress={onClose}>
-                                <View style={styles.button}>
-                                    <Icon name="times" size={25}/>
-                                </View>
-                            </TouchableOpacity>                      
-                        </View>                
-                        {!disableScroll && (
-                            <ScrollView>
-                                {children}
-                            </ScrollView>
-                        )}
-                        {disableScroll && (children)}
+            >                
+                <View style = { styles.root }>
+                    <View style = { styles.headerWrapper }>
+                        <View style = { styles.iconWrapper }>
+                            <IconButton  icon = "arrow-left" onPress = {onClose} />
+                        </View>
+                        <Text>
+                            {title}
+                        </Text>
+                    </View>
+                    {!disableScroll && (
+                        <ScrollView>
+                            {children}
+                        </ScrollView>
+                    )}
+                    {disableScroll && (children)}
                 </View>
             </Modal>
         );
@@ -50,40 +44,16 @@ class FullScreenModal extends React.PureComponent {
 
 
 const styles = StyleSheet.create({
-    backDrop : {
-        backgroundColor     : "rgba(0,0,0,0.3)",
-        flex                : 1,
-        alignItems          : "center",
-        justifyContent      : "center",
-    },
-    content : {
-        backgroundColor : "#FFF",
-        padding : 20,
-        marginHorizontal : 5,
-        width : "90%",
-        maxHeight : "90%",
-    },
-    headerText : {
-        textAlign : "center",
-    },      
-    button : {
-        width : 60,
-        height : 60,
-        justifyContent : "center",
-        alignItems : "center",
-    },
-    buttonWrapper : {
+    root : {
         flex : 1,
-        padding : 10,
-        marginBottom : 30,
+    },
+    headerWrapper : {
         flexDirection : "row",
-        justifyContent : "center", 
         alignItems : "center",
-        backgroundColor : "#FFF",
     },
-    noScroll : {
-        minHeight : "90%"
-    },
+    iconWrapper : {
+        marginRight : 10,
+    }
 });
 
 FullScreenModal.propTypes = {

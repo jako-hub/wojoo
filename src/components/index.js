@@ -19,6 +19,7 @@ import GameInvitations      from './game-invitations';
 import PendingCloseGames    from './pending-close-games';
 import InterestsPicker      from './interests-picker';
 import ViewFriendList       from './view-friend-list';
+import InterestsManager     from './interests-manager';
 
 export {
     LoginComponent, 
@@ -42,4 +43,5 @@ export {
     PendingCloseGames,
     InterestsPicker,
     ViewFriendList,
+    InterestsManager,
 };

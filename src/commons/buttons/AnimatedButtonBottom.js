@@ -7,12 +7,12 @@ import {
 import { 
     View,
  } from 'native-base';
-import { PrettyButton } from '../../commons/forms';
+import { PrettyButton } from '../forms';
 
 /**
- * This component renders the selection button.
+ * This component renders a button that appears from the bottom.
  */
-class SelectButton extends React.PureComponent {
+class AnimatedButtonBottom extends React.PureComponent {
     animVal = 0;
     
     constructor(props) {
@@ -36,12 +36,12 @@ class SelectButton extends React.PureComponent {
             styles.root,
             { bottom : this.animVal }
         ];
-        const {selected, onSelect} = this.props;
+        const {label, onSelect} = this.props;
         return (
             <Animated.View style = { containerStyles }>
                 <View style = { styles.action }>
                     <PrettyButton primary onPress = { onSelect } >
-                        Seleccionar {selected} {`contacto${selected > 1? 's' : ''}`}
+                        {label}
                     </PrettyButton>
                 </View>
             </Animated.View>
@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
     },
 });
 
-SelectButton.propTypes = {
+AnimatedButtonBottom.propTypes = {
     onSelect    : PropTypes.func,
-    selected    : PropTypes.number,
+    title       : PropTypes.string,
 };
 
-export default SelectButton;
+export default AnimatedButtonBottom;

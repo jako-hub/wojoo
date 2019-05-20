@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { SimpleModal } from '../../commons/modals';
-import { LoadingSpinner } from '../../commons/loaders';
 import {
     StyleSheet,
 } from 'react-native';

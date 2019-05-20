@@ -16,6 +16,7 @@ import {
     View,
 } from 'native-base';
 import MyInvitations from './MyInvitations';
+import InterestsManagerModal from '../interests-manager/InterestsManagerModal';
 /**
  * This component handles the user profile actions.
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
@@ -27,6 +28,7 @@ class MyProfileComponent extends React.Component {
     state = {
         openPublications : false,
         openInvitations : false,
+        openInterests : false,
     };
     onLogout() {
         const { navigation, logout } = this.props;
@@ -129,9 +131,15 @@ class MyProfileComponent extends React.Component {
         navigation.navigate("ViewClans", {});
     }
 
+    toggleInterests() {
+        this.setState({
+            openInterests : !this.state.openInterests,
+        });
+    }
+
     render() {
         const { userCode, navigation, photo } = this.props;
-        const {openPublications, openInvitations} = this.state;
+        const {openPublications, openInvitations, openInterests} = this.state;
         return (
             <>
             <View style = { styles.root }>
@@ -147,6 +155,7 @@ class MyProfileComponent extends React.Component {
                             togglePublications = {() => this.togglePublications()}
                             toggleGameInvitations = {() => this.toggleInvitations()}
                             viewClans = {() => this.viewClans()}
+                            openInterests = { () => this.toggleInterests() }
                         />
                     ) }
                 />
@@ -163,6 +172,12 @@ class MyProfileComponent extends React.Component {
                     open = {openInvitations}
                     onClose = {() => this.toggleInvitations()}
                     goToGame = {this.goToGame.bind(this)}
+                />
+            )}
+            {openInterests && (
+                <InterestsManagerModal 
+                    open = {openInterests} 
+                    onClose = { () => this.toggleInterests() }
                 />
             )}
             </>
