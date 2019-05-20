@@ -14,7 +14,8 @@ import InterestsList from './InterestsList';
 import { LoadingSpinner } from '../../commons/loaders';
 
 /**
- * 
+ * This component allows to select and add interests
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  */
 class InterestsPicker extends React.Component {
 
@@ -85,15 +86,15 @@ class InterestsPicker extends React.Component {
         } else {
             content = (
                 <>
-                    <Text>¿Cúales son tus intereses?</Text>
+                    <Text style = { styles.title }>¿Cúales son tus intereses?</Text>
                     <InterestsList 
                         interests = { interests } 
                         id = "available-list"
                         onSelect = { this.selectItem.bind(this) }
                     />
                     {selectedInterests.length > 0 && (
-                        <>
-                            <Text>Me interesa: </Text>
+                        <View style = { {marginTop : 10} }>
+                            <Text style = { styles.title }>Me interesa: </Text>
                             <InterestsList 
                                 interests = { selectedInterests } 
                                 onSelect = { this.removeItem.bind(this) }
@@ -101,7 +102,7 @@ class InterestsPicker extends React.Component {
                                 primary
                                 removable
                             />
-                        </>
+                        </View>
                     )}
                 </>
             );
@@ -117,6 +118,9 @@ class InterestsPicker extends React.Component {
 const styles = StyleSheet.create({
     root : {
         
+    },
+    title : {
+        textAlign : "center"
     },
     rootLoader : {
         flex : 1,

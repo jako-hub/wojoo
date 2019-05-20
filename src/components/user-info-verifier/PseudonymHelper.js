@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
     Modal,
     StyleSheet,
+    ScrollView,
 } from 'react-native';
 import {
     Form,
@@ -16,13 +17,15 @@ import { SubmitButton } from '../../commons/forms';
 import { replaceSpaces, consoleError, addMessage, isValidEmail } from '../../utils/functions';
 import { withApi } from '../../providers';
 import endpoints from '../../configs/endpoints';
+import InterestsPicker from '../interests-picker';
 
 
 /** 
  * This component renders the form
  */
-const PseudoForm = ({onSubmit, loading, isValidForm, onChange, email, name, pseudonym, setInputRef, goToNext,}) => {
+const PseudoForm = ({onSubmit, loading, interests=0, onSelectInterests, isValidForm, onChange, email, name, pseudonym, setInputRef, goToNext,}) => {
     return (
+        <ScrollView>
         <Form style={styles.form}>
             <Item floatingLabel>
                 <Label><Text>Tu nombre</Text></Label>
@@ -54,7 +57,11 @@ const PseudoForm = ({onSubmit, loading, isValidForm, onChange, email, name, pseu
                     keyboardType    = {"email-address"}
                     onChangeText    = { text => onChange("email", text) }
                 />
-            </Item>  
+            </Item>
+            <View style = { styles.interestsRow }>
+                <InterestsPicker onSelect = { onSelectInterests } />
+                {interests === 0 && ( <Text style = {{textAlign : "center", marginVertical : 10,}} note>Selecciona al menos un interés</Text> )}
+            </View>
             <View style={styles.formRow}>
                 <SubmitButton 
                     onPress = {() => onSubmit()}
@@ -65,6 +72,7 @@ const PseudoForm = ({onSubmit, loading, isValidForm, onChange, email, name, pseu
                 />
             </View>
         </Form>
+        </ScrollView>
     );
 }
 
@@ -73,6 +81,7 @@ class PseudonymHelper extends React.Component {
         pseudonym   : "",
         name        : "",
         email       : "",
+        interests   : [],
     };
 
     formRefs = [];
@@ -108,11 +117,13 @@ class PseudonymHelper extends React.Component {
         const {
             email,
             pseudonym,
-            name,            
+            name,
+            interests=[],
         } = this.state;        
         return email        !== "" && this.isValidEmail(email) &&
                 pseudonym   !== "" && 
-                name        !== "";
+                name        !== "" && 
+                interests.length > 0;
     }
 
     isValidEmail(email) {
@@ -124,14 +135,16 @@ class PseudonymHelper extends React.Component {
             pseudonym,
             name,
             email,
+            interests=[],
         } = this.state;
         this.props.startLoading();
-        const {userCode} = this.props;
+        const {userCode} = this.props;    
         this.props.doPost(endpoints.usuarios.guardarPseudonimo, {
             usuario         : userCode,
             seudonimo       : pseudonym,
             correo          : email,
             nombre_corto    : name,
+            intereses       : interests.map(item => item.codigo_interes),
         })
         .then(response => {
             const {validacion, error, error_controlado} = response;
@@ -151,6 +164,12 @@ class PseudonymHelper extends React.Component {
         });
     }
 
+    onChangeInterests(interests){
+        this.setState({
+            interests,
+        });
+    }
+
     render() {
         const {
             open,
@@ -160,6 +179,7 @@ class PseudonymHelper extends React.Component {
              name,
              email,
              pseudonym,
+             interests=[],
         } = this.state;
         return (
             <Modal
@@ -185,6 +205,8 @@ class PseudonymHelper extends React.Component {
                             pseudonym   = { pseudonym }
                             name        = { name    }
                             loading     = { loading }
+                            interests   = { interests.length }
+                            onSelectInterests = { this.onChangeInterests.bind(this) }
                         />
                     </View>
                 </View>
@@ -217,6 +239,11 @@ styles = StyleSheet.create({
     formRow : {
         marginTop : 20,
     },    
+    interestsRow : {
+        marginTop : 20,
+        marginBottom : 20,
+        paddingHorizontal : 10,
+    },
 });
 
 PseudonymHelper.propTypes = {

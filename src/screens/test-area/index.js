@@ -3,6 +3,7 @@ import BaseScreen from '../BaseScreen';
 import { withGames } from '../../providers';
 import { InterestsPicker } from '../../components';
 import {Text} from 'native-base';
+import PseudonymHelper from '../../components/user-info-verifier/PseudonymHelper';
 
 class TestAreaScreen extends React.Component {
     state = {
@@ -29,8 +30,7 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >                
-                <InterestsPicker onSelect = { this.onSelect.bind(this) } />
-                <Text>{interests.length}</Text>
+                
             </BaseScreen>
         );
     }
