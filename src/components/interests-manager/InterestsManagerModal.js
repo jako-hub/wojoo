@@ -21,7 +21,7 @@ class InterestsManagerModal extends React.PureComponent {
                 title   = { "Mis intereses" }
                 disableScroll
             >
-                <InterestsManager />
+                <InterestsManager onClose = { onClose } />
             </FullScreenModal>
         );
     }

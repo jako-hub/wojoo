@@ -105,11 +105,32 @@ class InterestsManager extends React.Component {
 
     async onSubmit() {
         const {playerInterests} = this.state;
+        const { doPost, userCode, stopLoading, startLoading, onClose} = this.props;
         if(playerInterests.length === 0) {
-            this.UNSAFE_componentWillMount.
             addMessage("Debe agregar al menos un interés");
             return false;
         }
+        startLoading();
+        try {
+            const response = await doPost(endpoints.interes.actualizarJugador, {
+                jugador : userCode,
+                intereses : playerInterests,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error al actualizar los intereses");
+            } else if(error_controlado){
+                addMessage(error_controlado);
+            } else {
+                addMessage("Cambios guardados");
+                if(onClose) onClose();
+            }
+        } catch (response) {
+            addMessage("Ocurrió un error al actualizar los intereses");
+        } finally {
+            stopLoading();
+        }
+
     }
 
     renderContent () {
@@ -125,7 +146,7 @@ class InterestsManager extends React.Component {
                     />
                 </ScrollView>  
                 {changed > 0 && playerInterests.length > 0 && (
-                    <AnimatedButtonBottom label = "Guardar" onSubmit = { this.onSubmit.bind(this) } />
+                    <AnimatedButtonBottom label = "Guardar" onPress = { this.onSubmit.bind(this) } />
                 )}
             </>
         );
@@ -159,6 +180,7 @@ const styles = StyleSheet.create({
 InterestsManager.propTypes = {
     userCode : PropTypes.any,
     doPost   : PropTypes.func,
+    onClose : PropTypes.func,
 };
 
 export default withApi(InterestsManager);

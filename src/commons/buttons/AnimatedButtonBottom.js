@@ -36,11 +36,11 @@ class AnimatedButtonBottom extends React.PureComponent {
             styles.root,
             { bottom : this.animVal }
         ];
-        const {label, onSelect} = this.props;
+        const {label, onPress} = this.props;
         return (
             <Animated.View style = { containerStyles }>
                 <View style = { styles.action }>
-                    <PrettyButton primary onPress = { onSelect } >
+                    <PrettyButton primary onPress = { onPress } >
                         {label}
                     </PrettyButton>
                 </View>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 });
 
 AnimatedButtonBottom.propTypes = {
-    onSelect    : PropTypes.func,
+    onPress    : PropTypes.func,
     title       : PropTypes.string,
 };
 

@@ -1,7 +1,8 @@
 export default {
     interes : {
-        lista : '/v1/interes/lista',
-        jugador : '/v1/interes/jugador',
+        lista               : '/v1/interes/lista',
+        jugador             : '/v1/interes/jugador',
+        actualizarJugador   : '/v1/interes/jugador/actualizar',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',
