@@ -23,7 +23,7 @@ const ButtonButton = ({onPress, children, disabled, light, primary, info, succes
             disabled = {disabled}
             style    = {{...styles.root, otherStyles}}
             >
-            <Text style={{color : light? "#000" : "#FFF"}}>
+            <Text style={{color : light? "#000" : "#FFF", fontSize : 15}}>
                 {children}
             </Text>
         </Button>

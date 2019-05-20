@@ -15,7 +15,7 @@ const ModalTerminate = ({teams=[], onSubmit, players=[], attendance, noAttendanc
         <SimpleModal
             open = {open}
             onClose = {onClose}
-            title = "Cerrar juego"
+            title = "Terminar juego"
         >
             <View style = {styles.root}>
                 <View>
@@ -33,7 +33,7 @@ const ModalTerminate = ({teams=[], onSubmit, players=[], attendance, noAttendanc
             />
             <View style= { {marginVertical : 20,} }>
                 <SubmitButton 
-                    label = "Cerrar Juego"
+                    label = "Terminar Juego"
                     primary
                     block
                     onPress = { onSubmit }

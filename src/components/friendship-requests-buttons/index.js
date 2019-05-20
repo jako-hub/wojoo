@@ -7,6 +7,11 @@ import {
 import RequestsReceived from './RequestsReceived';
 import RequestsSended from './RequestsSended';
 
+/**
+ * This component renders the friendship request actions
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ * @param {*} param0 
+ */
 const FriendshipRequestButtons = ({navigation}) => {
     const onViewProfile = (player) => {
         const {

@@ -10,6 +10,7 @@ import JoinToGameScreen     from './join-to-game';
 import ContactScreen        from './contact';
 import PlayerProfileScreen  from './player-profile';
 import TestAreaScreen       from './test-area';
+import ClansScreen          from './clans';
 
 export {
     HomeScreen,
@@ -25,4 +26,5 @@ export {
     ContactScreen,
     PlayerProfileScreen,
     TestAreaScreen,
+    ClansScreen,
 };

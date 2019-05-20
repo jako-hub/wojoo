@@ -16,6 +16,7 @@ import {
 import { IMAGES_SERVER, DEFAULT_USER_IMG } from 'react-native-dotenv';
 import FriendshipRequestsReceived from '../my-profile/friendship-requests-received';
 import ViewUserPhoto from './ViewUserPhoto';
+import { ViewFriendList } from '..';
 
 
 const ErrorMessage = ({message}) => (
@@ -52,6 +53,7 @@ class UserProfileCard extends React.Component {
         friends : [],
         userPhotoUrl : null,
         userPhotoThumbUrl : null,
+        viewAllFriends : false,
     };
 
     constructor(props) {
@@ -172,6 +174,12 @@ class UserProfileCard extends React.Component {
         });
     }
 
+    toggleViewAllFriends() {
+        this.setState({
+            viewAllFriends : !this.state.viewAllFriends,
+        });
+    }
+
     renderCard() {
          const {
              userInfo : { 
@@ -183,7 +191,8 @@ class UserProfileCard extends React.Component {
              },
              loadingFriends,
              userPhotoUrl,   
-             userPhotoThumbUrl,       
+             userPhotoThumbUrl,
+             viewAllFriends,
          } = this.state;
         const { 
             disableUpload, 
@@ -228,6 +237,9 @@ class UserProfileCard extends React.Component {
                         friends         = { friends }
                         loading         = { loadingFriends }
                         onViewProfile   = { this.onViewProfile.bind(this)   }
+                        hideMax
+                        onViewAll       = { () => this.toggleViewAllFriends() }
+                        max             = { 2 } 
                     />
                     <FriendshipRequestsReceived onlyIfResults navigation = { navigation } />
                     {userInfo}
@@ -239,6 +251,13 @@ class UserProfileCard extends React.Component {
                         onClose = { this.onClosePhoto.bind(this) }
                         imageUrl = { userPhotoUrl }
                         thumb = { userPhotoThumbUrl }
+                    />
+                )}
+                {viewAllFriends && (
+                    <ViewFriendList 
+                        open = { viewAllFriends }
+                        onClose = { () => this.toggleViewAllFriends() }
+                        navigation = { navigation }
                     />
                 )}
             </>

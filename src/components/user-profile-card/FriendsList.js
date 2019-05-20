@@ -17,6 +17,7 @@ import { DEFAULT_USER_IMG, IMAGES_SERVER }   from 'react-native-dotenv';
 import { LoadingSpinner } from '../../commons/loaders';
 import FriendshipSuggestion from '../my-profile/friendship-suggestion';
 import { SimpleHeader } from '../../commons/containers';
+import { PrettyButton } from '../../commons/forms';
 
 class FriendsList extends React.PureComponent {
     componentDidMount() {
@@ -54,15 +55,23 @@ class FriendsList extends React.PureComponent {
             loading,
             friends = [],
             onViewProfile,
+            max=3,
+            hideMax,
+            onViewAll
         } = this.props;
-
         if(loading) return this.renderLoader();
         if(friends.length === 0) return this.renderEmpty();
+        let friendsList = [...friends], others=0;
+        if(hideMax && friendsList.length > max) {
+            others = friendsList.slice(max).length;
+            friendsList = friendsList.slice(0, max);
+        }
+        const totalFriends = friends.length;
         return (
             <View style = { styles.root }>                
-                <SimpleHeader title = "Mis amigos" />
+                <SimpleHeader title = {totalFriends > 0? `Mis amigos (${totalFriends})` : 'Mis amigos' } />
                 <View style = { styles.friendsList }>
-                    {friends.map((friend, key) => (
+                    {friendsList.map((friend, key) => (
                         <View 
                             key = {`friend-list-item-${friend.codigo_jugador_amigo_pk}`}
                             style = { styles.firendItem }
@@ -79,6 +88,13 @@ class FriendsList extends React.PureComponent {
                         </View>
                     ))}
                 </View>
+                {hideMax && (
+                    <View style = { styles.toggleMore }>
+                        <PrettyButton small onPress = { onViewAll } >
+                            Ver todos
+                        </PrettyButton>
+                    </View>
+                )}
             </View>
         );
     }
@@ -88,6 +104,11 @@ const styles = StyleSheet.create({
     root : {
         flex : 1,
         paddingBottom : 20,
+    },
+    toggleMore : {
+        flexDirection : "row",
+        justifyContent : "center",
+        marginVertical : 15,
     },
     friendsList : {
 
@@ -135,6 +156,8 @@ FriendsList.propTypes = {
     })),
     onViewProfile : PropTypes.func,
     navigation : PropTypes.any,
+    hideMax : PropTypes.bool,
+    onViewAll : PropTypes.func,
 };
 
 export default FriendsList;

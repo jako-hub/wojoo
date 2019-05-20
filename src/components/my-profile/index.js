@@ -124,6 +124,11 @@ class MyProfileComponent extends React.Component {
         navigation.navigate("JoinToGame", {selectedGame : game});
     }
 
+    viewClans() {
+        const navigation = this.props.navigation;
+        navigation.navigate("ViewClans", {});
+    }
+
     render() {
         const { userCode, navigation, photo } = this.props;
         const {openPublications, openInvitations} = this.state;
@@ -141,7 +146,7 @@ class MyProfileComponent extends React.Component {
                             onLogout = { () => this.onLogout() }
                             togglePublications = {() => this.togglePublications()}
                             toggleGameInvitations = {() => this.toggleInvitations()}
-
+                            viewClans = {() => this.viewClans()}
                         />
                     ) }
                 />

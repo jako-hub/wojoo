@@ -6,12 +6,8 @@ import {
     View,
     StyleSheet,
 } from 'react-native';
-import {
-    Text,
-} from 'native-base';
 import { Button } from '../../commons/forms';
 import Item from './item';
-import { withSession } from '../../providers';
 import { EmptyObject } from '../../commons/others';
 
 const EmptySet = ({goToCreate, crearJuego}) => (
@@ -32,7 +28,7 @@ const EmptySet = ({goToCreate, crearJuego}) => (
     </View>
 );
 
-const Results = ({isInGame, onShare, userCode, sessionStack:{crearJuego}, onViewProfile, results=[], onSelectItem, onJoinToGame, loading=false, onRefresh, goToCreate, }) => (
+const Results = ({isInGame, onShare, userCode, onViewProfile, results=[], onSelectItem, onJoinToGame, loading=false, onRefresh, goToCreate, }) => (
     <ScrollView 
         style           = { {marginTop : 15, flex : 1, flexDirection: "column"} }
         refreshControl  = {(
@@ -43,7 +39,7 @@ const Results = ({isInGame, onShare, userCode, sessionStack:{crearJuego}, onView
         )}
     >   
         {results.length === 0 && (
-            <EmptySet goToCreate={ goToCreate } crearJuego={crearJuego} />
+            <EmptySet goToCreate={ goToCreate } />
         )}
         {results.map((item, key) => (
             <Item 
@@ -81,4 +77,4 @@ Results.propTypes = {
     isInGame     : PropTypes.func,
 };
 
-export default withSession(Results);
+export default Results;

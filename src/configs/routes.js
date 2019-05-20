@@ -11,6 +11,7 @@ import {
     ContactScreen,
     PlayerProfileScreen,
     TestAreaScreen,
+    ClansScreen,
 } from "../screens";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import stylesPalette from '../utils/stylesPalette';
@@ -85,8 +86,10 @@ export const AuthRoutes = {
 };
 
 export const generalRoutes = {
-    MyProfile : MyProfileScreen,
-    JoinToGame: JoinToGameScreen,
+    MyProfile     : MyProfileScreen,
+    PlayerProfile : PlayerProfileScreen,
+    ViewClans     : ClansScreen,
+    JoinToGame    : JoinToGameScreen,
 };
 
 export const testRoutes = {
