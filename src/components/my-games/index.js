@@ -9,7 +9,7 @@ import stylesPalette from "../../utils/stylesPalette";
 import ListMyGamesComponent from './my-games-list';
 import {withGames, withSearch} from "../../providers";
 import ShareGameModal from '../../commons/buttons/share-game-button/ShareGameModal';
-import { PendingCloseGames } from '..';
+import PendingCloseGames from '../pending-close-games';
 
 /**
  * This component allows to handle the user games

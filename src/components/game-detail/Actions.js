@@ -10,7 +10,7 @@ import {
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { PrettyButton } from '../../commons/forms';
-import { TerminateGame } from '..';
+import TerminateGame from '../terminate-game';
 
 /**
  * This component renders the game actions like share, join, and Terminate the game

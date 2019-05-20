@@ -1,4 +1,7 @@
 export default {
+    interes : {
+        lista : '/v1/interes/lista',
+    },
     usuarios : {
         lista      : '/v1/usuario/lista',
         validar    : '/v1/usuario/validar',

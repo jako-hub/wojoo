@@ -1,33 +1,36 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
-import { withUserData, withGames } from '../../providers';
-import FriendshipSuggestion from '../../components/my-profile/friendship-suggestion';
-import ContactsList from '../../components/invite-contacts/ContactsList';
-import GameInvitations from '../../components/game-invitations';
-import FriendshipRequestsReceived from '../../components/my-profile/friendship-requests-received';
-import { PendingCloseGames, GameDetailComponent, GameCreatorComponent } from '../../components';
-
+import { withGames } from '../../providers';
+import { InterestsPicker } from '../../components';
+import {Text} from 'native-base';
 
 class TestAreaScreen extends React.Component {
     state = {
         open : false,
+        interests : [],
     };
     toggle() {
         this.setState({
             open : !this.state.open,
         });
     }
+
+    onSelect(interests) {
+        this.setState({
+            interests,
+        });
+    }
+
     render() {
         const navigation = this.props.navigation;
         const {selectedGame} = this.props;
-        const {open} = this.state;
+        const {open, interests=[]} = this.state;
         return (
             <BaseScreen
                 navigation = { navigation }
             >                
-                <GameCreatorComponent 
-                    navigation = { navigation }
-                />
+                <InterestsPicker onSelect = { this.onSelect.bind(this) } />
+                <Text>{interests.length}</Text>
             </BaseScreen>
         );
     }

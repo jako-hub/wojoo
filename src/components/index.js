@@ -17,6 +17,7 @@ import NewsComponent        from './news';
 import SearchFriends        from './search-friends';
 import GameInvitations      from './game-invitations';
 import PendingCloseGames    from './pending-close-games';
+import InterestsPicker from './interests-picker';
 
 export {
     LoginComponent, 
@@ -38,4 +39,5 @@ export {
     SearchFriends,
     GameInvitations,
     PendingCloseGames,
+    InterestsPicker,
 };
