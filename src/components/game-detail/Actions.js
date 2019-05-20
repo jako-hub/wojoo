@@ -7,47 +7,65 @@ import {
 } from 'react-native';
 import { 
     Text,
-    Button,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ShareGameButton } from '../../commons/buttons';
 import { PrettyButton } from '../../commons/forms';
 import { TerminateGame } from '..';
 
-const Actions = ({onAdd, canJoin=true, user, onViewProfile, gameClosed, onTerminate, teams, gameCode, isInGame, onShareGame}) => (
-    <View style={styles.root}>
-        <View style = { styles.wrapper } >
-            <View style = {styles.hostWrapper}>
-                <Text note style = {{marginRight : 10}}>
-                    Anfitrión:
-                </Text>
-                <TouchableOpacity style={styles.buttonLink} transparent onPress={onViewProfile}>
-                    <Text>{user}</Text>
-                </TouchableOpacity>
+/**
+ * This component renders the game actions like share, join, and Terminate the game
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ * @param {*} props 
+ */
+const Actions = (props) => {
+    const {
+        onAdd, 
+        canJoin=true, 
+        user,
+        expiredGame, 
+        onViewProfile, 
+        gameClosed, 
+        onTerminate, 
+        teams, 
+        gameCode, 
+        isOwner, 
+        onShareGame,
+    } = props;
+    return (
+        <View style={styles.root}>
+            <View style = { styles.wrapper } >
+                <View style = {styles.hostWrapper}>
+                    <Text note style = {{marginRight : 10}}>
+                        Anfitrión:
+                    </Text>
+                    <TouchableOpacity style={styles.buttonLink} transparent onPress={onViewProfile}>
+                        <Text>{user}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style = { styles.mainButtonsWrapper } >
+                {canJoin && !expiredGame && (
+                    <PrettyButton small onPress = { onAdd }>
+                        <Icon name="user-plus" size={13} /> Unirme
+                    </PrettyButton>
+                )}
+                {!gameClosed && !expiredGame && (
+                    <PrettyButton small onPress = { onShareGame }>
+                        <Icon name="share-alt" size={13} /> Compartir
+                    </PrettyButton>
+                )}
+                
+                {isOwner && !gameClosed && (
+                    <TerminateGame 
+                        gameCode = { gameCode }
+                        teams    = { teams     }
+                        onTerminate = { onTerminate }
+                    />
+                )}
             </View>
         </View>
-        <View style = { styles.mainButtonsWrapper } >
-            {canJoin && (
-                <PrettyButton small onPress = { onAdd }>
-                    <Icon name="user-plus" size={13} /> Unirme
-                </PrettyButton>
-            )}
-            {!gameClosed && (
-                <PrettyButton small onPress = { onShareGame }>
-                    <Icon name="share-alt" size={13} /> Compartir
-                </PrettyButton>
-            )}
-            
-            {isInGame && !gameClosed && (
-                <TerminateGame 
-                    gameCode = { gameCode }
-                    teams    = { teams     }
-                    onTerminate = { onTerminate }
-                />
-            )}
-        </View>
-    </View>
-);
+    )
+};
 
 const styles = StyleSheet.create({
     root : {
@@ -93,7 +111,7 @@ Actions.propTypes = {
     onViewProfile   : PropTypes.func,
     user            : PropTypes.string,
     gameCode        : PropTypes.any,
-    isInGame        : PropTypes.bool,
+    isOwner         : PropTypes.bool,
 };
 
 export default Actions;

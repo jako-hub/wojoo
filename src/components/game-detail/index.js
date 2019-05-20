@@ -18,7 +18,6 @@ import Actions from './Actions';
 import stylesPalette from '../../utils/stylesPalette';
 import CommentGameComponent from '../comment-game';
 import TeamsList from './TeamsList';
-import TerminateGame from '../terminate-game';
 import ShareGameModal from '../../commons/buttons/share-game-button/ShareGameModal';
 import TabButtons from '../../commons/buttons/TabButtons';
 import moment from 'moment';
@@ -33,23 +32,23 @@ import { Badge } from '../../commons/containers';
  */
 class GameDetailComponent extends React.Component {
     state = {        
-        codigo_juego    : null,
-        nombre          : null,
-        jugadores       : 0,
-        jugadores_confirmados : 0,
-        fecha       : "",
-        acceso      : "",
-        escenario_nombre    : "",
-        negocio_nombre      : "",
-        jugador_seudonimo   : "",
-        comentarios : [],
-        detalles    : [],
-        loadingComments : false,
-        openComment     : true,
-        allowJoin       : true,
-        currentTab      : 0,
-        openShare    : false,
-        loading : false,
+        codigo_juego            : null,
+        nombre                  : null,
+        jugadores               : 0,
+        jugadores_confirmados   : 0,
+        fecha                   : "",
+        acceso                  : "",
+        escenario_nombre        : "",
+        negocio_nombre          : "",
+        jugador_seudonimo       : "",
+        comentarios             : [],
+        detalles                : [],
+        loadingComments         : false,
+        openComment             : true,
+        allowJoin               : true,
+        currentTab              : 0,
+        openShare               : false,
+        loading                 : false,
     };    
 
     constructor(props) {
@@ -77,7 +76,7 @@ class GameDetailComponent extends React.Component {
     }
 
     /**
-     * This funcion fetch the game information
+     * This funcion fetch the game information, from api.
      *
      * @memberof GameDetailComponent
      */
@@ -180,32 +179,43 @@ class GameDetailComponent extends React.Component {
         this.props.navigation.navigate("JoinToGame", {prevRoute : currentRoute, selectedGame});
     }
 
+    /**
+     * This function is triggered when the user press on view a profile on a team player.
+     * @param {*} playerCode 
+     * @param {*} playerAlias 
+     */
     onViewProfile(playerCode, playerAlias) {    
         this.props.navigation.navigate("PlayerProfile", {playerCode, playerAlias});
     }
 
+    /**
+     * This function is triggered when the user press on View the game creator name.
+     */
     onViewHostProfile() {
         const {codigo_jugador, jugador_seudonimo} = this.state;
         this.props.navigation.navigate("PlayerProfile", {playerCode : codigo_jugador, playerAlias : jugador_seudonimo});
     }
 
-    isInGame() {
+    /**
+     * This function validates if the current player is the game owner.
+     */
+    isGameOwner() {
         return this.props.userCode === this.state.codigo_jugador;
     }
 
-    onClose() {
+    /**
+     * This function is triggered to toggle the share modal visualization.
+     */
+    toggleShareModal() {
         this.setState({
-            openShare : false,
+            openShare : !this.state.openShare,
         });
     }
 
-
-    onShareGame() {
-        this.setState({
-            openShare : true,
-        });
-    }
-
+    /**
+     * This function is triggered to handle the tab change.
+     * @param {*} currentTab 
+     */
     onChangeTab(currentTab) {
         this.setState({
             currentTab,
@@ -216,6 +226,9 @@ class GameDetailComponent extends React.Component {
         this.fetchGameInfo();  
     }
 
+    /**
+     * This function validates it the game date is expired.
+     */
     gameExpired() {
         const {fecha_hasta} = this.state;
         const objDateTo = moment(fecha_hasta);
@@ -223,6 +236,9 @@ class GameDetailComponent extends React.Component {
         return objDateTo.diff(currentDate) < 0;
     }
 
+    /**
+     * This function is triggered when the game is terminated.
+     */
     onTerminate() {
         this.setState({
             juego_cerrado : true,
@@ -247,16 +263,17 @@ class GameDetailComponent extends React.Component {
             loading,
             juego_cerrado,
         } = this.state;
-        const isInGame = this.isInGame();
+        const isOwner = this.isGameOwner();
         const expiredGame = this.gameExpired();   
+        
         return (
             <>
             <View style={styles.root}>
                 <ScrollView
                     refreshControl = {
                         <RefreshControl 
-                            onRefresh = { this.onRefreshData.bind(this) }
-                            refreshing = { loading }
+                            onRefresh   = { this.onRefreshData.bind(this) }
+                            refreshing  = { loading                       }
                         />
                     }
                 >
@@ -265,36 +282,39 @@ class GameDetailComponent extends React.Component {
                             game = {this.state}
                         />
                     )}
-                    {!expiredGame && (
-                        <Actions 
-                            onComment = {() => this.toggleComment()}
-                            onAdd     = {() => this.onJoinToGame(selectedGame)}
-                            canJoin   = { allowJoin }
-                            user      = { jugador_seudonimo }
-                            onViewProfile = {() => this.onViewHostProfile()}
-                            gameCode    = { codigo_juego }
-                            isInGame    = { isInGame }
-                            gameClosed  = { juego_cerrado }
-                            onShareGame = { () => this.onShareGame() }
-                            onTerminate = { this.onTerminate.bind(this) }
-                            teams    = { detalles     }
-                        />    
-                    )}                
+
+                    <Actions 
+                        expiredGame = { expiredGame                     }
+                        onComment   = {() => this.toggleComment()       }
+                        onAdd       = {() => this.onJoinToGame(selectedGame)}
+                        canJoin     = { allowJoin                       }
+                        user        = { jugador_seudonimo               }
+                        onViewProfile = {() => this.onViewHostProfile() }
+                        gameCode    = { codigo_juego                    }
+                        isOwner     = { isOwner                         }
+                        gameClosed  = { juego_cerrado                   }
+                        onShareGame = { () => this.toggleShareModal()   }
+                        onTerminate = { this.onTerminate.bind(this)     }
+                        teams       = { detalles                        }
+                    />    
+
+                    {/* If the game is terminated */}
                     <View style = { styles.buttonActions }>
                         {juego_cerrado && (
                             <Badge title = { "Terminado" } />
                         )}
                     </View>
+
                     <TabButtons 
-                        currentTab  = { currentTab              }
-                        buttons     = { this.getTabOptions()    }
+                        currentTab  = { currentTab                  }
+                        buttons     = { this.getTabOptions()        }
                         onChange    = { this.onChangeTab.bind(this) }
                     />
                     {currentTab === 0 && (
                         <TeamsList 
                             onViewProfile   = { this.onViewProfile.bind(this) }
-                            teams           = { detalles }
-                            playerCode      = { userCode }
+                            teams           = { detalles                      }
+                            playerCode      = { userCode                      }
                         />
                     )}
                     {currentTab === 1 && (
@@ -308,7 +328,7 @@ class GameDetailComponent extends React.Component {
                                 />
                             )}
                             <CommentsList 
-                                comments = { comentarios }
+                                comments = { comentarios     }
                                 loading  = { loadingComments }
                             />
                         </>
@@ -317,9 +337,9 @@ class GameDetailComponent extends React.Component {
             </View>
             {openShare && (
                 <ShareGameModal 
-                    open    = { openShare   } 
-                    game    = { selectedGame            }
-                    onClose = {() => this.onClose()     } 
+                    open    = { openShare                   } 
+                    game    = { selectedGame                }
+                    onClose = {() => this.toggleShareModal()} 
                 />
             )}
             </>
@@ -331,13 +351,13 @@ const palette = stylesPalette();
 
 const styles = StyleSheet.create({
     root : {
-        flex : 1,
-        paddingVertical     : 10,
-        justifyContent          : "center",
+        flex            : 1,
+        paddingVertical : 10,
+        justifyContent  : "center",
     },
     tabDefault : {
         backgroundColor : "#FFF",
-        shadowColor : "#eee121"
+        shadowColor     : "#eee121"
     },
     tabActive : {
         backgroundColor : "#e0e0e0",
@@ -352,10 +372,10 @@ const styles = StyleSheet.create({
         backgroundColor : palette.primary.color,
     },
     buttonActions : {
-        flexDirection : "row",
-        alignItems : "center",
-        justifyContent : "center",
-        paddingHorizontal : 10,
+        flexDirection       : "row",
+        alignItems          : "center",
+        justifyContent      : "center",
+        paddingHorizontal   : 10,
     },
 });
 
