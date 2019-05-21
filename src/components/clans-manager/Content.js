@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
     StyleSheet,
 } from 'react-native';
 import {
     View,
-    Text,
 } from 'native-base';
 
 /**
@@ -15,11 +13,6 @@ import {
  */
 const Content = ({children}) => (
     <View style = { styles.root } >
-        <View style = { styles.titleWrapper }>
-            <Text style = { styles.text }>
-                Administrar clanes.
-            </Text>
-        </View>
         {children}
     </View>
 );

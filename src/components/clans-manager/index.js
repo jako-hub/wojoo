@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { withUserData } from '../../providers';
 import Content from './Content';
 import ClansCase from './ClansCase';
+import AddButton from './AddButton';
 
 class ClansManager extends React.Component {
     state = {
         loading     : true,
     };
+    
     componentDidMount() {
         this.fetchData();
     }
@@ -28,6 +30,10 @@ class ClansManager extends React.Component {
         alert("Selected clan");
     }
 
+    onAddClan() {
+        alert("on add clan");
+    }
+
     render() {
         const {
             adminClans=[],
@@ -44,6 +50,10 @@ class ClansManager extends React.Component {
                     title   = "Clanes a los que pertenezco" 
                     clans   = { clans } 
                     onPress = { this.onSelectClan.bind(this) }
+                />
+                <AddButton 
+                    label   = "Crea tu clan"
+                    onPress = { this.onAddClan.bind(this) }
                 />
             </Content>
         );
