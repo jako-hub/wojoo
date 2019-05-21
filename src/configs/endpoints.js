@@ -4,6 +4,11 @@ export default {
         jugador             : '/v1/interes/jugador',
         actualizarJugador   : '/v1/interes/jugador/actualizar',
     },
+    clan : {
+        jugador : '/v1/clan/jugador',
+        admin   : '/v1/clan/admin',
+        lista   : '/v1/clan/lista',
+    },
     usuarios : {
         lista      : '/v1/usuario/lista',
         validar    : '/v1/usuario/validar',

@@ -6,15 +6,23 @@ import {
     REMOVE_FRIENDSHIP_REQUEST,
     SET_USER_FRIENDSHIP_REQUESTS_SENDED,
     CLEAR_USER_DATA,
+    ADD_CLAN,
+    SET_CLANES,
+    REMOVE_CLAN,
+    ADD_ADMIN_CLAN,
+    SET_ADMIN_CLANS,
+    REMOVE_ADMIN_CLAN,
 } from '../actions/userData.actions';
 
 const defaultState = {
-    friends  : [],
-    friendshipRequests : [],
-    friendshipRequestsSended : [],
-    photo    : null,
-    verified : false,
-    moneyPoints : 0,
+    friends                     : [],
+    friendshipRequests          : [],
+    friendshipRequestsSended    : [],
+    clans                       : [],
+    adminClans                  : [],
+    photo                       : null,
+    verified                    : false,
+    moneyPoints                 : 0,
 };
 
 export default gameReducer = (state=defaultState, action) => {
@@ -43,6 +51,30 @@ export default gameReducer = (state=defaultState, action) => {
         case SET_USER_FRIENDSHIP_REQUESTS_SENDED : return ({
             ...state,
             friendshipRequestsSended : action.requests,
+        });
+        case SET_CLANES : return ({
+            ...state,
+            clans : action.clans
+        });
+        case REMOVE_CLAN : return ({
+            ...state,
+            clans : state.clans.filter(item => item.codigo_clan !== action.code),
+        });
+        case ADD_CLAN : return ({
+            ...state,
+            clans : [...state.clans, action.clan],
+        });
+        case SET_ADMIN_CLANS : return ({
+            ...state,
+            adminClans : action.clans,
+        });
+        case ADD_ADMIN_CLAN : return ({
+            ...state,
+            adminClans : [...state.adminClans, action.clan],
+        });
+        case REMOVE_ADMIN_CLAN : return ({
+            ...state,
+            adminClans : state.adminClans.filter(item => item.codigo_clan !== action.code),
         });
         default : return ({
             ...state,

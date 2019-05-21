@@ -2,13 +2,54 @@ import { Api } from "../../services/ApiService";
 import endpoints from "../../configs/endpoints";
 import { addMessage, consoleError } from "../../utils/functions";
 
-export const SET_MY_FRIENDS = '[USER_DATA] SET_MY_FRIENDS';
-export const SET_USER_DATA  = '[USER_DATA] SET_USER_DATA';
-export const SET_USER_VERIFIED = '[USER_DATA] SET_USER_VERIFIED';
-export const SET_FRIENDSHIP_REQUESTS = '[USER_DATA] SET_FRIENDSHIP_REQUESTS';
-export const REMOVE_FRIENDSHIP_REQUEST = '[USER_DATA] REMOVE_FRIENDSHIP_REQUEST';
-export const SET_USER_FRIENDSHIP_REQUESTS_SENDED = '[USER_DATA] SET_USER_FRIENDSHIP_REQUESTS_SENDED';
-export const CLEAR_USER_DATA = '[USER_DATA] CLEAR_USER-DATA';
+export const SET_MY_FRIENDS                         = '[USER_DATA] SET_MY_FRIENDS';
+export const SET_USER_DATA                          = '[USER_DATA] SET_USER_DATA';
+export const SET_USER_VERIFIED                      = '[USER_DATA] SET_USER_VERIFIED';
+export const SET_FRIENDSHIP_REQUESTS                = '[USER_DATA] SET_FRIENDSHIP_REQUESTS';
+export const REMOVE_FRIENDSHIP_REQUEST              = '[USER_DATA] REMOVE_FRIENDSHIP_REQUEST';
+export const SET_USER_FRIENDSHIP_REQUESTS_SENDED    = '[USER_DATA] SET_USER_FRIENDSHIP_REQUESTS_SENDED';
+export const CLEAR_USER_DATA                        = '[USER_DATA] CLEAR_USER-DATA';
+export const ADD_ADMIN_CLAN                         = '[USER_DATA] ADD_ADMIN_CLAN';
+export const SET_ADMIN_CLANS                        = '[USER_DATA] SET_ADMIN_CLANS';
+export const REMOVE_ADMIN_CLAN                      = '[USER_DATA] REMOVE_ADMIN_CLAN';
+export const SET_CLANES                             = '[USER_DATA] SET_CLANES';
+export const ADD_CLAN                               = '[USER_DATA] ADD_CLAN';
+export const REMOVE_CLAN                            = '[USER_DATA] REMOVE_CLAN';
+
+export const setClans = (clans) => ({
+    type : SET_CLANES,
+    clans,
+});
+
+export const addClan = (clan) => ({
+    type : ADD_CLAN,
+    clan,
+});
+
+export const removeClan = (code) => ({
+    type : REMOVE_CLAN,
+    code,
+});
+
+export const setAdminClans = (clans) => ({
+    type : SET_ADMIN_CLANS,
+    clans,
+});
+
+export const addAdminClans = (clan) => ({
+    type : ADD_ADMIN_CLAN,
+    clan,
+});
+
+export const removeAdminClan = (code) => ({
+    type : REMOVE_ADMIN_CLAN,
+    code,
+});
+
+export const addAdminClan = (clan) => ({
+    type : ADD_ADMIN_CLAN,
+    clan,
+});
 
 export const setMyFriends = (friends=[]) => ({
     type : SET_MY_FRIENDS,
@@ -47,6 +88,13 @@ export const setUserFriendshipRequestsSended = (requests=[]) => ({
 /***************************
  ***** Async functions *****
  ***************************/
+/**
+ * This function allows to fetch any user friends, the response can be store in redux or it can be
+ * return to the component who invokes que function.
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ * @param {*} playerCode 
+ * @param {*} fromOther 
+ */
 export const fetchMyFriends = (playerCode, fromOther) => (dispatch) => (new Promise((resolve, reject) => {
     Api.doPost(endpoints.jugador.amigos, {
         jugador : playerCode,
@@ -70,6 +118,10 @@ export const fetchMyFriends = (playerCode, fromOther) => (dispatch) => (new Prom
         });
 }));
 
+/**
+ * This function allows to fetch from api the current user friendship requests.
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 export const fetchFriendshipRequest = () => (dispatch, getState) => (new Promise((resolve, reject) => {
     const {session:{userCode}} = getState();
     Api.doPost(endpoints.jugador_solicitud.pendiente, {
@@ -93,6 +145,10 @@ export const fetchFriendshipRequest = () => (dispatch, getState) => (new Promise
         });
 }));
 
+/**
+ * This function allows to fetch the current user requests sended.
+ * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 export const fetchUserSendedRequests = () => async (dispatch, getState) => {
     const {session:{userCode}} = getState();
     const fetchData = async () => {
@@ -112,6 +168,53 @@ export const fetchUserSendedRequests = () => async (dispatch, getState) => {
             return false;
         }
 
+    };
+    return await fetchData();
+};
+
+export const fetchPlayerClanes = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.jugador, {
+                jugador : userCode,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error inesperado al listar los clanes");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setClans(response));
+            }
+        } catch (response) {
+            addMessage("Error al consultar los clanes del jugador");
+            consoleError("Player clanes: ", response);
+        }
+    };
+    return await fetchData();
+};
+
+export const fetchPlayerAdminClanes = () => async(dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.admin, {
+                jugador : userCode,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error inesperado al listar los clanes");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setAdminClans(response));
+                console.log("The api clans: ", response);
+            }
+        } catch (response) {
+            addMessage("Error al consultar los clanes del jugador");
+            consoleError("Admin clanes: ", response);
+        }
     };
     return await fetchData();
 };

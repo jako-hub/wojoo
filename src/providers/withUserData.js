@@ -9,6 +9,8 @@ import {
     setVerified,
     removeFriendshipRequest,
     fetchUserSendedRequests,
+    fetchPlayerAdminClanes,
+    fetchPlayerClanes,
 } from '../store/actions/userData.actions';
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -18,6 +20,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchFriendshipRequest,
     fetchUserSendedRequests,
     removeFriendshipRequest,
+    fetchPlayerAdminClanes,
+    fetchPlayerClanes,
 }, dispatch);
 
 const mapStateToProps = ({session:{userCode}, games:{pendingClose}, userData}) => ({
@@ -27,20 +31,24 @@ const mapStateToProps = ({session:{userCode}, games:{pendingClose}, userData}) =
 });
 
 export const propTypes = {
-    pendingToCloseGames : PropTypes.array,
-    fetchMyFriends      : PropTypes.func,
     userCode            : PropTypes.any,
-    setUserData         : PropTypes.func,
-    friends             : PropTypes.array,
-    photo               : PropTypes.string,
+    moneyPoints         : PropTypes.number,
     verified            : PropTypes.bool,
-    setVerified         : PropTypes.func,
-    friendshipRequests  : PropTypes.array,
+    photo               : PropTypes.string,
+    clans                       : PropTypes.array,
+    adminClans                  : PropTypes.array,
+    pendingToCloseGames         : PropTypes.array,
+    friends                     : PropTypes.array,
+    friendshipRequests          : PropTypes.array,
     friendshipRequestsSended    : PropTypes.array,
+    setUserData                 : PropTypes.func,
+    setVerified                 : PropTypes.func,
+    fetchMyFriends              : PropTypes.func,
     fetchUserSendedRequests     : PropTypes.func,
     fetchFriendshipRequest      : PropTypes.func,
     removeFriendshipRequest     : PropTypes.func,
-    moneyPoints                 : PropTypes.number,
+    fetchPlayerAdminClanes      : PropTypes.func,
+    fetchPlayerClanes           : PropTypes.func,
 };
 
 /**
