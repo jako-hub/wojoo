@@ -6,6 +6,7 @@ import SubmitButton     from './SubmitButton';
 import NumberPicker     from './NumberPicker';
 import IconButton       from './IconButton';
 import Button           from './Button';
+import ImagePicker      from './ImagePicker';
 
 export {
     DateTimePicker, 
@@ -16,4 +17,5 @@ export {
     NumberPicker,
     IconButton,
     Button,
+    ImagePicker,
 };

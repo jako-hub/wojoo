@@ -4,10 +4,12 @@ import { PermissionsAndroid } from 'react-native';
 import BlackScreen from './BlackScreen';
 import { addMessage, consoleError } from '../../utils/functions';
 
-export const READ_PHONE_STATE = 'android.permission.READ_PHONE_STATE';
-export const READ_CONTACTS = 'android.permission.READ_CONTACTS';
-export const CAMERA = 'android.permission.CAMERA';
-export const READ_SMS = 'android.permission.READ_SMS';
+export const READ_PHONE_STATE       = 'android.permission.READ_PHONE_STATE';
+export const READ_CONTACTS          = 'android.permission.READ_CONTACTS';
+export const CAMERA                 = 'android.permission.CAMERA';
+export const READ_SMS               = 'android.permission.READ_SMS';
+export const READ_EXTERNAL_STORAGE  = 'android.permission.READ_EXTERNAL_STORAGE';
+export const WRITE_EXTERNAL_STORAGE = 'android.permission.WRITE_EXTERNAL_STORAGE';
 
 class PermissionsManager extends React.Component {
     state = {

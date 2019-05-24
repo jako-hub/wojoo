@@ -70,6 +70,7 @@ PrettyButton.propTypes = {
     label       : PropTypes.string,
     disabled    : PropTypes.bool,
     small       : PropTypes.bool,
+    onPress     : PropTypes.func,
 };
 
 export default PrettyButton;

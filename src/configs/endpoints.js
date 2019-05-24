@@ -8,6 +8,7 @@ export default {
         jugador : '/v1/clan/jugador',
         admin   : '/v1/clan/admin',
         lista   : '/v1/clan/lista',
+        detall  : '/v1/clan/detalle',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',
@@ -18,6 +19,9 @@ export default {
         guardarTokenFCM : '/v1/usuario/guardar/fcm-token',
         invitarAJako : '/v1/usuario/invitar',
     },
+    juegoTipo : {
+        lista : '/v1/juego/tipo/lista',
+    },
     juego : {
         nuevo   : '/v1/juego/nuevo',
         buscar  : '/v1/juego/buscar',
@@ -26,12 +30,12 @@ export default {
         jugador : '/v1/juego/jugador',
         retirar : '/v1/juego/retirar',
         invitar : '/v1/juego/invitar',
-        rechazarInvitacion : '/v1/juego/invitaciones/rechazar',
-        cerrar : '/v1/juego/cerrar',
-        compartirConAmigos : '/v1/juego/compartir/amigos',
-        invitaciones : '/v1/juego/invitaciones',
-        pendientesCierre : '/v1/juego/pendientes/cierre',
-        listaTipos : '/v1/juego/lista/tipos',
+        rechazarInvitacion  : '/v1/juego/invitaciones/rechazar',
+        cerrar              : '/v1/juego/cerrar',
+        compartirConAmigos  : '/v1/juego/compartir/amigos',
+        invitaciones        : '/v1/juego/invitaciones',
+        pendientesCierre    : '/v1/juego/pendientes/cierre',
+        listaTipos          : '/v1/juego/lista/tipos',
     },
     escenarios : {
         lista : '/v1/escenario/lista',        
