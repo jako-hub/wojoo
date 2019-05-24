@@ -10,24 +10,30 @@ import {
     Label,
     Picker,
 } from 'native-base';
-import { ImagePicker, PrettyButton, SubmitButton } from '../../commons/forms';
+import { ImagePicker, SubmitButton } from '../../commons/forms';
 
 
+/**
+ * This component allows to render only the clan creator form.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 const ClanForm = (props) => {
     const {
         gameTypes=[],
+        formValid,
         gameType,
+        name,
         //city,
         onChange,
         onSelectImage,
         photo={},
+        onSubmit,
     } = props;
-    console.log("image", photo);
     return (
         <Form style = {styles.root} >
             <View style = { styles.row }>
                 <ImagePicker 
-                    onSelectImage   = { onSelectImage }
+                    onSelectImage   = { onSelectImage           }
                     imgSrc          = { photo? photo.uri : null }
                 />
             </View>
@@ -35,10 +41,10 @@ const ClanForm = (props) => {
             <Item>
                 <Picker                
                     note
-                    mode="dropdown"
-                    style={{ width: 120 }}
-                    selectedValue={gameType}
-                    onValueChange={onChange}
+                    mode            = "dropdown"
+                    style           = { { width: 120 }   }
+                    selectedValue   = { gameType         }
+                    onValueChange   = {value => onChange? onChange("gameType", value) : null}
                     >
                     {gameTypes.map((item, key) => (
                         <Picker.Item 
@@ -50,11 +56,20 @@ const ClanForm = (props) => {
             </Item>
             <Item floatingLabel>
                 <Label><Text>Nombre del clan</Text></Label>
-                <Input />
+                <Input 
+                    value           = { name }
+                    onChangeText    = { text => onChange? onChange("name", text) : null }
+                    onSubmitEditing = { () => formValid && onSubmit? onSubmit() : null }
+                />
             </Item>
             <View style = { styles.buttonRow }>
-                <SubmitButton primary>
-                    Guardar
+                <SubmitButton 
+                    primary 
+                    disabled    = { !formValid  }
+                    onPress     = { onSubmit    }
+                    block
+                >
+                    Guardar clan
                 </SubmitButton>
             </View>
         </Form>
@@ -62,25 +77,24 @@ const ClanForm = (props) => {
 };
 
 const styles = StyleSheet.create({
-    root : {
-
-    },
     pickerLabel : {
         paddingLeft : 20,
     },
     buttonRow : {
-        marginTop : 20,
-        flexDirection : "row",
-        justifyContent : "center"
+        marginTop       : 20,
+        flexDirection   : "row",
+        justifyContent  : "center"
     },
 });
 
 ClanForm.propTypes = {
-    gameType : PropTypes.any,
-    name     : PropTypes.string,
-    city     : PropTypes.any,
-    onChange : PropTypes.func,
-    onSelectImage : PropTypes.func,
+    formValid       : PropTypes.bool,
+    gameType        : PropTypes.any,
+    name            : PropTypes.string,
+    city            : PropTypes.any,
+    onChange        : PropTypes.func,
+    onSubmit        : PropTypes.func,
+    onSelectImage   : PropTypes.func,
     photo : PropTypes.shape({
         type    : PropTypes.string,
         uri     : PropTypes.string,

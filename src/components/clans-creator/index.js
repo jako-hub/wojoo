@@ -11,6 +11,7 @@ import PermissionsManager, {
     READ_EXTERNAL_STORAGE,
     WRITE_EXTERNAL_STORAGE,
 } from '../../commons/permissions-manager';
+import _ from 'lodash';
 
 class ClanCreator extends React.Component {
     state = {
@@ -64,10 +65,27 @@ class ClanCreator extends React.Component {
         }));
     }
 
-    onChange() {
-
+    onChange(name, value) {
+        this.setState(({form}) => ({
+            form : {
+                ...form,
+                [name] : value,
+            },
+        }));
     }
 
+
+    onSubmitForm() {
+        alert("okas!");
+    }
+
+    isValidForm() {
+        const {
+            gameType,
+            name,            
+        } = this.state.form;
+        return !_.isEmpty(String(gameType)) && !_.isEmpty(name);
+    }
 
     render() {
         const { gameTypes, form } = this.state;
@@ -80,9 +98,12 @@ class ClanCreator extends React.Component {
                 ]}
             >
                 <Content>
-                    <Form                         
-                        gameTypes       = { gameTypes } 
-                        onSelectImage   = { this.onSelectImage.bind(this) }
+                    <Form                      
+                        formValid       = { this.isValidForm()              }   
+                        gameTypes       = { gameTypes                       } 
+                        onSelectImage   = { this.onSelectImage.bind(this)   }
+                        onChange        = { this.onChange.bind(this)        }
+                        onSubmit        = { this.onSubmitForm.bind(this)    }
                         {...form}
                     />
                 </Content>
