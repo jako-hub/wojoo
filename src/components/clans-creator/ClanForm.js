@@ -12,18 +12,23 @@ import {
 } from 'native-base';
 import { ImagePicker, PrettyButton, SubmitButton } from '../../commons/forms';
 
+
 const ClanForm = (props) => {
     const {
         gameTypes=[],
         gameType,
+        //city,
         onChange,
         onSelectImage,
-    } = props;    
+        photo={},
+    } = props;
+    console.log("image", photo);
     return (
         <Form style = {styles.root} >
             <View style = { styles.row }>
                 <ImagePicker 
-                    onSelectImage = { onSelectImage }
+                    onSelectImage   = { onSelectImage }
+                    imgSrc          = { photo? photo.uri : null }
                 />
             </View>
             <Label style = { styles.pickerLabel }><Text>Tipo de juego</Text></Label>
@@ -73,9 +78,14 @@ const styles = StyleSheet.create({
 ClanForm.propTypes = {
     gameType : PropTypes.any,
     name     : PropTypes.string,
-    photoUri        : PropTypes.string,
+    city     : PropTypes.any,
     onChange : PropTypes.func,
     onSelectImage : PropTypes.func,
+    photo : PropTypes.shape({
+        type    : PropTypes.string,
+        uri     : PropTypes.string,
+    }),
+
 };
 
 export default ClanForm;

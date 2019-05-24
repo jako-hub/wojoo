@@ -5,12 +5,13 @@ import stylesPalette from "../../utils/stylesPalette";
 import PropTypes from 'prop-types';
 import { LoadingSpinner } from '../loaders';
 
-const PrettyButton = ({children, small, disabled, primary, icon, loading, ...otherProps}) => {
+const PrettyButton = ({children, style, small, disabled, primary, icon, loading, ...otherProps}) => {
     const buttonStyles = [
         styles.btnRoot, 
         (disabled? styles.disabled : null),
         (primary? styles.btnPrimary : null),
         (small? styles.small : null),
+        style,
     ];
     const textStyles = [
         styles.btnText,
@@ -39,6 +40,8 @@ const styles = StyleSheet.create({
         paddingHorizontal   : 1,
         marginHorizontal    : 2,
         height              : 30,
+        marginBottom        : 5,
+        flexWrap            : "wrap",
     },
     btnPrimary : {
         backgroundColor : palette.accent.color,

@@ -16,9 +16,9 @@ class ClanCreator extends React.Component {
     state = {
         form : {
             name     : "",
-            gameType : "",
+            gameType : null,
             city     : "",
-            foto     : null,
+            photo    : null,
         },
         gameTypes : [],        
     };
@@ -55,9 +55,13 @@ class ClanCreator extends React.Component {
         return gameTypes;
     };
 
-    onSelectImage(image) {
-        alert("here!");
-        console.log("the image : ", image);
+    onSelectImage(photo) {
+        this.setState(({form}) => ({
+            form : {
+                ...form,
+                photo,
+            },
+        }));
     }
 
     onChange() {
@@ -76,9 +80,10 @@ class ClanCreator extends React.Component {
                 ]}
             >
                 <Content>
-                    <Form 
-                        gameTypes = { gameTypes } 
-                        onSelectImage = { this.onSelectImage.bind(this) }
+                    <Form                         
+                        gameTypes       = { gameTypes } 
+                        onSelectImage   = { this.onSelectImage.bind(this) }
+                        {...form}
                     />
                 </Content>
             </PermissionsManager>
