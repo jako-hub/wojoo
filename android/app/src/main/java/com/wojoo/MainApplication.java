@@ -4,6 +4,7 @@ import android.app.Application;
 import android.Manifest;
 import android.support.v4.app.ActivityCompat;
 import com.facebook.react.ReactApplication;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; // <-- Add this line
@@ -35,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PickerPackage(),
             new RNFirebasePackage(),
             new RNFirebaseMessagingPackage(), // <-- Add this line
             new RNFirebaseNotificationsPackage(), // <-- Add this line
