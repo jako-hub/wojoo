@@ -32,10 +32,12 @@ class ImagePicker extends React.PureComponent {
             width   : 500,
             height  : 500,
             cropping: true
-        }).then(({mime:type, path:uri}) => {
+        }).then((photo) => {
+            const {mime:type, path:uri} = photo;
+            const name = uri.substring(uri.lastIndexOf('/') + 1);
             if(this.props.onSelectImage) {
                 this.props.onSelectImage({
-                        type, uri,
+                        type, uri, name,
                 });
             }
         });

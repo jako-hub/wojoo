@@ -9,6 +9,7 @@ export default {
         admin   : '/v1/clan/admin',
         lista   : '/v1/clan/lista',
         detall  : '/v1/clan/detalle',
+        nuevo   : '/v1/clan/nuevo',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',

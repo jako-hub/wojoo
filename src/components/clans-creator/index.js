@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Content from './ClanContent';
 import Form from './ClanForm';
-import { withApi } from '../../providers';
+import { withApi, withUserData } from '../../providers';
 import endpoints from '../../configs/endpoints';
 import { addMessage } from '../../utils/functions';
 import PermissionsManager, { 
@@ -13,6 +13,13 @@ import PermissionsManager, {
 } from '../../commons/permissions-manager';
 import _ from 'lodash';
 
+
+/**
+ * This component allows to create a new clan.
+ *
+ * @class ClanCreator
+ * @extends {React.Component}
+ */
 class ClanCreator extends React.Component {
     state = {
         form : {
@@ -74,9 +81,12 @@ class ClanCreator extends React.Component {
         }));
     }
 
-
-    onSubmitForm() {
-        alert("okas!");
+    async onSubmitForm() {
+        const {createAdminClan, navigation} = this.props
+        const response = await createAdminClan(this.state.form);
+        if(response === true) {
+            navigation.navigate("ViewClans");
+        }
     }
 
     isValidForm() {
@@ -117,6 +127,7 @@ ClanCreator.propTypes = {
     startLoading    : PropTypes.func,
     stopLoading     : PropTypes.func,
     doPost          : PropTypes.func,
+    createAdminClan : PropTypes.func,
 };
 
-export default withApi(ClanCreator);
+export default withApi(withUserData(ClanCreator));

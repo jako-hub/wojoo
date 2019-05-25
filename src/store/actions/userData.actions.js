@@ -1,6 +1,7 @@
 import { Api } from "../../services/ApiService";
 import endpoints from "../../configs/endpoints";
 import { addMessage, consoleError } from "../../utils/functions";
+import { startLoading, stopLoading,} from './global.actions';
 
 export const SET_MY_FRIENDS                         = '[USER_DATA] SET_MY_FRIENDS';
 export const SET_USER_DATA                          = '[USER_DATA] SET_USER_DATA';
@@ -34,11 +35,6 @@ export const removeClan = (code) => ({
 export const setAdminClans = (clans) => ({
     type : SET_ADMIN_CLANS,
     clans,
-});
-
-export const addAdminClans = (clan) => ({
-    type : ADD_ADMIN_CLAN,
-    clan,
 });
 
 export const removeAdminClan = (code) => ({
@@ -218,3 +214,50 @@ export const fetchPlayerAdminClanes = () => async(dispatch, getState) => {
     };
     return await fetchData();
 };
+
+/**
+ * This function allows to save a new admin clan, it send the request to the server and
+ * if succesful, then it stores the clan to the redux store.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const createAdminClan = ({name, photo={}, gameType}) => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        dispatch(startLoading());
+        try {            
+            const data = new FormData();
+            if(photo) {
+                const {type, uri, name} = photo;
+                data.append("foto", {
+                    name,
+                    type,
+                    uri,
+                });
+            }
+            data.append("jugador", userCode);
+            data.append("nombre", name);
+            data.append("tipo_juego", gameType);
+
+            const response = await Api.uploadFile(endpoints.clan.nuevo, data);
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error inesperado al guardar el clan");
+                consoleError("Save clan", response);
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                // Todo reportar el clan guardado
+                dispatch(addAdminClan(response));
+                return true;
+            } 
+            return false;
+        } catch (response) {
+            addMessage("Error al consultar los clanes del jugador");
+            consoleError("Admin clanes: ", response);
+        } finally {
+            dispatch(stopLoading());
+        }
+        return false;
+    };
+    return await fetchData();
+}

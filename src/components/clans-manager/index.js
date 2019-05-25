@@ -31,7 +31,10 @@ class ClansManager extends React.Component {
     }
 
     onAddClan() {
-        alert("on add clan");
+        const navigation = this.props.navigation;
+        if(navigation) {
+            navigation.navigate("CreateClan");
+        }
     }
 
     render() {
@@ -39,6 +42,7 @@ class ClansManager extends React.Component {
             adminClans=[],
             clans=[],
         } = this.props;
+        console.log("the clans: ", adminClans);
         return (
             <Content>
                 <ClansCase 
@@ -61,7 +65,7 @@ class ClansManager extends React.Component {
 }
 
 ClansManager.propTypes = {
-    navigation                  : PropTypes.any,
+    navigation                  : PropTypes.any.isRequired,
     clans                       : PropTypes.array,
     adminClans                  : PropTypes.array,
     fetchPlayerAdminClanes      : PropTypes.func,
