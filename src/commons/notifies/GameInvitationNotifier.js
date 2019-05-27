@@ -28,8 +28,8 @@ class GameInvitationNotifier extends React.Component {
             <ModalTop
                 open
                 onClose = { () => this.toggleModal() }
-                title = "Juegos" 
-                icon = "futbol-o"
+                title   = "Juegos" 
+                icon    = "futbol-o"            
             >
                 <GameInvitations 
                     navigation = { navigation } 

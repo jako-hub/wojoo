@@ -11,6 +11,7 @@ import {
 import { SimpleTouch } from '../../commons/touchables';
 import defaultImage from '../../assets/images/default-clan-image.png';
 import RatingStarDisplay from '../../commons/rating-start-display';
+import {IMAGES_SERVER} from 'react-native-dotenv';
 const MAX_CHARS = 12;
 
 /**
@@ -32,8 +33,8 @@ const ClansList =   (props) => {
              <View style = {styles.root}>
                 <View style = { styles.photoWrapper } >
                     {!photo
-                        ? ( <Image style = { styles.photoDefault } source = { defaultImage } /> ) 
-                        : ( null )
+                        ? ( <Image style = { [styles.photoDefault, styles.photoOpacity] } source = { defaultImage } /> ) 
+                        : ( <Image style = { styles.photoDefault } source = { {uri : `${IMAGES_SERVER}${photo}`} } /> )
                     }
                 </View>
                 <View style = { styles.bodyWrapper }>
@@ -64,10 +65,12 @@ const styles = StyleSheet.create({
     name : {
         fontSize : 12,
     },
-    photoDefault : {
-        opacity : 0.5,
+    photoDefault : {        
         width   : 50,
         height  : 50,
+    },
+    photoOpacity : {
+        opacity : 0.5,
     },
     photoWrapper : {
         width           : 70,

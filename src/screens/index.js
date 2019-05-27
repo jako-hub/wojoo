@@ -11,6 +11,8 @@ import ContactScreen        from './contact';
 import PlayerProfileScreen  from './player-profile';
 import TestAreaScreen       from './test-area';
 import ClansScreen          from './clans';
+import CreateClanScreen     from './clans/CreateClan';
+import ViewClanScreen       from './clans/ViewClan';
 
 export {
     HomeScreen,
@@ -27,4 +29,6 @@ export {
     PlayerProfileScreen,
     TestAreaScreen,
     ClansScreen,
+    CreateClanScreen,
+    ViewClanScreen,
 };

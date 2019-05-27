@@ -9,17 +9,21 @@ import {
     Text,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
 
 /**
  * This component allows to rewise a simple button to display notifications.
  * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com> 
  * @param {*} param0 
  */
-const NotifierBase  = ({onPress, icon, count}) => {
+const NotifierBase  = ({onPress, icon, count, icon5}) => {
     return (
         <SimpleTouch onPress = { onPress }>
             <View style = { styles.root }>
-                <Icon style = { styles.iconButton } name = {icon} size = { 24 } />
+                {icon5
+                    ? (<Icon5 style = { styles.iconButton } name = {icon} size = { 24 } />)
+                    : (<Icon style = { styles.iconButton } name = {icon} size = { 24 } />)
+                }
                 {count > 0 && (
                     <View style = { styles.tipCount }>
                         <Text style = { styles.tipText }>{count}</Text>

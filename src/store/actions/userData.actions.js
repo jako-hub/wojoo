@@ -1,6 +1,7 @@
 import { Api } from "../../services/ApiService";
 import endpoints from "../../configs/endpoints";
 import { addMessage, consoleError } from "../../utils/functions";
+import { startLoading, stopLoading,} from './global.actions';
 
 export const SET_MY_FRIENDS                         = '[USER_DATA] SET_MY_FRIENDS';
 export const SET_USER_DATA                          = '[USER_DATA] SET_USER_DATA';
@@ -15,6 +16,18 @@ export const REMOVE_ADMIN_CLAN                      = '[USER_DATA] REMOVE_ADMIN_
 export const SET_CLANES                             = '[USER_DATA] SET_CLANES';
 export const ADD_CLAN                               = '[USER_DATA] ADD_CLAN';
 export const REMOVE_CLAN                            = '[USER_DATA] REMOVE_CLAN';
+export const SET_CLAN_INVITATIONS                   = '[USER_DATA] SET_CLAN_INVITATIONS';
+export const REMOVE_CLAN_INVITATION                 = '[USER_DATA] REMOVE_CLAN_INVITATION';
+
+export const setClanInvitations = (invitations) => ({
+    type : SET_CLAN_INVITATIONS,
+    invitations,
+});
+
+export const removeClanInvitation = (code) => ({
+    type : REMOVE_CLAN_INVITATION,
+    code
+});
 
 export const setClans = (clans) => ({
     type : SET_CLANES,
@@ -26,6 +39,7 @@ export const addClan = (clan) => ({
     clan,
 });
 
+
 export const removeClan = (code) => ({
     type : REMOVE_CLAN,
     code,
@@ -34,11 +48,6 @@ export const removeClan = (code) => ({
 export const setAdminClans = (clans) => ({
     type : SET_ADMIN_CLANS,
     clans,
-});
-
-export const addAdminClans = (clan) => ({
-    type : ADD_ADMIN_CLAN,
-    clan,
 });
 
 export const removeAdminClan = (code) => ({
@@ -209,11 +218,87 @@ export const fetchPlayerAdminClanes = () => async(dispatch, getState) => {
                 addMessage(error_controlado);
             } else {
                 dispatch(setAdminClans(response));
-                console.log("The api clans: ", response);
             }
         } catch (response) {
             addMessage("Error al consultar los clanes del jugador");
             consoleError("Admin clanes: ", response);
+        }
+    };
+    return await fetchData();
+};
+
+/**
+ * This function allows to save a new admin clan, it send the request to the server and
+ * if succesful, then it stores the clan to the redux store.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const createAdminClan = ({name, photo={}, gameType}) => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        dispatch(startLoading());
+        try {            
+            const data = new FormData();
+            if(photo) {
+                const {type, uri, name} = photo;
+                data.append("foto", {
+                    name,
+                    type,
+                    uri,
+                });
+            }
+            data.append("jugador", userCode);
+            data.append("nombre", name);
+            data.append("tipo_juego", gameType);
+
+            const response = await Api.uploadFile(endpoints.clan.nuevo, data);
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error inesperado al guardar el clan");
+                consoleError("Save clan", response);
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                // Todo reportar el clan guardado
+                dispatch(addAdminClan(response));
+                return true;
+            } 
+            return false;
+        } catch (response) {
+            addMessage("Error al consultar los clanes del jugador");
+            consoleError("Admin clanes: ", response);
+        } finally {
+            dispatch(stopLoading());
+        }
+        return false;
+    };
+    return await fetchData();
+}
+
+/**
+ * This function allows to list the user clan invitations.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const fetchClanInvitations = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.invitaciones, {
+                jugador : userCode,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Error al consultar las invitaciones a clanes");
+                consoleError("Clan invitations", response);
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setClanInvitations(response));
+                return true;
+            } 
+            return false;
+        } catch (response) {
+            addMessage("Error al consultar las invitaciones a clanes");
+            consoleError("Clan invitations: ", response);
         }
     };
     return await fetchData();

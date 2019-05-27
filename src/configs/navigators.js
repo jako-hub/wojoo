@@ -19,6 +19,7 @@ import {
     playerRoutes,
     generalRoutes,
     testRoutes,
+    clanRoutes,
  } from "./routes";
 import stylesPalette from '../utils/stylesPalette';
 
@@ -89,11 +90,19 @@ const GeneralNavigator = createStackNavigator({
     headerMode : 'none',
 });
 
+const ClansNavigator = createStackNavigator({
+    ...clanRoutes,
+}, {
+    initialRouteName : '',
+    headerMode : 'none',
+});
+
 const AppNavigator = createStackNavigator({
     Main    : MainNavigator,
     Games   : GamesNavigator,
     Player  : PlayerNavigator,
     General : GeneralNavigator,
+    Clans   : ClansNavigator,
 }, {
     initialRouteName : "Main",
     headerMode       : 'none',

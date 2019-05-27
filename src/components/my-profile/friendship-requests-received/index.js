@@ -7,7 +7,6 @@ import {
 import {
     View,
     Text,
-    List,
     Button,
 } from 'native-base';
 import { withUserData, withApi } from '../../../providers';

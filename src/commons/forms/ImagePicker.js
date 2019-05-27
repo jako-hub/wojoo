@@ -4,63 +4,80 @@ import {
     StyleSheet,
     Image,
 } from 'react-native';
-import {
-    View, Picker,
-} from 'native-base';
+import { View } from 'native-base';
 import PrettyButton from './PrettyButton';
 import defaultImage from '../../assets/images/default-clan-image.png';
-// import PickerPlugin from 'react-native-image-picker';
-//import PickerPlugin from 'react-native-image-crop-picker';
-import PickerPlugin from 'react-native-image-picker';
+import PickerPlugin from 'react-native-image-crop-picker';
+import { SimpleTouch } from '../touchables';
 
-const ImagePreview = ({imgSrc}) => (
-    <View style = { styles.imagePreviewWrapper }>
-        <Image style = { styles.imagePreview } source = { imgSrc } />
+const ImagePreview = ({imgSrc, transparent, onPress}) => (
+    <View style = { [
+        styles.imagePreviewWrapper,
+        (transparent? styles.transparent : null ),
+    ] }>
+        <SimpleTouch onPress = { onPress } wrapType = "stretch">
+            <Image style = { styles.imagePreview } source = { imgSrc } />
+        </SimpleTouch>
     </View>
 );
 
+/**
+ * This component allows to select and cropt an image.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 class ImagePicker extends React.PureComponent {
     
-    onSelectImage() {
-       const {
-        selectImageLabel = "Selecciona una imagen",
-        onSelectImage,
-    } = this.props;
-
-    const options = {
-            title: selectImageLabel,
-            storageOptions: {
-                skipBackup: true,
-                //path: 'images',
-            },
-        };
-
-        PickerPlugin.showImagePicker(options, (response) => {          
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-            } else {
-                if(onSelectImage) {
-                    onSelectImage(response);
-                }
-              // You can also display the image using data:
-              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+    onSelectImage() {    
+        PickerPlugin.openPicker({
+            width   : 500,
+            height  : 500,
+            cropping: true
+        }).then((photo) => {
+            const {mime:type, path:uri} = photo;
+            const name = uri.substring(uri.lastIndexOf('/') + 1);
+            if(this.props.onSelectImage) {
+                this.props.onSelectImage({
+                        type, uri, name,
+                });
             }
-          });
+        });
+    }
+
+    onClearImage() {
+        if(this.props.onSelectImage) {
+            this.props.onSelectImage(null);
+        }
     }
 
     render() {
         const {imgSrc} = this.props;
+        const withImage = Boolean(imgSrc);
         return (
             <View style = { styles.root }>
                 <View style = { styles.wrapper }>
-                    <ImagePreview imgSrc={ imgSrc? imgSrc : defaultImage } />
-                    <PrettyButton onPress = { () => this.onSelectImage() }>
-                        Seleccionar imagen
-                    </PrettyButton>
+                    <ImagePreview 
+                        transparent = { !withImage } 
+                        imgSrc      = { imgSrc? {uri : imgSrc} : defaultImage } 
+                        onPress     = { () => this.onSelectImage() }
+                    />
+                    <View style = { styles.buttonsWrapper}>
+                        <PrettyButton 
+                            onPress = { () => this.onSelectImage() }
+                            primary
+                            small
+                        >
+                            Seleccionar imagen
+                        </PrettyButton>
+                        {withImage && (
+                            <PrettyButton 
+                                onPress = { () => this.onClearImage() }
+                                style   = {styles.buttonWrapper}
+                                small
+                            >
+                                Remover
+                            </PrettyButton>
+                        )}
+                    </View>
                 </View>
             </View>
         );
@@ -73,6 +90,9 @@ const styles = StyleSheet.create({
         justifyContent  : "center",
         marginBottom    : 10,
     },
+    buttonWrapper : {
+        alignSelf : "center",
+    },
     imagePreviewWrapper : {
         borderRadius    : 150,
         backgroundColor : "#e0e0e0",
@@ -83,13 +103,20 @@ const styles = StyleSheet.create({
     imagePreview : {
         width           : 70,
         height          : 70,
-        borderRadius    : 150,
+        borderRadius    : 150,        
+    },
+    buttonsWrapper : {
+        flexDirection : "column",
+        justifyContent     : "center",
+    },
+    transparent : {
         opacity         : 0.4,
     },
 });
 
 ImagePicker.propTypes = {
-    onSelectImage : PropTypes.func,
+    onSelectImage   : PropTypes.func,
+    imgSrc          : PropTypes.string,
 };
 
 export default ImagePicker;

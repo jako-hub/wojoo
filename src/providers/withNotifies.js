@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addNotify, removeNotify, popNotify, viewNotify, fetchNews} from '../store/actions/global.actions';
-import { fetchFriendshipRequest, fetchMyFriends, fetchUserSendedRequests } from '../store/actions/userData.actions';
+import { fetchFriendshipRequest, fetchMyFriends, fetchUserSendedRequests, fetchClanInvitations, } from '../store/actions/userData.actions';
 import { fetchGameInvitations }  from '../store/actions/game.actions';
 import { selectGame } from '../store/actions/search.actions';
 import { bindActionCreators } from 'redux';
@@ -12,6 +12,7 @@ export const TYPE_NEW_GAME              = 'new-game';
 export const TYPE_FRIENDSHIP_REQUEST    = 'friend-request';
 export const TYPE_PULL_ACTIVITIES       = 'pull-news';
 export const TYPE_GAME_INVITATION       = 'game-invitation';
+export const TYPE_CLAN_INVITATION       = 'clan-invitation';
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     addNotify,
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     fetchGameInvitations,
     fetchMyFriends,
     fetchNews,
+    fetchClanInvitations,
 }, dispatch);
 
 const mapStateToProps = ({global:{notifications=[]}, session:{userCode}}) => ({
@@ -58,6 +60,9 @@ export default WrappedComponent => (connect(mapStateToProps, mapDispatchToProps)
             }
             if(notify.type === TYPE_GAME_INVITATION) {
                 this.props.fetchGameInvitations();
+            }
+            if(notify.type === TYPE_CLAN_INVITATION) {
+                this.props.fetchClanInvitations();
             }
         }
         render() {

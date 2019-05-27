@@ -31,7 +31,7 @@ class FullScreenModal extends React.PureComponent {
                         </Text>
                     </View>
                     {!disableScroll && (
-                        <ScrollView>
+                        <ScrollView style = { {flex  : 1} }>
                             {children}
                         </ScrollView>
                     )}

@@ -30,8 +30,6 @@ class UserInfoVerifier extends React.Component {
         // The first thing we do is bring the user information
         await this.getPersonalInfo();
         // Then we fetch the user friends
-        await this.props.fetchMyFriends(this.props.userCode);
-        await this.props.fetchUserSendedRequests();
         this.setState({displayFriendSuggester : true});
     }
 
@@ -124,6 +122,9 @@ UserInfoVerifier.propTypes = {
     fetchMyFriends      : PropTypes.func,
     enableFriendSuggester : PropTypes.bool,
     fetchUserSendedRequests : PropTypes.func,
+    fetchClanInvitations        : PropTypes.func,
+    fetchPlayerClanes           : PropTypes.func,
+    fetchPlayerAdminClanes      : PropTypes.func,
 };
 
 export default withApi(withSession(withUserData(UserInfoVerifier)));
