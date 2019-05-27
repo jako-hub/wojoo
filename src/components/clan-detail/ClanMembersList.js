@@ -43,7 +43,7 @@ const ClanMemberItem = ({name, alias, photo, onView}) => {
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  * @param {*} param0 
  */
-const ClanMemberslist = ({members=[], navigation}) => {    
+const ClanMemberslist = ({members=[], navigation, clanCode}) => {    
     const onViewProfile = (playerCode, playerAlias) => {
         navigation.navigate("PlayerProfile", {playerCode, playerAlias});
     }
@@ -60,7 +60,7 @@ const ClanMemberslist = ({members=[], navigation}) => {
                     />
                 ))}
             </View>
-            <InviteFriendToClan />
+            <InviteFriendToClan clanCode = { clanCode } />
         </View>
     );
 };
@@ -92,6 +92,7 @@ ClanMemberslist.propTypes = {
         jugador_seudonimo    : PropTypes.string,
     })),
     navigation : PropTypes.any.isRequired,
+    clanCode    : PropTypes.any,
 };
 
 export default ClanMemberslist;

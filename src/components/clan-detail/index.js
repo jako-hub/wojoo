@@ -55,6 +55,7 @@ class ClanDetail extends React.PureComponent {
             loading,
             clanInfo,
         } = this.state;
+        const {clanCode} = this.props;
         return (
             <ClanDetailWrapper loading = { loading } >
                 <ClanDetailView
@@ -66,8 +67,9 @@ class ClanDetail extends React.PureComponent {
                     thumbnail   = { clanInfo.foto_miniatura }
                 />
                 <ClanMemberslist 
-                    members     = { clanInfo.miembros }
-                    navigation  = { this.props.navigation }
+                    members     = { clanInfo.miembros       }
+                    navigation  = { this.props.navigation   }
+                    clanCode    = { clanCode                }
                 />
             </ClanDetailWrapper>
         );

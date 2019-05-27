@@ -10,6 +10,7 @@ export default {
         lista   : '/v1/clan/lista',
         detalle : '/v1/clan/detalle',
         nuevo   : '/v1/clan/nuevo',
+        invitar : '/v1/clan/invitar/amigos', //clan-invitation
     },
     usuarios : {
         lista      : '/v1/usuario/lista',
