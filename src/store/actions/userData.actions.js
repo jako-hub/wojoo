@@ -16,6 +16,18 @@ export const REMOVE_ADMIN_CLAN                      = '[USER_DATA] REMOVE_ADMIN_
 export const SET_CLANES                             = '[USER_DATA] SET_CLANES';
 export const ADD_CLAN                               = '[USER_DATA] ADD_CLAN';
 export const REMOVE_CLAN                            = '[USER_DATA] REMOVE_CLAN';
+export const SET_CLAN_INVITATIONS                   = '[USER_DATA] SET_CLAN_INVITATIONS';
+export const REMOVE_CLAN_INVITATION                 = '[USER_DATA] REMOVE_CLAN_INVITATION';
+
+export const setClanInvitations = (invitations) => ({
+    type : SET_CLAN_INVITATIONS,
+    invitations,
+});
+
+export const removeClanInvitation = (code) => ({
+    type : REMOVE_CLAN_INVITATION,
+    code
+});
 
 export const setClans = (clans) => ({
     type : SET_CLANES,
@@ -26,6 +38,7 @@ export const addClan = (clan) => ({
     type : ADD_CLAN,
     clan,
 });
+
 
 export const removeClan = (code) => ({
     type : REMOVE_CLAN,
@@ -260,3 +273,33 @@ export const createAdminClan = ({name, photo={}, gameType}) => async (dispatch, 
     };
     return await fetchData();
 }
+
+/**
+ * This function allows to list the user clan invitations.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const fetchClanInvitations = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.invitaciones, {
+                jugador : userCode,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Error al consultar las invitaciones a clanes");
+                consoleError("Clan invitations", response);
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setClanInvitations(response));
+                return true;
+            } 
+            return false;
+        } catch (response) {
+            addMessage("Error al consultar las invitaciones a clanes");
+            consoleError("Clan invitations: ", response);
+        }
+    };
+    return await fetchData();
+};

@@ -17,6 +17,7 @@ import FriendshipNotifier from './notifies/FriendshipNotifier';
 import UserStatusOption from '../components/user-status-option';
 import UserProfileButton from './UserProfileButton';
 import GameInvitationNotifier from './notifies/GameInvitationNotifier';
+import { ClansInvitationNotifier } from '.';
 
 
 
@@ -59,6 +60,7 @@ const MainAppBar = ({allowBack, allowUserStatus, disableNotify, navigation, titl
         </Body>
         {!disableNotify && (
             <Right style = { styles.right }>
+                <ClansInvitationNotifier navigation = { navigation } />
                 <FriendshipNotifier navigation = { navigation } />
                 <GameInvitationNotifier navigation = { navigation } />
                 {/* <NotifiesList navigation = { navigation } /> */}

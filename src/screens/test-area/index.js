@@ -1,10 +1,6 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
-import { withGames, withUserData } from '../../providers';
-//import { InterestsPicker, ViewFriendList, InterestsManager } from '../../components';
-import {Text, View} from 'native-base';
-import { ClanDetail } from '../../components';
-import { FriendsPicker } from '../../commons';
+import { withUserData } from '../../providers';
 
 class TestAreaScreen extends React.Component {
     state = {
@@ -41,10 +37,7 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
-                <ClanDetail 
-                    clanCode    = { 1 } 
-                    navigation  = { navigation }
-                />
+                
             </BaseScreen>
         );
     }

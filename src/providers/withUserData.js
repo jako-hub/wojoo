@@ -12,6 +12,8 @@ import {
     fetchPlayerAdminClanes,
     fetchPlayerClanes,
     createAdminClan,
+    fetchClanInvitations,    
+    removeClanInvitation,
 } from '../store/actions/userData.actions';
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -24,6 +26,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchPlayerAdminClanes,
     fetchPlayerClanes,
     createAdminClan,
+    fetchClanInvitations,
+    removeClanInvitation,
 }, dispatch);
 
 const mapStateToProps = ({session:{userCode}, games:{pendingClose}, userData}) => ({
@@ -37,6 +41,7 @@ export const propTypes = {
     moneyPoints         : PropTypes.number,
     verified            : PropTypes.bool,
     photo               : PropTypes.string,
+    clanInvitations             : PropTypes.array,
     clans                       : PropTypes.array,
     adminClans                  : PropTypes.array,
     pendingToCloseGames         : PropTypes.array,
@@ -52,6 +57,8 @@ export const propTypes = {
     fetchPlayerAdminClanes      : PropTypes.func,
     fetchPlayerClanes           : PropTypes.func,
     createAdminClan             : PropTypes.func,
+    fetchClanInvitations        : PropTypes.func,
+    removeClanInvitation        : PropTypes.func,
 };
 
 /**
