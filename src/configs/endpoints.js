@@ -14,6 +14,11 @@ export default {
         invitaciones : '/v1/clan/invitaciones',
         aceptarInvitacion : '/v1/clan/invitacion/aceptar',
         rechazarInvitacion : '/v1/clan/invitacion/rechazar',
+        solicitudesEnviadas : '/v1/clan/solicitudes/enviadas',
+        solicitudesRecibidas : '/v1/clan/solicitudes/recibidas',
+        cancelarSolicitud    : '/v1/clan/solicitudes/rechazar',
+        abandonar    : '/v1/clan/abandonar',
+        unirse          : '/v1/clan/unirse',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',

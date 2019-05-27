@@ -6,6 +6,7 @@ import { withApi } from '../../providers';
 import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 import ClanMemberslist from './ClanMembersList';
+import ClanActions from './ClanActions';
 
 /**
  * This component renders a clan detail.
@@ -19,7 +20,7 @@ class ClanDetail extends React.PureComponent {
             rating      : 1,
             juego_tipo  : "",
             miembros    : [],
-        },
+        },        
     };
 
     componentDidMount() {
@@ -52,7 +53,11 @@ class ClanDetail extends React.PureComponent {
                 clanInfo : clanInfo? clanInfo : state.clanInfo,
             }));
         }        
-    }    
+    }
+
+    async refreshInfo() {
+        await this.fetchData();
+    }
 
     render() {
         const {
@@ -70,6 +75,10 @@ class ClanDetail extends React.PureComponent {
                     photo       = { clanInfo.foto           }
                     thumbnail   = { clanInfo.foto_miniatura }
                 />
+                <ClanActions
+                    clanCode = { clanCode }
+                    onJoin  = { () => this.refreshInfo() }
+                 />
                 <ClanMemberslist 
                     members     = { clanInfo.miembros       }
                     navigation  = { this.props.navigation   }
