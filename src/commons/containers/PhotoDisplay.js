@@ -13,6 +13,7 @@ const PhotoDisplay = (props) => {
     const {
         imageSource=defaultImage,        
         avatar,
+        opacity,
     } = props;
     let {
         width=100,
@@ -22,6 +23,7 @@ const PhotoDisplay = (props) => {
         styles.image,
         { width, height },
         (avatar? styles.avatar : null),
+        (opacity? styles.opacity : null),
     ];
     const rootStyles = [
         styles.root,
@@ -50,6 +52,9 @@ const styles = StyleSheet.create({
     image : {
         
     },
+    opacity : {
+        opacity : 0.6,
+    },
     avatar : {
         width : 30,
         height : 30,
@@ -59,6 +64,7 @@ const styles = StyleSheet.create({
 PhotoDisplay.propTypes = {
     imageSource : PropTypes.any,
     avatar      : PropTypes.bool,
+    opacity     : PropTypes.bool,
 };
 
 export default PhotoDisplay;
