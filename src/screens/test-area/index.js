@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
 import { withUserData } from '../../providers';
-import { ClansManager } from '../../components';
+import { ClansManager, ClanDetail } from '../../components';
 
 class TestAreaScreen extends React.Component {
     state = {
@@ -38,7 +38,10 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
-             <ClansManager navigation = { navigation } />   
+                <ClanDetail 
+                    navigation = { navigation }
+                    clanCode = {1}
+                />
             </BaseScreen>
         );
     }
