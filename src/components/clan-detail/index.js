@@ -7,6 +7,10 @@ import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 import ClanMemberslist from './ClanMembersList';
 
+/**
+ * This component renders a clan detail.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 class ClanDetail extends React.PureComponent {
     state = {
         loading : true,

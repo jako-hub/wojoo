@@ -42,8 +42,8 @@ class TestAreaScreen extends React.Component {
                 navigation = { navigation }
             >
                 <ClanDetail 
-                    clanCode = { 1 } 
-                    navigation = { navigation }
+                    clanCode    = { 1 } 
+                    navigation  = { navigation }
                 />
             </BaseScreen>
         );

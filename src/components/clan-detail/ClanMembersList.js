@@ -38,6 +38,12 @@ const ClanMemberItem = ({name, alias, photo, onView}) => {
     );
 };
 
+const EmptyItem = () => (
+    <View style = { styles.emptyItem }>
+        <Text note style = { {textAlign : "center"} }>No hay miembros en el clan</Text>
+    </View>
+);
+
 /**
  * This component only renders the game detail members.
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
@@ -51,6 +57,9 @@ const ClanMemberslist = ({members=[], navigation, clanCode}) => {
         <View style = { styles.root }>
             <SimpleHeader title = "Miembros"/>
             <View style = { styles.membersList }>
+                {members.length === 0 && (
+                    <EmptyItem />
+                )}
                 {members.map((item, key) => (
                     <ClanMemberItem 
                         key = { `cla-item-member-${key}` }
@@ -82,6 +91,9 @@ const styles = StyleSheet.create({
     },
     clanMemberItemInfo : {
         paddingHorizontal : 10,
+    },
+    emptyItem : {
+        marginBottom : 20,
     },
 });
 
