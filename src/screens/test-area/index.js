@@ -4,10 +4,11 @@ import { withGames, withUserData } from '../../providers';
 //import { InterestsPicker, ViewFriendList, InterestsManager } from '../../components';
 import {Text, View} from 'native-base';
 import { ClanDetail } from '../../components';
+import { FriendsPicker } from '../../commons';
 
 class TestAreaScreen extends React.Component {
     state = {
-        open : false,
+        open : true,
         interests : [],
     };
     toggle() {
@@ -40,10 +41,16 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
+                {/*
                 <ClanDetail 
                     clanCode = { 1 } 
                     navigation = { navigation }
                 />
+                 */}
+                 <FriendsPicker navigation = { navigation }
+                    open = { open }
+                    onClose = { () => this.toggleViewAll() }
+                  />
             </BaseScreen>
         );
     }

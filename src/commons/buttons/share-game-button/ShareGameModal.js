@@ -195,7 +195,6 @@ class ShareGameModal extends React.Component {
     renderFriends() {
         const {loading, friends=[], selectedFriends=[]} = this.state;
         const total = selectedFriends.length;
-        console.log("The friends: ", friends);
         return (
             <>
                 <ScrollView

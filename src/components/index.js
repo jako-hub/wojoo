@@ -23,6 +23,7 @@ import InterestsManager     from './interests-manager';
 import ClansManager         from './clans-manager';
 import ClanCreator          from './clans-creator';
 import ClanDetail           from './clan-detail';
+import InviteContacts       from './invite-contacts';
 
 export {
     LoginComponent, 
@@ -50,4 +51,5 @@ export {
     ClansManager,
     ClanCreator,
     ClanDetail,
+    InviteContacts,
 };

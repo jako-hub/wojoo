@@ -48,8 +48,7 @@ class ClanDetail extends React.PureComponent {
                 clanInfo : clanInfo? clanInfo : state.clanInfo,
             }));
         }        
-    }
-    
+    }    
 
     render() {
         const {

@@ -10,6 +10,7 @@ import {
 import {SimpleHeader, PhotoDisplay} from '../../commons/containers';
 import {DEFAULT_USER_IMG, IMAGES_SERVER} from 'react-native-dotenv';
 import { SimpleTouch } from '../../commons/touchables';
+import { InviteFriendToClan } from '../../commons/buttons';
 
 /**
  * This component only renders the Clan member item.
@@ -59,6 +60,7 @@ const ClanMemberslist = ({members=[], navigation}) => {
                     />
                 ))}
             </View>
+            <InviteFriendToClan />
         </View>
     );
 };
