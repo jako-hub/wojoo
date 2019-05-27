@@ -1,6 +1,6 @@
 import React from 'react';
 import { SubmitButton } from '../forms';
-import { InviteContacts } from '../../components';
+import { FriendsPicker } from '..';
 
 class InviteFriendToClan extends React.Component {
     state = {
@@ -13,6 +13,10 @@ class InviteFriendToClan extends React.Component {
         });
     }
 
+    async onSelectFriends(selectedFriends) {
+        console.log("Selected: ", selectedFriends);
+    }
+
     render() {
         const {displayInvite} = this.state;
         return (
@@ -22,8 +26,12 @@ class InviteFriendToClan extends React.Component {
                 onPress = { () => this.toggleInvite() }
             />
             {displayInvite && (
-                <InviteContacts  open = { displayInvite } onClose = { () => this.toggleInvite() } />
-            )}
+                <FriendsPicker 
+                    open = { displayInvite }
+                    onClose = { () => this.toggleInvite() }
+                    onSelectFriends = { this.onSelectFriends.bind(this) }
+                />
+            )}            
             </>
         );
     }

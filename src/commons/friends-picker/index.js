@@ -44,6 +44,9 @@ class FriendsPicker extends React.Component {
         if(this.props.onSelectFriends) {
             this.props.onSelectFriends(this.state.selectedFriends);
         }
+        if(this.props.onClose) {
+            this.props.onClose();
+        }
     }
 
     render() {

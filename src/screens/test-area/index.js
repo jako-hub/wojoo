@@ -41,16 +41,10 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
-                {/*
                 <ClanDetail 
                     clanCode = { 1 } 
                     navigation = { navigation }
                 />
-                 */}
-                 <FriendsPicker navigation = { navigation }
-                    open = { open }
-                    onClose = { () => this.toggleViewAll() }
-                  />
             </BaseScreen>
         );
     }
