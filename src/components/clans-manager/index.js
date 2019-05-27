@@ -26,8 +26,11 @@ class ClansManager extends React.Component {
         this.fetchData();
     }
 
-    onSelectClan(clan) {
-        alert("Selected clan");
+    onSelectClan({codigo_clan}) {
+        const navigation = this.props.navigation;
+        navigation.navigate('ClanDetail', {
+            clanCode : codigo_clan
+        });
     }
 
     onAddClan() {
@@ -42,17 +45,20 @@ class ClansManager extends React.Component {
             adminClans=[],
             clans=[],
         } = this.props;
+        const {loading} = this.state;
         return (
             <Content>
                 <ClansCase 
                     title   = "Mis clanes" 
                     clans   = { adminClans } 
                     onPress = { this.onSelectClan.bind(this) }
+                    loading = { loading }
                 />
                 <ClansCase 
                     title   = "Clanes a los que pertenezco" 
                     clans   = { clans } 
                     onPress = { this.onSelectClan.bind(this) }
+                    loading = { loading }
                 />
                 <AddButton 
                     label   = "Crea tu clan"

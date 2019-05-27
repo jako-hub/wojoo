@@ -118,7 +118,7 @@ const AppNavigatorContainer = createSwitchNavigator({
     App  : AppNavigator,
     testing : TestNavigator,    
 }, {
-    initialRouteName : "Auth",
+    initialRouteName : "testing",
 });
 
 export default AppNavigatorContainer;

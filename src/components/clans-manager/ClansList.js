@@ -31,6 +31,7 @@ const ClansList = (props) => {
                 name    = { item.clan_nombre        }
                 rating  = { item.clan_rating        }
                 code    = { item.codigo_clan        }
+                photo   = { item.clan_foto          }
                 onPress = { () => onPress? onPress(item) : null }
             />
         ));

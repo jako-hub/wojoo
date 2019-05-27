@@ -5,6 +5,7 @@ import { ClanDetail } from '../../components';
 class ViewClanScreen extends React.PureComponent {    
     render() {
         const navigation = this.props.navigation;        
+        const {clanCode=0} = navigation.state.params;
         return (
             <BaseScreen
                 navigation = { navigation }
@@ -12,7 +13,7 @@ class ViewClanScreen extends React.PureComponent {
                 disableNotify
             >
                 <ClanDetail 
-                    clanCode = { 1 }
+                    clanCode = { clanCode }
                     navigation = { navigation }
                 />
             </BaseScreen>
