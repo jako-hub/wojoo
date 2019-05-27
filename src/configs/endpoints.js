@@ -8,7 +8,7 @@ export default {
         jugador : '/v1/clan/jugador',
         admin   : '/v1/clan/admin',
         lista   : '/v1/clan/lista',
-        detall  : '/v1/clan/detalle',
+        detalle : '/v1/clan/detalle',
         nuevo   : '/v1/clan/nuevo',
     },
     usuarios : {

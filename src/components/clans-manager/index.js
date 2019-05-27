@@ -42,7 +42,6 @@ class ClansManager extends React.Component {
             adminClans=[],
             clans=[],
         } = this.props;
-        console.log("the clans: ", adminClans);
         return (
             <Content>
                 <ClansCase 

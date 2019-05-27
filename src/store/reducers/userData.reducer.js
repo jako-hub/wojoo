@@ -70,7 +70,7 @@ export default gameReducer = (state=defaultState, action) => {
         });
         case ADD_ADMIN_CLAN : return ({
             ...state,
-            adminClans : [...state.adminClans, action.clan],
+            adminClans : [action.clan, ...state.adminClans],
         });
         case REMOVE_ADMIN_CLAN : return ({
             ...state,

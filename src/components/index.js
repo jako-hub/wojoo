@@ -22,6 +22,7 @@ import ViewFriendList       from './view-friend-list';
 import InterestsManager     from './interests-manager';
 import ClansManager         from './clans-manager';
 import ClanCreator          from './clans-creator';
+import ClanDetail           from './clan-detail';
 
 export {
     LoginComponent, 
@@ -48,4 +49,5 @@ export {
     InterestsManager,
     ClansManager,
     ClanCreator,
+    ClanDetail,
 };

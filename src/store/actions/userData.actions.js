@@ -205,7 +205,6 @@ export const fetchPlayerAdminClanes = () => async(dispatch, getState) => {
                 addMessage(error_controlado);
             } else {
                 dispatch(setAdminClans(response));
-                console.log("The api clans: ", response);
             }
         } catch (response) {
             addMessage("Error al consultar los clanes del jugador");
