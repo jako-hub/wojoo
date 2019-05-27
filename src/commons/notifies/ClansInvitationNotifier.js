@@ -7,12 +7,13 @@ import { withUserData } from '../../providers';
 import { ModalTop } from '../modals';
 import FriendshipRequestsReceived from '../../components/my-profile/friendship-requests-received';
 import NotifierBase from './NotifierBase';
+import { ClanInvitations } from '../../components';
 
 /**
- * This component allows to render the friendship notifications.
+ * This component allows to render the clan invitations notifications.
  * @@author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  */
-class FriendshipNotifier extends React.Component {
+class ClansInvitationNotifier extends React.Component {
     state = {
         openModal : false,
         totalRequests : 0,
@@ -38,14 +39,14 @@ class FriendshipNotifier extends React.Component {
             <ModalTop
                 open
                 onClose = { () => this.toggleModal() }
-                title = "Solicitudes de amistad" 
-                icon = "user-friends"
+                title = "Clanes" 
+                icon = "users"
                 icon5
             >
                 <View style = { styles.notifiesRoot }>
-                    <FriendshipRequestsReceived 
-                        navigation = { navigation }
-                        onViewProfile = { () => this.toggleModal() }
+                    <ClanInvitations 
+                        navigation = { navigation } 
+                        onClose     = { () => this.toggleModal() }
                     />
                 </View>
             </ModalTop>
@@ -53,13 +54,13 @@ class FriendshipNotifier extends React.Component {
     }
 
     render () {
-        const { friendshipRequests=[] } = this.props;
+        const { clanInvitations=[] } = this.props;
         const {openModal} = this.state;
-        const totalRequests = friendshipRequests.length;
+        const totalRequests = clanInvitations.length;
         return (
             <>
                 <NotifierBase 
-                    icon    = "user-friends"
+                    icon    = "users"
                     icon5
                     count   = { totalRequests }
                     onPress = { () => this.toggleModal() }
@@ -71,19 +72,9 @@ class FriendshipNotifier extends React.Component {
     }
 }
 
-FriendshipNotifier.propTypes = {
-    fetchMyFriends      : PropTypes.func,
-    userCode            : PropTypes.any,
-    setUserData         : PropTypes.func,
-    friends             : PropTypes.array,
-    photo               : PropTypes.string,
-    verified            : PropTypes.bool,
-    setVerified         : PropTypes.func,
-    friendshipRequests  : PropTypes.array,
-    friendshipRequestsSended    : PropTypes.array,
-    fetchUserSendedRequests     : PropTypes.func,
-    fetchFriendshipRequest      : PropTypes.func,
-    removeFriendshipRequest     : PropTypes.func,
+ClansInvitationNotifier.propTypes = {
+    navigation : PropTypes.any,
+    clanInvitations : PropTypes.array,
 };
 
-export default withUserData(FriendshipNotifier);
+export default withUserData(ClansInvitationNotifier);

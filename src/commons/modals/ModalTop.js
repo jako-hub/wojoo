@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
 
 /**
@@ -15,7 +16,7 @@ import { ScrollView } from 'react-native-gesture-handler';
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  * @param {*} param0 
  */
-const ModalTop = ({open, icon, onClose, animation="fade", children, title}) => (
+const ModalTop = ({open, icon, icon5, onClose, animation="fade", children, title}) => (
     <Modal
         visible         = {open}
         onRequestClose  = {onClose}
@@ -26,7 +27,11 @@ const ModalTop = ({open, icon, onClose, animation="fade", children, title}) => (
             <View style={styles.content}>
                 <View style={styles.header}>
                     <View style = { styles.titleHolder }>
-                        {icon? (<Icon style = { styles.icon } name = {icon} size = {23} />) : null}
+                        {icon? (
+                            icon5
+                            ? <Icon5 style = { styles.icon } name = {icon} size = {23} />
+                            : <Icon style = { styles.icon } name = {icon} size = {23} />
+                        ) : null}
                         <Text style={styles.headerText}>
                             {title}
                         </Text>

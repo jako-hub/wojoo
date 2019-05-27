@@ -9,6 +9,7 @@ import { initializeSession } from './src/store/actions/session.actions';
 import { FirebaseManager } from './src/services';
 import { AppSplash, ModalLoader } from './src/commons/loaders';
 import { MainTheme } from './src/commons/themes';
+import DataLoaderHelper from './src/commons/DataLoaderHelper';
 
 const AppContainer = createAppContainer(AppNavigator);
 
@@ -29,6 +30,7 @@ class AppComponent extends React.PureComponent {
             <>
                 <AppContainer/>
                 {(!reading && logged) && (<FirebaseManager />) }
+                {(!reading && logged) &&  (<DataLoaderHelper />) }
                 {loading && (<ModalLoader />)}
             </>
         );

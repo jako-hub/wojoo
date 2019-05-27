@@ -8,7 +8,12 @@ export default {
         jugador : '/v1/clan/jugador',
         admin   : '/v1/clan/admin',
         lista   : '/v1/clan/lista',
-        detall  : '/v1/clan/detalle',
+        detalle : '/v1/clan/detalle',
+        nuevo   : '/v1/clan/nuevo',
+        invitar : '/v1/clan/invitar/amigos', //clan-invitation
+        invitaciones : '/v1/clan/invitaciones',
+        aceptarInvitacion : '/v1/clan/invitacion/aceptar',
+        rechazarInvitacion : '/v1/clan/invitacion/rechazar',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',

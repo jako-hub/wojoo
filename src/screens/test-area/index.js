@@ -1,13 +1,11 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
-import { withGames, withUserData } from '../../providers';
-//import { InterestsPicker, ViewFriendList, InterestsManager } from '../../components';
-import {Text, View} from 'native-base';
-import { ClansManager, ClanCreator } from '../../components';
+import { withUserData } from '../../providers';
+// Delete from here
 
 class TestAreaScreen extends React.Component {
     state = {
-        open : false,
+        open : true,
         interests : [],
     };
     toggle() {
@@ -40,9 +38,6 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
-                <ClanCreator 
-                    navigation = { navigation } 
-                />
             </BaseScreen>
         );
     }
