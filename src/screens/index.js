@@ -12,6 +12,7 @@ import PlayerProfileScreen  from './player-profile';
 import TestAreaScreen       from './test-area';
 import ClansScreen          from './clans';
 import CreateClanScreen     from './clans/CreateClan';
+import ViewClanScreen       from './clans/ViewClan';
 
 export {
     HomeScreen,
@@ -29,4 +30,5 @@ export {
     TestAreaScreen,
     ClansScreen,
     CreateClanScreen,
+    ViewClanScreen,
 };

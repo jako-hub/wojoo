@@ -132,8 +132,11 @@ class ClanInvitations extends React.Component {
         }
     }
 
-    onView(item) {
+    onView({codigo_clan}) {
         const {onClose, navigation, } = this.props;
+        navigation.navigate('ClanDetail', {
+            clanCode : codigo_clan
+        });
         onClose();
     }
 
