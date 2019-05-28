@@ -49,7 +49,7 @@ const EmptyItem = () => (
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  * @param {*} param0 
  */
-const ClanMemberslist = ({members=[], navigation, clanCode}) => {    
+const ClanMemberslist = ({members=[], navigation, clanCode, isAdmin}) => {    
     const onViewProfile = (playerCode, playerAlias) => {
         navigation.navigate("PlayerProfile", {playerCode, playerAlias});
     }
@@ -69,7 +69,7 @@ const ClanMemberslist = ({members=[], navigation, clanCode}) => {
                     />
                 ))}
             </View>
-            <InviteFriendToClan clanCode = { clanCode } />
+            {isAdmin && (<InviteFriendToClan clanCode = { clanCode } />)}
         </View>
     );
 };
@@ -105,6 +105,7 @@ ClanMemberslist.propTypes = {
     })),
     navigation : PropTypes.any.isRequired,
     clanCode    : PropTypes.any,
+    isAdmin     : PropTypes.bool,
 };
 
 export default ClanMemberslist;

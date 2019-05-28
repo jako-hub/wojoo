@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ClanDetailWrapper from './ClanDetailWrapper';
 import ClanDetailView from './ClanDetailView';
-import { withApi } from '../../providers';
+import { withApi, withUserData } from '../../providers';
 import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 import ClanMemberslist from './ClanMembersList';
@@ -59,6 +59,12 @@ class ClanDetail extends React.PureComponent {
         await this.fetchData();
     }
 
+    isAdmin() {
+        const {clanCode, adminClans=[]} = this.props;
+        const selected = adminClans.find(item => item.codigo_clan === clanCode);
+        return Boolean(selected);
+    }
+
     render() {
         const {
             loading,
@@ -83,6 +89,7 @@ class ClanDetail extends React.PureComponent {
                     members     = { clanInfo.miembros       }
                     navigation  = { this.props.navigation   }
                     clanCode    = { clanCode                }
+                    isAdmin     = { this.isAdmin()          }
                 />
             </ClanDetailWrapper>
         );
@@ -93,6 +100,7 @@ ClanDetail.propTypes = {
     clanCode    : PropTypes.any,
     navigation  : PropTypes.any,
     doPost      : PropTypes.func,
+    adminClans  : PropTypes.array,
 };
 
-export default withApi(ClanDetail);
+export default withApi(withUserData(ClanDetail));
