@@ -7,7 +7,7 @@ export default {
     clan : {
         jugador : '/v1/clan/jugador',
         admin   : '/v1/clan/admin',
-        lista   : '/v1/clan/lista',
+        buscar   : '/v1/clan/buscar',
         detalle : '/v1/clan/detalle',
         nuevo   : '/v1/clan/nuevo',
         invitar : '/v1/clan/invitar/amigos', //clan-invitation

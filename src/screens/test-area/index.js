@@ -1,7 +1,6 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
 import { withUserData } from '../../providers';
-import { ClanDetail } from '../../components';
 // Delete from here
 
 class TestAreaScreen extends React.Component {
@@ -39,10 +38,6 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
-                <ClanDetail 
-                    navigation = { navigation }
-                    clanCode = { 21 }
-                />
             </BaseScreen>
         );
     }

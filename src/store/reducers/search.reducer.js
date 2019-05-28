@@ -5,13 +5,15 @@ import {
     SET_SELECTED_GAME,
     SELECT_GAME,
     SET_RESULTS_FRIENDS,
+    SET_CLAN_RESULTS,
 } from '../actions/search.actions';
 
 const defaultState = {
-    results     : [],
-    resultsFriends     : [],
-    searchQuery : "",
-    selectedGame: {},
+    results         : [],
+    resultsFriends  : [],
+    resultsClans    : [],
+    searchQuery     : "",
+    selectedGame    : {},
     /**
         selectedGame    : null,
     */
@@ -45,6 +47,10 @@ export default gameReducer = (state=defaultState, action) => {
         case SET_RESULTS_FRIENDS : return ({
             ...state,
             resultsFriends : action.results,
+        });
+        case SET_CLAN_RESULTS : return ({
+            ...state,
+            resultsClans : action.results,
         });
         default : return ({
             ...state,
