@@ -29,18 +29,35 @@ class SearchClans extends React.Component {
         });
     }
 
+    getFilteredResults() {
+        const {searchQuery, resultsClans=[]} = this.props;
+        let filteredResults = [...resultsClans];
+        if(searchQuery) {
+            const regExp = new RegExp(`.*(${searchQuery.toLowerCase()}).*`, "g");        
+            filteredResults = filteredResults.filter(item => {
+                return `${item.clan_nombre.toLowerCase()}`.match(regExp);
+            });
+        }
+        return filteredResults;
+    }
+
+    isInClan({codigo_clan}) {
+        const { playerClans=[]} = this.props;
+        const selected = playerClans.find(item => item.codigo_clan === codigo_clan);
+        return Boolean(selected);
+    }
+
     render() {
         const {
             loading,
         } = this.state;
-        const {
-            resultsClans=[]
-        } = this.props;
+        const resultsClans = this.getFilteredResults();
         return (
             <SearchClanWrapper loading = { loading } onRefresh = { () => this.onRefresh() }>
                 <ResultsList
-                    results = { resultsClans }
-                    onView  = { this.onView.bind(this) }
+                    results = { resultsClans                }
+                    onView  = { this.onView.bind(this)      }
+                    isInClan= { this.isInClan.bind(this)    }
                  />
             </SearchClanWrapper>
         );
@@ -50,6 +67,9 @@ class SearchClans extends React.Component {
 SearchClans.propTypes = {
     fetchClanResults    : PropTypes.func,
     resultsClans        : PropTypes.array,
+    searchQuery         : PropTypes.string,
+    playerClans         : PropTypes.array,
+    userCode            : PropTypes.any,
 };
 
 export default withSearch(SearchClans);

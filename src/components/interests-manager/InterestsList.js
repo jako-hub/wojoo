@@ -19,9 +19,9 @@ const InterestsList = (props) => {
     let filteredInterests = [...interests];
 
     if(queryString) {
-        const regExp = new RegExp(`.*(${queryString.toLocaleLowerCase()}).*`, "g");        
+        const regExp = new RegExp(`.*(${queryString.toLowerCase()}).*`, "g");        
         filteredInterests = filteredInterests.filter(item => {
-            return `${item.nombre.toLocaleLowerCase()}`.match(regExp);
+            return `${item.nombre.toLowerCase()}`.match(regExp);
         });
     }
 

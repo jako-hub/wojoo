@@ -13,8 +13,9 @@ import { PhotoDisplay } from '../../commons/containers';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import RatingStarDisplay from '../../commons/rating-start-display';
 import { SimpleTouch } from '../../commons/touchables';
+import stylesPalette from '../../utils/stylesPalette';
 
-const ResultItem = ({name, gameType, onPress, icon, photo, rating=0, id, city, members=0}) => {
+const ResultItem = ({name, gameType, onPress, isInClan, icon, photo, rating=0, id, city, members=0}) => {
     const srcPhoto = photo? {uri : `${IMAGES_SERVER}${photo}`} : defaultImage;
     return (
         <SimpleTouch onPress = { onPress } wrapType = "stretch">
@@ -25,6 +26,11 @@ const ResultItem = ({name, gameType, onPress, icon, photo, rating=0, id, city, m
                         opacity     = { !photo      }
                         imageSource = { srcPhoto    }
                     />
+                    {isInClan && (
+                    <View style = { styles.isInGame }>
+                        <Text style={ styles.isInGameText }>Miembro</Text>
+                    </View>
+                    )}
                 </View>
                 <View style = { styles.contentWrapper }>
                     <Text>{`${name} (${city})`}</Text>
@@ -47,6 +53,8 @@ const ResultItem = ({name, gameType, onPress, icon, photo, rating=0, id, city, m
         </SimpleTouch>
     );
 };
+
+const palette = stylesPalette();
 
 const styles = StyleSheet.create({
     root : {
@@ -75,6 +83,13 @@ const styles = StyleSheet.create({
     membersWrapper : {
         flexDirection : "row",
     },
+    isInGame : {
+        backgroundColor     : palette.primary.color,
+        paddingHorizontal   : 10,
+        marginTop           : 5,
+        borderRadius        : 10,
+    },
+    isInGameText : {color : "#FFF", fontSize : 9},
 });
 
 export default ResultItem;

@@ -27,11 +27,13 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 const mapStateToProps = ({
     search  :{results=[], resultsFriends, searchQuery="", viewGameDetail, selectedGame, resultsClans=[]},
+    userData : {clans=[]},
     session :{userCode},
 }) => ({
     results,
     resultsFriends,
     resultsClans,
+    playerClans : clans,
     searchQuery,
     viewGameDetail,
     selectedGame,
@@ -54,6 +56,7 @@ export const propTypes = {
     resultsFriends      : PropTypes.array,
     userCode            : PropTypes.any,
     fetchClanResults    : PropTypes.func,
+    playerClans         : PropTypes.array,
 };
 
 /**

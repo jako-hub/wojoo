@@ -9,7 +9,7 @@ import {
 import { EmptyObject } from '../../commons/others';
 import ResultItem from './ResultItem';
 
-const ResultsList = ({results=[], onView}) => (
+const ResultsList = ({results=[], onView, isInClan}) => (
     <View style = { styles.root }>
         {results.length === 0 && (
             <EmptyObject 
@@ -28,6 +28,8 @@ const ResultsList = ({results=[], onView}) => (
                 members     = { item.miembros               }
                 city        = { item.clan_ciudad            }
                 onPress     = { () => onView? onView(item) : null }
+                photo       = { item.clan_foto              }
+                isInClan    = { isInClan(item)              }
             />
         ))}
     </View>
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
 ResultsList.propTypes = {
     results : PropTypes.array,
     onView  : PropTypes.func,
+    isInClan: PropTypes.func,
 };
 
 export default ResultsList;
