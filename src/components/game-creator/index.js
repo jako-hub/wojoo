@@ -140,6 +140,7 @@ class GameCreatorComponent extends React.Component {
             endsAt,
             teams,
             sendInvitation,
+            gameType,
         } = this.state;
         const jugador = this.props.userCode;
         const escenario = scenario.codigo_escenario;
@@ -158,6 +159,7 @@ class GameCreatorComponent extends React.Component {
             fecha_desde : initialDate,
             fecha_hasta : endDate,
             invitar_amigos : sendInvitation,
+            tipo_juego : gameType,
         };
 
         this.props.startLoading();

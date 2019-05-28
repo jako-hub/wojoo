@@ -18,6 +18,18 @@ export const ADD_CLAN                               = '[USER_DATA] ADD_CLAN';
 export const REMOVE_CLAN                            = '[USER_DATA] REMOVE_CLAN';
 export const SET_CLAN_INVITATIONS                   = '[USER_DATA] SET_CLAN_INVITATIONS';
 export const REMOVE_CLAN_INVITATION                 = '[USER_DATA] REMOVE_CLAN_INVITATION';
+export const SET_CLAN_INVITATIONS_SENDED            = '[USER_DATA] SET_CLAN_INVITATIONS_SENDED';
+export const SET_CLAN_INVITATIONS_RECEIVED          = '[USER_DATA] SET_CLAN_INVITATIONS_RECEIVED';
+
+export const setClanInvitationsSended = (invitations) => ({
+    type : SET_CLAN_INVITATIONS_SENDED,
+    invitations
+});
+
+export const setClanInvitationsReceived = (invitations) => ({
+    type : SET_CLAN_INVITATIONS_RECEIVED,
+    invitations
+});
 
 export const setClanInvitations = (invitations) => ({
     type : SET_CLAN_INVITATIONS,
@@ -298,6 +310,66 @@ export const fetchClanInvitations = () => async (dispatch, getState) => {
             return false;
         } catch (response) {
             addMessage("Error al consultar las invitaciones a clanes");
+            consoleError("Clan invitations: ", response);
+        }
+    };
+    return await fetchData();
+};
+
+/**
+ * This function allows to list the user clan invitations.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const fetchClanRequestsSended = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.solicitudesEnviadas, {
+                jugador : userCode,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Error al consultar las invitaciones a clanes enviadas");
+                consoleError("Clan invitations", response);
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setClanInvitationsSended(response));
+                return true;
+            } 
+            return false;
+        } catch (response) {
+            addMessage("Error al consultar las invitaciones a clanes enviadas");
+            consoleError("Clan invitations: ", response);
+        }
+    };
+    return await fetchData();
+};
+
+/**
+ * This function allows to list the user clan invitations.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
+export const fetchClanRequestsReceived = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.solicitudesRecibidas, {
+                jugador : userCode,
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Error al consultar las invitaciones a clanes recibidas");
+                consoleError("Clan invitations", response);
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setClanInvitationsReceived(response));
+                return true;
+            } 
+            return false;
+        } catch (response) {
+            addMessage("Error al consultar las invitaciones a clanes recibidas");
             consoleError("Clan invitations: ", response);
         }
     };

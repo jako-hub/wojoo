@@ -9,6 +9,7 @@ import {
     clearSelectedGame,
     selectGame,
     setSelectedGame,
+    fetchClanResults,
 } from '../store/actions/search.actions';
 import { startLoading, stopLoading } from '../store/actions/global.actions';
 
@@ -21,14 +22,18 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     stopLoading,
     onChangeQuery : onChangeQueryString,
     fetchFriends,
+    fetchClanResults,
 }, dispatch);
 
 const mapStateToProps = ({
-    search:{results=[], resultsFriends, searchQuery="", viewGameDetail, selectedGame},
-    session:{userCode},
+    search  :{results=[], resultsFriends, searchQuery="", viewGameDetail, selectedGame, resultsClans=[]},
+    userData : {clans=[]},
+    session :{userCode},
 }) => ({
     results,
     resultsFriends,
+    resultsClans,
+    playerClans : clans,
     searchQuery,
     viewGameDetail,
     selectedGame,
@@ -50,6 +55,8 @@ export const propTypes = {
     fetchFriends        : PropTypes.func,
     resultsFriends      : PropTypes.array,
     userCode            : PropTypes.any,
+    fetchClanResults    : PropTypes.func,
+    playerClans         : PropTypes.array,
 };
 
 /**

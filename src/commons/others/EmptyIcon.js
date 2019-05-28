@@ -6,9 +6,10 @@ import {
     Text,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon5 from 'react-native-vector-icons/FontAwesome5';
 import stylesPalette from '../../utils/stylesPalette';
 
-const EmptyObject = ({icon, message}) => {
+const EmptyObject = ({icon, message, icon5}) => {
     if(!icon) return null;
     return (
         <View style = { styles.root }>
@@ -16,7 +17,8 @@ const EmptyObject = ({icon, message}) => {
                 <Text style = { styles.text }  note>{message}</Text>
             </View>
             <View style = {styles.iconWrapper}>
-                <Icon style = { styles.icon } name = { icon } size = { 50 }  />
+                {icon5 && (<Icon5 style = { styles.icon } name = { icon } size = { 50 }  />)}
+                {!icon5 && (<Icon style = { styles.icon } name = { icon } size = { 50 }  />)}
             </View>
         </View>
     )

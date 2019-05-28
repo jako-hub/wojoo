@@ -7,13 +7,19 @@ export default {
     clan : {
         jugador : '/v1/clan/jugador',
         admin   : '/v1/clan/admin',
-        lista   : '/v1/clan/lista',
+        buscar   : '/v1/clan/buscar',
         detalle : '/v1/clan/detalle',
         nuevo   : '/v1/clan/nuevo',
         invitar : '/v1/clan/invitar/amigos', //clan-invitation
         invitaciones : '/v1/clan/invitaciones',
         aceptarInvitacion : '/v1/clan/invitacion/aceptar',
         rechazarInvitacion : '/v1/clan/invitacion/rechazar',
+        solicitudesEnviadas : '/v1/clan/solicitudes/enviadas',
+        solicitudesRecibidas : '/v1/clan/solicitudes/recibidas',
+        cancelarSolicitud    : '/v1/clan/solicitudes/rechazar',
+        abandonar    : '/v1/clan/abandonar',
+        unirse          : '/v1/clan/unirse',
+        aprobarSolicitud : '/v1/clan/invitacion/aprobar',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',
