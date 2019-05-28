@@ -55,14 +55,33 @@ const GameForm = (props) => {
     return (
         <View style={styles.root}>            
             <Form style={styles.form}>
+                <View style = { {paddingLeft : 15} }>
+                    <Text>Tipo de juego</Text>
+                </View>
+                <Item>                    
+                    <Picker
+                        note
+                        mode="dropdown"
+                        style={{ width: 120 }}
+                        selectedValue={gameType}
+                        onValueChange={value => onChange("gameType", value)}
+                    >                        
+                        {gameTypes.map((item, key) => (
+                            <Picker.Item 
+                                key = { `list-item-types-element-${key}` }
+                                label={item.juego_tipo_nombre} 
+                                value={item.codigo_juego_tipo}
+                            />
+                        ))}
+                    </Picker>
+                </Item>
                 <Item floatingLabel>
                     <Label>{"Nombre del juego"}</Label>
                     <Input 
                         value        = { gameName                        }
                         onChangeText = { text => onChange("name", text)  }
                     />
-                </Item>
-                
+                </Item>                
                 <DateTimePicker
                     date        = { defDate      } 
                     value       = { date         }

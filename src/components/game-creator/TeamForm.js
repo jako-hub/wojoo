@@ -11,7 +11,7 @@ import {
     Input,    
     Label,
 } from 'native-base';
-import {Button} from '../../commons/forms';
+import {Button, PrettyButton} from '../../commons/forms';
 import { 
     NumberPicker,
  } from '../../commons/forms';
@@ -49,13 +49,16 @@ const TeamForm = ({defaultName="", defaultPlayers=1, onSubmit}) => {
                 </View>                
             </View>
             <View style={{flex : 1, alignItems : "center", paddingVertical: 10, marginTop: 10,}}>
-                <Button
-                    info
-                    disabled    = { teamName === ""   }
-                    onPress     = { () => onAddTeam() }
-                >
-                    Agregar Equipo
-                </Button>
+                <View>
+                    <PrettyButton
+                        small
+                        info
+                        disabled    = { teamName === ""   }
+                        onPress     = { () => onAddTeam() }
+                    >
+                        Agregar Equipo
+                    </PrettyButton>
+                </View>
             </View>
         </Form>
     )
