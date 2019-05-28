@@ -66,7 +66,7 @@ class ClanDetail extends React.PureComponent {
         } = this.state;
         const {clanCode} = this.props;
         return (
-            <ClanDetailWrapper loading = { loading } >
+            <ClanDetailWrapper onRefresh = { () => this.refreshInfo() } loading = { loading } >
                 <ClanDetailView
                     name        = { clanInfo.nombre         }
                     rating      = { clanInfo.rating         }
