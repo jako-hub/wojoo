@@ -10,6 +10,7 @@ import {
 import {PhotoDisplay} from '../../commons/containers';
 import {IMAGES_SERVER} from 'react-native-dotenv';
 import RatingStarDisplay from '../../commons/rating-start-display';
+import defaultImage from '../../assets/images/default-clan-image.png';
 
 const Row = ({title, text}) => (
     <View style = { styles.row }>
@@ -41,7 +42,7 @@ const ClanDetailView = (props) => {
     return (
         <View style = { styles.root }>
             <View style = { styles.photoWrapper }>
-                <PhotoDisplay imageSource = { photo? {uri : `${IMAGES_SERVER}${photo}` } : null } />
+                <PhotoDisplay opacity = { !photo } imageSource = { photo? {uri : `${IMAGES_SERVER}${photo}` } : defaultImage } />
             </View>
             <View style = { styles.infoWrapper }>
                 <Row title = "Nombre" text = { name } />

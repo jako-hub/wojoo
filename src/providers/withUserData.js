@@ -14,6 +14,8 @@ import {
     createAdminClan,
     fetchClanInvitations,    
     removeClanInvitation,
+    fetchClanRequestsSended,
+    fetchClanRequestsReceived,
 } from '../store/actions/userData.actions';
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -28,6 +30,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     createAdminClan,
     fetchClanInvitations,
     removeClanInvitation,
+    fetchClanRequestsSended,
+    fetchClanRequestsReceived,
 }, dispatch);
 
 const mapStateToProps = ({session:{userCode}, games:{pendingClose}, userData}) => ({
@@ -59,6 +63,8 @@ export const propTypes = {
     createAdminClan             : PropTypes.func,
     fetchClanInvitations        : PropTypes.func,
     removeClanInvitation        : PropTypes.func,
+    fetchClanRequestsSended     : PropTypes.func,
+    fetchClanRequestsReceived   : PropTypes.func,
 };
 
 /**
