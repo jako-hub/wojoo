@@ -19,6 +19,7 @@ export default {
         cancelarSolicitud    : '/v1/clan/solicitudes/rechazar',
         abandonar    : '/v1/clan/abandonar',
         unirse          : '/v1/clan/unirse',
+        aprobarSolicitud : '/v1/clan/invitacion/aprobar',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',

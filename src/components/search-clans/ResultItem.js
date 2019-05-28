@@ -22,7 +22,7 @@ const ResultItem = ({name, gameType, onPress, isInClan, icon, photo, rating=0, i
             <View style = { styles.root }>
                 <View style = { styles.imageWrapper }>
                     <PhotoDisplay 
-                        avatarLarge
+                        avatar
                         opacity     = { !photo      }
                         imageSource = { srcPhoto    }
                     />
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     },
     imageWrapper : {
         flex : 2,
+        alignItems : "center",
     },
     contentWrapper : {
         paddingLeft : 15,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         marginTop           : 5,
         borderRadius        : 10,
     },
-    isInGameText : {color : "#FFF", fontSize : 9},
+    isInGameText : {color : "#FFF", fontSize : 8},
 });
 
 export default ResultItem;

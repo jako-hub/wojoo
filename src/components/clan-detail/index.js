@@ -7,6 +7,7 @@ import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 import ClanMemberslist from './ClanMembersList';
 import ClanActions from './ClanActions';
+import ClanRequests from './ClanRequests';
 
 /**
  * This component renders a clan detail.
@@ -65,12 +66,17 @@ class ClanDetail extends React.PureComponent {
         return Boolean(selected);
     }
 
+    onApprove() {
+        this.refreshInfo();
+    }
+
     render() {
         const {
             loading,
             clanInfo,
         } = this.state;
         const {clanCode} = this.props;
+        const isAdmin = this.isAdmin();
         return (
             <ClanDetailWrapper onRefresh = { () => this.refreshInfo() } loading = { loading } >
                 <ClanDetailView
@@ -85,11 +91,17 @@ class ClanDetail extends React.PureComponent {
                     clanCode = { clanCode }
                     onJoin  = { () => this.refreshInfo() }
                  />
+                {isAdmin && (
+                    <ClanRequests 
+                        clanCode = { clanCode } 
+                        onApprove = { this.onApprove.bind(this) }
+                    />
+                )}
                 <ClanMemberslist 
                     members     = { clanInfo.miembros       }
                     navigation  = { this.props.navigation   }
                     clanCode    = { clanCode                }
-                    isAdmin     = { this.isAdmin()          }
+                    isAdmin     = { isAdmin                 }
                 />
             </ClanDetailWrapper>
         );

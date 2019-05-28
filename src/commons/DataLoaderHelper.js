@@ -15,7 +15,7 @@ class DataLoaderHelper extends React.PureComponent {
             fetchPlayerClanes,
             fetchPlayerAdminClanes,
             fetchClanRequestsSended,
-            fetchClanRequestsReceived,
+            //fetchClanRequestsReceived,
         } = this.props;
         fetchMyFriends(this.props.userCode);
         fetchUserSendedRequests();
@@ -23,7 +23,7 @@ class DataLoaderHelper extends React.PureComponent {
         fetchPlayerClanes();
         fetchPlayerAdminClanes();
         fetchClanRequestsSended();
-        fetchClanRequestsReceived();
+        //fetchClanRequestsReceived();
     }
 
     render() {
