@@ -26,6 +26,7 @@ import ClanDetail           from './clan-detail';
 import InviteContacts       from './invite-contacts';
 import ClanInvitations      from './clan-invitations';
 import SearchClans          from './search-clans';
+import ScenarioReservation  from './scenario-reservation';
 
 export {
     LoginComponent, 
@@ -56,4 +57,5 @@ export {
     InviteContacts,
     ClanInvitations,
     SearchClans,
+    ScenarioReservation,
 };

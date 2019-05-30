@@ -6,11 +6,13 @@ import {
 } from 'react-native';
 import { 
     View,
+    Text,
  } from 'native-base';
 import { PrettyButton } from '../forms';
 
 /**
  * This component renders a button that appears from the bottom.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
  */
 class AnimatedButtonBottom extends React.PureComponent {
     animVal = 0;
@@ -32,14 +34,18 @@ class AnimatedButtonBottom extends React.PureComponent {
     }
 
     render() {
+        const {label, onPress, message, removeOpacity} = this.props;
         const containerStyles = [
             styles.root,
-            { bottom : this.animVal }
+            { bottom : this.animVal },
+            (removeOpacity? styles.removeOpacity : null),
         ];
-        const {label, onPress} = this.props;
         return (
             <Animated.View style = { containerStyles }>
-                <View style = { styles.action }>
+                <View style = { styles.textWrapper }>
+                    {message && (<Text style = { styles.text }>{message}</Text>)}
+                </View>
+                <View style = { styles.action }>                    
                     <PrettyButton primary onPress = { onPress } >
                         {label}
                     </PrettyButton>
@@ -64,11 +70,24 @@ const styles = StyleSheet.create({
         flexDirection : "row",
         justifyContent : "center",
     },
+    textWrapper : {
+        flexDirection : "row",
+        justifyContent : "center",
+        marginBottom : 10,
+    },
+    text : {
+        textAlign : "center",
+    },
+    removeOpacity : {
+        backgroundColor : "rgba(255,255,255,1)",
+    },
 });
 
 AnimatedButtonBottom.propTypes = {
-    onPress    : PropTypes.func,
-    title       : PropTypes.string,
+    onPress         : PropTypes.func,
+    label           : PropTypes.string,
+    message         : PropTypes.string,
+    removeOpacity   : PropTypes.bool,
 };
 
 export default AnimatedButtonBottom;

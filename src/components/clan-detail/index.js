@@ -88,8 +88,8 @@ class ClanDetail extends React.PureComponent {
                     thumbnail   = { clanInfo.foto_miniatura }
                 />
                 <ClanActions
-                    clanCode = { clanCode }
-                    onJoin  = { () => this.refreshInfo() }
+                    clanCode    = { clanCode                 }
+                    onJoin      = { () => this.refreshInfo() }
                  />
                 {isAdmin && (
                     <ClanRequests 

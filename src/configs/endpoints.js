@@ -50,6 +50,7 @@ export default {
     },
     escenarios : {
         lista : '/v1/escenario/lista',        
+        reservas : '/v1/reserva/escenario',
     },
     jugador : {
         buscar : '/v1/jugador/buscar',

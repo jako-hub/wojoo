@@ -72,7 +72,7 @@ const MainNavigator = createBottomTabNavigator({
     ContactTab  : createTabOptions(ContactNavigator, 'question-circle'),
 }, {
     shifting            : true,
-    initialRouteName    : "SearchTab",
+    initialRouteName    : "HomeTab",
     activeColor         : "white",
     labeled             : false,
     barStyle : {
@@ -118,7 +118,7 @@ const AppNavigatorContainer = createSwitchNavigator({
     App  : AppNavigator,
     testing : TestNavigator,    
 }, {
-    initialRouteName : "Auth",
+    initialRouteName : "testing",
 });
 
 export default AppNavigatorContainer;
