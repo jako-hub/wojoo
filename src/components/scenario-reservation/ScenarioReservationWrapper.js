@@ -19,6 +19,8 @@ const ScenarioReservationWrapper = ({
     selectionDone,
     selectedMessage,
     onAccept,
+    businessPlaceName,
+    scenarioName,
 }) => (
     <>
     <ScrollView
@@ -29,7 +31,10 @@ const ScenarioReservationWrapper = ({
             />
          }
     >
-        {loading && (<EmptyText text = "Cargando reservas" />)}
+        <View style = { styles.titleWrapper }>
+            <Text style = { styles.titleText }>{scenarioName} ({businessPlaceName})</Text>
+        </View>
+        {loading && (<EmptyText text = "Cargando disponibilidad" />)}
         {children}        
     </ScrollView>
     {selectionDone && (
@@ -43,12 +48,23 @@ const ScenarioReservationWrapper = ({
     </>
 );
 
+const styles = StyleSheet.create({
+    titleWrapper : {
+        paddingVertical : 15,
+    },
+    titleText : {
+        textAlign : "center",
+    },
+});
+
 ScenarioReservationWrapper.propTypes = {
-    loading         : PropTypes.bool,
-    onRefresh       : PropTypes.func,
-    selectionDone   : PropTypes.bool,
-    selectedMessage : PropTypes.string,
-    onAccept        : PropTypes.func,
+    loading             : PropTypes.bool,
+    scenarioName        : PropTypes.string,
+    businessPlaceName   : PropTypes.string,
+    onRefresh           : PropTypes.func,
+    selectionDone       : PropTypes.bool,
+    selectedMessage     : PropTypes.string,
+    onAccept            : PropTypes.func,
 };
 
 export default ScenarioReservationWrapper;

@@ -321,15 +321,21 @@ class ScenarioReservation extends React.Component {
             selectedFrom,
             isValid,
         } = this.state;
+        const {
+            businessPlaceName,
+            scenarioName,
+        } = this.props;
         const isSelected = selectedFrom !== null && isValid;
         const message = `Reservar de ${this.getRangeMessage()}`;
         return (
             <ScenarioReservationWrapper
-                loading         = { loading                 }
-                onRefresh       = { () => this.onRefresh()  }
-                selectionDone   = { isSelected              }
-                selectedMessage = { message                 }
-                onAccept        = { this.onAccept.bind(this)}
+                loading             = { loading                 }
+                onRefresh           = { () => this.onRefresh()  }
+                selectionDone       = { isSelected              }
+                selectedMessage     = { message                 }
+                onAccept            = { this.onAccept.bind(this)}
+                businessPlaceName   = { businessPlaceName       }
+                scenarioName        = { scenarioName            }
             >
                 <ScenarioTimeList 
                     timeList    = { timeList                    } 
@@ -342,12 +348,14 @@ class ScenarioReservation extends React.Component {
 }
 
 ScenarioReservation.propTypes = {
-    scenarioCode    : PropTypes.any,
-    date            : PropTypes.any,
-    doPost          : PropTypes.func,
-    initialHour     : PropTypes.number,
-    step            : PropTypes.number,
-    onAccept        : PropTypes.func,
+    scenarioCode        : PropTypes.any,
+    scenarioName        : PropTypes.string,
+    businessPlaceName   : PropTypes.string,
+    date                : PropTypes.any,
+    doPost              : PropTypes.func,
+    initialHour         : PropTypes.number,
+    step                : PropTypes.number,
+    onAccept            : PropTypes.func,
 };
 
 export default withApi(ScenarioReservation);

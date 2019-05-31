@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
 import { withUserData } from '../../providers';
-import { ClanDetail, ScenarioReservation } from '../../components';
+import { ClanDetail, ScenarioReservation, ScenarioPicker, GameCreatorComponent } from '../../components';
 // Delete from here
 
 class TestAreaScreen extends React.Component {
@@ -39,7 +39,9 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
-                <ScenarioReservation scenarioCode = { 18 } date = { "2019-06-26" }  />
+                <GameCreatorComponent 
+                    navigation = { navigation }
+                />
             </BaseScreen>
         );
     }

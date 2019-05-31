@@ -6,15 +6,23 @@ import PropTypes from 'prop-types';
 import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 
+/**
+ * This component allows to select a scenario from the registered ones.
+ * 
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ * @class ScenarioPicker
+ * @extends {React.Component}
+ */
 class ScenarioPicker extends React.Component {
     state = {
-        openPicker       : false,
-        selectedScneario : null,
-        scenarios        : [],
-        loading          : true,
+        openPicker          : false,
+        selectedScenario    : null,
+        scenarios           : [],
+        loading             : true,
+        displayAvailability : false,
     };
 
-    toggleOpen() {
+    toggleOpen() {        
         this.setState({
             openPicker : !this.state.openPicker,
         }, () => {
@@ -25,13 +33,27 @@ class ScenarioPicker extends React.Component {
     }
 
     onSelect(scenario) {
-        this.setState({
-            openPicker : false,
-            selectedScneario : scenario,
+        console.log("The selected scenario: ", scenario);
+        this.setState({            
+            selectedScenario    : scenario,
+            displayAvailability : true,
         }, () => {
-            if(this.props.onSelectScenario) this.props.onSelectScenario(scenario);
+            // if(this.props.onSelectScenario) this.props.onSelectScenario(scenario);
         });
     }
+
+    onAcceptReservation (data) {
+        const {selectedScenario} = this.state;
+        this.setState({
+            openPicker : false,
+            displayAvailability : false,
+        }, () => {
+            if(this.props.onSelectScenario) this.props.onSelectScenario({
+                scenario    : selectedScenario, 
+                reservation : data,
+            });
+        });            
+    };
 
     fetchSchenarios() {
         this.setState({loading : true});
@@ -73,29 +95,47 @@ class ScenarioPicker extends React.Component {
 
     render() {
         const {
-            selectedScneario,
+            selectedScenario,
             openPicker,
             loading,
             filterQuery,
+            displayAvailability,
         } = this.state;
         const results = this.filteredData();
+        const {
+            date,
+        } = this.props;
+        const {
+            codigo_escenario:scenarioCode, 
+            negocio_nombre:businessPlaceName,
+            nombre:scenarioName,
+        } = selectedScenario||{};
+        const scenarioInfo = {
+            scenarioCode        : scenarioCode,
+            date                : date,
+            businessPlaceName   : businessPlaceName,
+            scenarioName        : scenarioName,
+            onAccept            : this.onAcceptReservation.bind(this),
+        };
         return (
             <>
                 <InputPicker 
-                    selected = {selectedScneario}
+                    selected = {selectedScenario}
                     onOpen   = {() => this.toggleOpen()}
                 />
                 {openPicker && (
                     <ScnearioResults
-                        filter          = { filterQuery }
-                        onChangeFilter  = { this.onChangeFilter.bind(this) }
-                        loading         = { loading }
-                        results         = { results }
-                        onSelect        = { this.onSelect.bind(this) }
-                        onClose         = { () => this.toggleOpen() }
-                        open            = { openPicker }
+                        filter          = { filterQuery                     }
+                        onChangeFilter  = { this.onChangeFilter.bind(this)  }
+                        loading         = { loading                         }
+                        results         = { results                         }
+                        onSelect        = { this.onSelect.bind(this)        }
+                        onClose         = { () => this.toggleOpen()         }
+                        open            = { openPicker                      }
+                        displayAvailability = { displayAvailability         }
+                        scenarioInfo    = { scenarioInfo                    }
                      />
-                )}
+                )}                
             </>
         );
     }
@@ -103,8 +143,10 @@ class ScenarioPicker extends React.Component {
 
 ScenarioPicker.propTypes = {
     doPost          : PropTypes.func,
+    selectedDate    : PropTypes.any,
     userCode        : PropTypes.any,
     onSelectScenario: PropTypes.func,
+    date            : PropTypes.string,
 };
 
 export default withApi(ScenarioPicker);

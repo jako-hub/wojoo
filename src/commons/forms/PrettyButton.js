@@ -5,12 +5,16 @@ import stylesPalette from "../../utils/stylesPalette";
 import PropTypes from 'prop-types';
 import { LoadingSpinner } from '../loaders';
 
+/**
+ * This component renders a simple and good looking button.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 const PrettyButton = ({children, style, small, disabled, primary, icon, loading, ...otherProps}) => {
     const buttonStyles = [
-        styles.btnRoot, 
-        (disabled? styles.disabled : null),
+        styles.btnRoot,         
         (primary? styles.btnPrimary : null),
         (small? styles.small : null),
+        (disabled? styles.disabled : null),
         style,
     ];
     const textStyles = [
@@ -47,25 +51,26 @@ const styles = StyleSheet.create({
         backgroundColor : palette.accent.color,
     },
     btnPrimaryText : {
-        color : palette.accent.primaryText,
+        color   : palette.accent.primaryText,
     },
     btnText : {
-        fontSize : 10,
-        color : palette.accent.primaryText,
+        fontSize    : 10,
+        color       : palette.accent.primaryText,
     },
     disabled : {
-        backgroundColor : "#b0bec5",
-        borderColor : "#b0bec5",
-        color : "#cfd8dc"
+        backgroundColor     : "#b0bec5",
+        borderColor         : "#b0bec5",
+        color               : "#cfd8dc",
+        opacity             : 0.6,
     },
     small : {
-        paddingVertical : 2,
-        paddingTop : 2,
-        paddingBottom : 2,
-        paddingHorizontal : 5,
-        height : 25,
-        alignItems : "center",
-        justifyContent : "center",
+        paddingVertical     : 2,
+        paddingTop          : 2,
+        paddingBottom       : 2,
+        paddingHorizontal   : 5,
+        height              : 25,
+        alignItems          : "center",
+        justifyContent      : "center",
     },
 });
 
