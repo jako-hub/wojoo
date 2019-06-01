@@ -22,6 +22,7 @@ export default {
         aprobarSolicitud : '/v1/clan/invitacion/aprobar',
         clanesJugador : '/v1/clanes/jugador',
         otrosClanes : '/v1/clanes/otros',
+        jugadores   : '/v1/clan/jugadores',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',

@@ -1,14 +1,22 @@
 import React from 'react';
-import ShowClanSelected from './ShowClanSelected';
-import WrapperSelectClan from './WrapperSelectClan';
-import { withUserData } from '../../providers';
+import ShowClanSelected from './SelectClan';
+import WrappedSelectClan from './WrappedSelectClan';
+import { withUserData, withApi } from '../../providers';
+import WrappedListPlayers from './WrappedListPlayers';
+import endpoints from '../../configs/endpoints';
 
+/**
+ * Componente para el desafio de clanes
+ * @author Jhoan López <jhoanlt19@gmail.com>
+ */
 class ClanChallenge extends React.PureComponent {
 
     state = {
-        openModal  : false,
-        loading    : false,
-        identifier : null, 
+        openModal      : false,
+        loading        : false,
+        loadingPlayers : false,
+        identifier     : null, 
+        openModalItem  : false,
         clans     : [
             { identifier : 1 , name_button : 'Mi clan'},
             { identifier : 2,  name_button : 'Desafiar'},
@@ -36,6 +44,27 @@ class ClanChallenge extends React.PureComponent {
         this.setState({loading : false});
     }
 
+    toogleModalItem = (item) => {
+        this.setState(({openModalItem}) => ({
+            openModalItem : !openModalItem
+        }), () => this.fetchPlayers(item))
+    }
+
+    fetchPlayers(item){
+        const endpoint = endpoints.clan.jugadores;
+        this.setState({loadingPlayers  : true});
+        this.props.doPost(endpoint, {
+            clan : 1
+        })
+        .then((response) => {
+            console.log(response);
+            this.setState({loadingPlayers  : false});
+        })
+        .catch((response) => {
+            console.log(response);
+        });
+    }
+
     addClanToGame = (item) => {
         this.setState(({clans}) => ({
             clans : clans.map((clan) => {
@@ -52,16 +81,26 @@ class ClanChallenge extends React.PureComponent {
 
     render(){
         const {clansGamePlayer, otherClans} = this.props;
-        const {openModal, loading, identifier} = this.state;
+        const {openModal, loading, identifier, openModalItem} = this.state;
         return(
             <>
-                <ShowClanSelected onPress={this.toogleModal} clans={this.state.clans} vs/>
-                <WrapperSelectClan 
+                <ShowClanSelected 
+                    onPress     = {this.toogleModal} 
+                    clans       = {this.state.clans} 
+                    vs 
+                    onPressItem = {this.toogleModalItem}
+                />
+                <WrappedSelectClan
                     openModal   = {openModal}
                     toggleModal = {this.toogleModal}
                     clans       = {identifier === 1 ? clansGamePlayer : otherClans}
                     loading     = {loading}
                     onPress     = {this.addClanToGame}
+                    onPressItem = {this.toogleModalItem}
+                />
+                <WrappedListPlayers 
+                    openModalItem   = {openModalItem} 
+                    toggleModalItem = {this.toogleModalItem}
                 />
             </>
             
@@ -69,4 +108,4 @@ class ClanChallenge extends React.PureComponent {
     }
 };
 
-export default withUserData(ClanChallenge);
+export default withApi(withUserData(ClanChallenge));
