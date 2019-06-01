@@ -20,6 +20,8 @@ export default {
         abandonar    : '/v1/clan/abandonar',
         unirse          : '/v1/clan/unirse',
         aprobarSolicitud : '/v1/clan/invitacion/aprobar',
+        clanesJugador : '/v1/clanes/jugador',
+        otrosClanes : '/v1/clanes/otros',
     },
     usuarios : {
         lista      : '/v1/usuario/lista',
