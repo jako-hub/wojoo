@@ -1,9 +1,10 @@
 import React from 'react';
-import ShowClanSelected from './SelectClan';
 import WrappedSelectClan from './WrappedSelectClan';
 import { withUserData, withApi } from '../../providers';
 import WrappedListPlayers from './WrappedListPlayers';
 import endpoints from '../../configs/endpoints';
+import SelectClan from './SelectClan';
+import PropTypes from 'prop-types';
 
 /**
  * Componente para el desafio de clanes
@@ -17,8 +18,9 @@ class ClanChallenge extends React.PureComponent {
         loadingPlayers : false,
         identifier     : null, 
         openModalItem  : false,
+        players        : [],
         clans     : [
-            { identifier : 1 , name_button : 'Mi clan'},
+            { identifier : 1 , name_button : 'Mis clanes'},
             { identifier : 2,  name_button : 'Desafiar'},
         ]
     }
@@ -46,7 +48,8 @@ class ClanChallenge extends React.PureComponent {
 
     toogleModalItem = (item) => {
         this.setState(({openModalItem}) => ({
-            openModalItem : !openModalItem
+            openModalItem : !openModalItem,
+            players       : []
         }), () => this.fetchPlayers(item))
     }
 
@@ -54,14 +57,23 @@ class ClanChallenge extends React.PureComponent {
         const endpoint = endpoints.clan.jugadores;
         this.setState({loadingPlayers  : true});
         this.props.doPost(endpoint, {
-            clan : 1
+            clan : item.codigo_clan
         })
         .then((response) => {
-            console.log(response);
-            this.setState({loadingPlayers  : false});
+            const { error, error_controlado } = response;
+            if(error || error_controlado) {
+                addMessage("Ocurrió un error al consultar los jugadores");
+                consoleError("Cancel request", response);
+                this.setState({loading : false});
+            } else {
+                this.setState({
+                    loadingPlayers  : false,
+                    players         : response
+                });
+            }
         })
         .catch((response) => {
-            console.log(response);
+            //Controlar el error
         });
     }
 
@@ -76,15 +88,25 @@ class ClanChallenge extends React.PureComponent {
                 return clan;
             }),
             openModal : false,
-        }));
+        }), () => this.returnSelection());
+    }
+
+    returnSelection(){
+        let myClan   = this.state.clans.find((item) => item.identifier === 1);
+        let opponent = this.state.clans.find((item) => item.identifier === 2);
+        let selectedClans = {
+            myClan   : myClan.codigo_clan,
+            opponent : opponent.codigo_clan,
+        }
+        this.props.selectedClans && this.props.selectedClans(selectedClans);
     }
 
     render(){
         const {clansGamePlayer, otherClans} = this.props;
-        const {openModal, loading, identifier, openModalItem} = this.state;
+        const {openModal, loading, identifier, openModalItem, players} = this.state;
         return(
             <>
-                <ShowClanSelected 
+                <SelectClan 
                     onPress     = {this.toogleModal} 
                     clans       = {this.state.clans} 
                     vs 
@@ -101,11 +123,16 @@ class ClanChallenge extends React.PureComponent {
                 <WrappedListPlayers 
                     openModalItem   = {openModalItem} 
                     toggleModalItem = {this.toogleModalItem}
+                    players         = {players}
                 />
             </>
             
         );
     }
+};
+
+ClanChallenge.propTypes = {
+    selectedClans : PropTypes.func
 };
 
 export default withApi(withUserData(ClanChallenge));
