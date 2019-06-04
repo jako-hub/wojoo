@@ -16,15 +16,14 @@ import {
 import ScenarioPicker from '../../components/scenario-picker';
 import { 
     DateTimePicker,
-    SubmitButton,
     FieldSetTitle,
 } from '../../commons/forms';
-import {
-    Row,
-    Col,
-} from '../../commons/forms/Layout';
 import TeamManager from './TeamManager';
+import Stepper from './Stepper';
+import StepperItem from './StepperItem';
+import moment from 'moment';
 
+const isEmpty = (value) => value === null || value === "";
 /**
  * This component only renders the Game Form.
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
@@ -35,105 +34,123 @@ const GameForm = (props) => {
         onSelectScenario,
         onChangeDate,
         gameName,
-        isValidForm,
         date,
         onSubmit,
         onAddTeam,
         onRemoveTeam,
         teams=[],
-        startHour,
-        endHour,
-        onChangeTime,
         defDate,
-        defStartAt,
-        defEndsAt,      
         toggleInvitation,
         sendInvitation,
         gameType,
-        gameTypes
+        gameTypes=[],
+        currentStep=0,
+        onChangeStep,
+        scenario,
+        reservation,
     } = props;
+    const getGameTypeLabel = (gameType) => {
+        const selected = gameTypes.find(item => item.codigo_juego_tipo === gameType);
+        return selected? selected.juego_tipo_nombre : null;
+    };
+    const {
+        fromLabel,
+        toLabel,
+    } = reservation||{};
+    const fromHour = moment(fromLabel).format("hh:mm a");
+    const toHour    = moment(toLabel).format("hh:mm a");
     return (
         <View style={styles.root}>            
             <Form style={styles.form}>
-                <View style = { {paddingLeft : 15} }>
-                    <Text>Tipo de juego</Text>
-                </View>
-                <Item>                    
-                    <Picker
-                        note
-                        mode="dropdown"
-                        style={{ width: 120 }}
-                        selectedValue={gameType}
-                        onValueChange={value => onChange("gameType", value)}
-                    >                        
-                        {gameTypes.map((item, key) => (
-                            <Picker.Item 
-                                key = { `list-item-types-element-${key}` }
-                                label={item.juego_tipo_nombre} 
-                                value={item.codigo_juego_tipo}
+                <Stepper 
+                    currentStep     = { currentStep     }
+                    onChangeStep    = { onChangeStep    }
+                    onDone          = { onSubmit        }
+                >
+                    <StepperItem 
+                        title       = "Información del juego"
+                        disableNext = { isEmpty(gameType) || isEmpty(gameName) }
+                        passed      = { !isEmpty(gameType) && !isEmpty(gameName) }
+                        passedValue = { `${gameName} (${getGameTypeLabel(gameType, gameTypes)})` }
+                    >
+                        <View style = { {paddingLeft : 15} }>
+                            <Text>Tipo de juego</Text>
+                        </View>
+                        <Item>     
+                            <Picker
+                                note
+                                mode="dropdown"
+                                style={{ width: 120 }}
+                                selectedValue={gameType}
+                                onValueChange={value => onChange("gameType", value)}
+                            >                        
+                                {gameTypes.map((item, key) => (
+                                    <Picker.Item 
+                                        key = { `list-item-types-element-${key}` }
+                                        label={item.juego_tipo_nombre} 
+                                        value={item.codigo_juego_tipo}
+                                    />
+                                ))}
+                            </Picker>
+                        </Item>
+                        <Item floatingLabel>
+                            <Label>{"Nombre del juego"}</Label>
+                            <Input 
+                                value        = { gameName                        }
+                                onChangeText = { text => onChange("name", text)  }
                             />
-                        ))}
-                    </Picker>
-                </Item>
-                <Item floatingLabel>
-                    <Label>{"Nombre del juego"}</Label>
-                    <Input 
-                        value        = { gameName                        }
-                        onChangeText = { text => onChange("name", text)  }
-                    />
-                </Item>                
-                <DateTimePicker
-                    date        = { defDate      } 
-                    value       = { date         }
-                    onChange    = { onChangeDate }
-                    label       = { "Seleccione el día" }
-                    mode        = "date"
-                />
-                <Row>
-                    <Col>
-                        <DateTimePicker 
-                            date        = { defStartAt        }
-                            value       = { startHour         }
-                            onChange    = { date => onChangeTime('startAt', date) }
-                            label       = { "Inicio" }
-                            mode        = "time"
+                        </Item>
+                    </StepperItem>
+
+                    <StepperItem 
+                        title       = "Fecha"
+                        disableNext = { isEmpty(date)  }
+                        passed      = { !isEmpty(date)  }
+                        passedValue = { `Día: ${date}`}
+                    >
+                        <DateTimePicker
+                            date        = { defDate      } 
+                            value       = { date         }
+                            onChange    = { onChangeDate }
+                            label       = { "Seleccione el día" }
+                            mode        = "date"
                         />
-                    </Col>
-                    <Col>
-                        <DateTimePicker 
-                            date        = { defEndsAt       }
-                            value       = { endHour         }
-                            onChange    = { date => onChangeTime('endsAt', date) }
-                            label       = { "Fin" }
-                            mode        = "time"
+                    </StepperItem>
+
+                    <StepperItem 
+                        title       = "Lugar"
+                        disableNext = { !scenario }
+                        passed      = { Boolean(scenario) }
+                        passedValue = { scenario? `${scenario.nombre} (${scenario.negocio_nombre}) de ${fromHour} a ${toHour}` : null }
+                    >
+                        <ScenarioPicker 
+                            onSelectScenario = { onSelectScenario }
+                            date = { moment(defDate).format("YYYY-MM-DD") }
                         />
-                    </Col>
-                </Row>
-                <ScenarioPicker 
-                    onSelectScenario = { onSelectScenario }
-                />
-                <FieldSetTitle title={"Equipos del juego"} />
-                <TeamManager 
-                    teams       = { teams        }
-                    onAddTeam   = { onAddTeam    }
-                    onRemoveTeam= { onRemoveTeam }
-                />
-                <View style = { styles.inviteZone }>
-                    <Text>Notificar amigos</Text>
-                    <CheckBox 
-                        checked = { sendInvitation   }
-                        onPress = { toggleInvitation }
-                    />
-                </View>
-                <View>
-                    <SubmitButton 
-                        primary
-                        block
-                        disabled = { !isValidForm    }
-                        label    = { "Guardar juego" }
-                        onPress  = { onSubmit        }
-                    />
-                </View>                
+                    </StepperItem>
+                    <StepperItem 
+                        title = "Jugadores"
+                        disableNext = { teams.length === 0          }
+                        passed      = { teams.length > 0            }
+                        passedValue = { `Equipos : ${teams.length}` }
+                    >
+                        <FieldSetTitle title={"Equipos del juego"} />
+                        <TeamManager 
+                            teams       = { teams        }
+                            onAddTeam   = { onAddTeam    }
+                            onRemoveTeam= { onRemoveTeam }
+                        />
+                    </StepperItem>                                        
+                    <StepperItem title = "Últimos pasos">
+                        <View style = { styles.inviteZone }>
+                            <Text>Notificar amigos</Text>
+                            <CheckBox 
+                                checked = { sendInvitation   }
+                                onPress = { toggleInvitation }
+                            />
+                        </View>
+                    </StepperItem>                                        
+                </Stepper>
             </Form>
         </View>
     );
@@ -173,6 +190,7 @@ GameForm.propTypes = {
     defEndsAt        : PropTypes.any,
     gameType         : PropTypes.any,
     gameTypes        : PropTypes.array,
+    onChangeStep     : PropTypes.func,
 };
 
 export default GameForm;

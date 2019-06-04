@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
     View,
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
         alignItems      : "center",
         justifyContent  : "center",
         borderRadius    : 50,
-        height          : 40,
-        width           : 40,
+        height          : 30,
+        width           : 30,
     },
     inputText : {
         padding : 0,
