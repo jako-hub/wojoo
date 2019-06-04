@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ClanDetailWrapper from './ClanDetailWrapper';
 import ClanDetailView from './ClanDetailView';
-import { withApi } from '../../providers';
+import { withApi, withUserData } from '../../providers';
 import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError } from '../../utils/functions';
 import ClanMemberslist from './ClanMembersList';
+import ClanActions from './ClanActions';
+import ClanRequests from './ClanRequests';
 
 /**
  * This component renders a clan detail.
@@ -19,7 +21,7 @@ class ClanDetail extends React.PureComponent {
             rating      : 1,
             juego_tipo  : "",
             miembros    : [],
-        },
+        },        
     };
 
     componentDidMount() {
@@ -52,7 +54,21 @@ class ClanDetail extends React.PureComponent {
                 clanInfo : clanInfo? clanInfo : state.clanInfo,
             }));
         }        
-    }    
+    }
+
+    async refreshInfo() {
+        await this.fetchData();
+    }
+
+    isAdmin() {
+        const {clanCode, adminClans=[]} = this.props;
+        const selected = adminClans.find(item => item.codigo_clan === clanCode);
+        return Boolean(selected);
+    }
+
+    onApprove() {
+        this.refreshInfo();
+    }
 
     render() {
         const {
@@ -60,8 +76,9 @@ class ClanDetail extends React.PureComponent {
             clanInfo,
         } = this.state;
         const {clanCode} = this.props;
+        const isAdmin = this.isAdmin();
         return (
-            <ClanDetailWrapper loading = { loading } >
+            <ClanDetailWrapper onRefresh = { () => this.refreshInfo() } loading = { loading } >
                 <ClanDetailView
                     name        = { clanInfo.nombre         }
                     rating      = { clanInfo.rating         }
@@ -70,10 +87,21 @@ class ClanDetail extends React.PureComponent {
                     photo       = { clanInfo.foto           }
                     thumbnail   = { clanInfo.foto_miniatura }
                 />
+                <ClanActions
+                    clanCode    = { clanCode                 }
+                    onJoin      = { () => this.refreshInfo() }
+                 />
+                {isAdmin && (
+                    <ClanRequests 
+                        clanCode = { clanCode } 
+                        onApprove = { this.onApprove.bind(this) }
+                    />
+                )}
                 <ClanMemberslist 
                     members     = { clanInfo.miembros       }
                     navigation  = { this.props.navigation   }
                     clanCode    = { clanCode                }
+                    isAdmin     = { isAdmin                 }
                 />
             </ClanDetailWrapper>
         );
@@ -84,6 +112,7 @@ ClanDetail.propTypes = {
     clanCode    : PropTypes.any,
     navigation  : PropTypes.any,
     doPost      : PropTypes.func,
+    adminClans  : PropTypes.array,
 };
 
-export default withApi(ClanDetail);
+export default withApi(withUserData(ClanDetail));

@@ -46,6 +46,7 @@ export const searchRoutes = {
     },    
     GameDetail      : { screen : GameDetailScreen },
     JoinToGame      : { screen : JoinToGameScreen },
+    ClanDetail      : ViewClanScreen,
 };
 
 /**

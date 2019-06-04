@@ -14,6 +14,8 @@ import {
     REMOVE_ADMIN_CLAN,
     SET_CLAN_INVITATIONS,
     REMOVE_CLAN_INVITATION,
+    SET_CLAN_INVITATIONS_SENDED,
+    SET_CLAN_INVITATIONS_RECEIVED,
 } from '../actions/userData.actions';
 
 const defaultState = {
@@ -22,6 +24,8 @@ const defaultState = {
     friendshipRequestsSended    : [],
     clans                       : [],
     adminClans                  : [],
+    sendedClanRequests          : [],
+    receivedClanRequests        : [],
     clanInvitations             : [],
     photo                       : null,
     verified                    : false,
@@ -86,6 +90,15 @@ export default gameReducer = (state=defaultState, action) => {
         case REMOVE_CLAN_INVITATION : return ({
             ...state,
             clanInvitations : state.clanInvitations.filter(item => item.codigo_jugador_clan !== action.code),
+        });
+        case SET_CLAN_INVITATIONS_SENDED : return ({
+            ...state,
+            sendedClanRequests  : action.invitations,
+            receivedClanRequests        : [],
+        });
+        case SET_CLAN_INVITATIONS_RECEIVED : return ({
+            ...state,
+            receivedClanRequests    : action.invitations,
         });
         default : return ({
             ...state,

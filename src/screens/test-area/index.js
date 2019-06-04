@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseScreen from '../BaseScreen';
 import { withUserData } from '../../providers';
+import { ClanDetail, ScenarioReservation, ScenarioPicker, GameCreatorComponent } from '../../components';
 // Delete from here
 
 class TestAreaScreen extends React.Component {
@@ -38,6 +39,9 @@ class TestAreaScreen extends React.Component {
             <BaseScreen
                 navigation = { navigation }
             >
+                <GameCreatorComponent 
+                    navigation = { navigation }
+                />
             </BaseScreen>
         );
     }

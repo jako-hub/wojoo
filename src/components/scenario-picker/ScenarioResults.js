@@ -15,9 +15,10 @@ import {
     Item,
 } from 'native-base';
 import { LoadingSpinner } from '../../commons/loaders';
-import { SimpleModal } from '../../commons/modals';
+import { SimpleModal, FullScreenModal } from '../../commons/modals';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { upcfirst } from '../../utils/functions';
+import { ScenarioReservation } from '..';
 
 const Loader = () => (
     <View style={styles.loading}>
@@ -61,6 +62,8 @@ const ScnearioResults = (props) => {
         onClose,
         filter,
         onChangeFilter,
+        displayAvailability,
+        scenarioInfo,
     } = props;
     let content = null; 
     if(loading) content = (<Loader />);
@@ -81,22 +84,32 @@ const ScnearioResults = (props) => {
     );
     }
     return (
-        <SimpleModal 
+        <FullScreenModal 
             title   = {"Selecciona un escenario"}
             onClose = {onClose}
             open    = {open}
-        >        
-            <View style={styles.filterBox}>
-                <Item>
-                    <Input 
-                        placeholder = "Buscar"
-                        value       = {filter}
-                        onChangeText= { text => onChangeFilter(text)}
-                    />
-                </Item>
-            </View>
-            {content}
-        </SimpleModal>        
+            disableScroll = { displayAvailability }
+        >                    
+            {!displayAvailability && (
+                <>
+                <View style={styles.filterBox}>
+                    <Item>
+                        <Input 
+                            placeholder = "Buscar"
+                            value       = {filter}
+                            onChangeText= { text => onChangeFilter(text)}
+                        />
+                    </Item>
+                </View>
+                {content}
+                </>
+            )}
+            {displayAvailability && (
+                <ScenarioReservation
+                    {...scenarioInfo}
+                />
+            )}
+        </FullScreenModal>        
     );
 };
 

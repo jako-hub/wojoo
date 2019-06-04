@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
     View,
     StyleSheet,
-    Text,
 } from 'react-native';
 import {
     Form,
@@ -11,7 +10,7 @@ import {
     Input,    
     Label,
 } from 'native-base';
-import {Button} from '../../commons/forms';
+import {PrettyButton} from '../../commons/forms';
 import { 
     NumberPicker,
  } from '../../commons/forms';
@@ -31,7 +30,7 @@ const TeamForm = ({defaultName="", defaultPlayers=1, onSubmit}) => {
         <Form style={styles.root}>
             <View style={styles.row}>
                 <Item floatingLabel style={styles.col}>
-                    <Label>{"Nombre del equipo"}</Label>
+                    <Label>{"Nombre"}</Label>
                     <Input 
                         value           = { teamName }
                         onChangeText    = { text => setName(text) }
@@ -40,7 +39,7 @@ const TeamForm = ({defaultName="", defaultPlayers=1, onSubmit}) => {
                 </Item>
                 <View style={styles.col}>
                     <NumberPicker 
-                        label           = { "No. jugadores" }
+                        label           = { "Jugadores" }
                         min             = { 1   }
                         max             = { 100 }
                         defaultValue    = { players }
@@ -49,13 +48,16 @@ const TeamForm = ({defaultName="", defaultPlayers=1, onSubmit}) => {
                 </View>                
             </View>
             <View style={{flex : 1, alignItems : "center", paddingVertical: 10, marginTop: 10,}}>
-                <Button
-                    info
-                    disabled    = { teamName === ""   }
-                    onPress     = { () => onAddTeam() }
-                >
-                    Agregar Equipo
-                </Button>
+                <View>
+                    <PrettyButton
+                        small
+                        info
+                        disabled    = { teamName === ""   }
+                        onPress     = { () => onAddTeam() }
+                    >
+                        Agregar Equipo
+                    </PrettyButton>
+                </View>
             </View>
         </Form>
     )

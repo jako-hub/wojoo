@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import BaseScreen from '../BaseScreen';
 import PropTypes from 'prop-types';
 import {_t} from "../../configs/dictionary";
-import { SearchComponent, SearchFilter, SearchFriends } from '../../components';
-import { FabButton } from '../../commons/buttons';
+import { SearchComponent, SearchFilter, SearchFriends, SearchClans } from '../../components';
 import { withSession } from '../../providers';
 import TabButtons from '../../commons/buttons/TabButtons';
 export {default as GameDetailScreen} from './GameDetail';
@@ -20,7 +19,8 @@ class MyProfileScreen extends React.Component {
 
     tabs = [
         {label : "Juegos", icon : "futbol"},
-        {label : "Amigos", icon : "users"},
+        {label : "Amigos", icon : "user-friends"},
+        {label : "Clanes", icon : "users"},
     ];
 
     constructor(props) {
@@ -54,14 +54,20 @@ class MyProfileScreen extends React.Component {
                 <View style = { styles.searchBarContainer }> 
                     <SearchFilter />
                 </View>            
-                <TabButtons buttons = { this.tabs} onChange = { this.onChangeTab.bind(this) } currentTab = { currentTab } />
+                <View>
+                    <ScrollView horizontal>
+                        <TabButtons buttons = { this.tabs} onChange = { this.onChangeTab.bind(this) } currentTab = { currentTab } />
+                    </ScrollView>
+                </View>
                 {currentTab === 0 && (
                     <View style={styles.root}><SearchComponent navigation={navigation} /></View>
                 )}
                 {currentTab === 1 && (
                     <SearchFriends navigation = {navigation} />
                 )}
-                
+                {currentTab === 2 && (
+                    <SearchClans navigation = {navigation} />
+                )}                
                 
             </BaseScreen>
         );
