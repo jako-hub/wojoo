@@ -13,10 +13,17 @@ import endpoints from '../../configs/endpoints';
 import { addMessage, consoleError, upcfirst } from '../../utils/functions';
 
 
+/**
+ * This component allows to create a new game.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ *
+ * @class GameCreatorComponent
+ * @extends {React.Component}
+ */
 class GameCreatorComponent extends React.Component {
     state = {
         name         : "",
-        scenario     : "",
+        scenario     : null,
         date         : null,
         defDate      : null,
         startAt      : null,
@@ -27,8 +34,10 @@ class GameCreatorComponent extends React.Component {
         gameType     : 1,
         teams        : [],
         teamNames    : {},
-        sendInvitation : false,
-        gameTypes : [],
+        sendInvitation  : false,
+        gameTypes       : [],
+        currentStep     : 0,
+        reservation     : null,
     };
 
     constructor(props) {
@@ -78,9 +87,10 @@ class GameCreatorComponent extends React.Component {
         });
     }
 
-    onChangeScenario(scenario) {
+    onChangeScenario({scenario, reservation}) {
         this.setState({
             scenario,
+            reservation,
         });
     }
 
@@ -136,17 +146,17 @@ class GameCreatorComponent extends React.Component {
             date:fecha,
             name:nombre,
             codigo_juego,
-            startAt,
-            endsAt,
             teams,
             sendInvitation,
             gameType,
+            reservation,
         } = this.state;
+        const {
+            fromLabel,
+            toLabel,
+        } = reservation||{};
         const jugador = this.props.userCode;
-        const escenario = scenario.codigo_escenario;
-        const initialDate = `${fecha} ${startAt}`;
-        const endDate = `${fecha} ${endsAt}`;                
-
+        const escenario = scenario.codigo_escenario;         
         const data = {
             jugador,
             nombre,
@@ -156,8 +166,8 @@ class GameCreatorComponent extends React.Component {
             escenario,
             codigo_juego,
             equipos : teams,
-            fecha_desde : initialDate,
-            fecha_hasta : endDate,
+            fecha_desde : fromLabel,
+            fecha_hasta : toLabel,
             invitar_amigos : sendInvitation,
             tipo_juego : gameType,
         };
@@ -202,6 +212,12 @@ class GameCreatorComponent extends React.Component {
             defEndsAt    : null,
         });
     }
+
+    onChangeStep(step) {
+        this.setState({
+            currentStep : step - 1,
+        });
+    }
     
     render() {
         const {
@@ -217,6 +233,8 @@ class GameCreatorComponent extends React.Component {
             sendInvitation,
             gameTypes,
             gameType,
+            currentStep,
+            reservation,
         } = this.state;
         return (
             <ScrollView>                
@@ -226,18 +244,21 @@ class GameCreatorComponent extends React.Component {
                         onChangeDate     = { this.onChangeDate.bind(this)    }
                         onChangeTime     = { this.onChangeTime.bind(this)    }
                         onSubmit         = { this.onSubmitForm.bind(this)    }
+                        onChangeStep     = { this.onChangeStep.bind(this)    }
                         onChange         = { this.onChange.bind(this)        }
-                        teams            = { teams      }
-                        gameType         = { gameType   }
-                        gameTypes        = { gameTypes  }
-                        gameName         = { name       }
-                        scenario         = { scenario   }
-                        date             = { date       }
-                        startHour        = { startAt    }
-                        endHour          = { endsAt     }
-                        defDate          = { defDate    }
-                        defStartAt       = { defStartat }
-                        defEndsAt        = { defEndsat  }
+                        teams            = { teams       }
+                        gameType         = { gameType    }
+                        gameTypes        = { gameTypes   }
+                        gameName         = { name        }
+                        scenario         = { scenario    }
+                        reservation      = { reservation }
+                        date             = { date        }
+                        startHour        = { startAt     }
+                        endHour          = { endsAt      }
+                        defDate          = { defDate     }
+                        defStartAt       = { defStartat  }
+                        defEndsAt        = { defEndsat   }
+                        currentStep      = { currentStep }
                         isValidForm      = { this.isValidForm()            }
                         onAddTeam        = { this.onAddTeam.bind(this)     }
                         onRemoveTeam     = { this.onRemoveTeam.bind(this)  }
