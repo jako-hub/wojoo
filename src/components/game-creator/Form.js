@@ -16,14 +16,13 @@ import {
 import ScenarioPicker from '../../components/scenario-picker';
 import { 
     DateTimePicker,
-    FieldSetTitle,
 } from '../../commons/forms';
-import TeamManager from './TeamManager';
 import Stepper from './Stepper';
 import StepperItem from './StepperItem';
 import moment from 'moment';
+import TeamsTab from './TeamsTab';
 
-const isEmpty = (value) => value === null || value === "";
+const isEmpty = (value) => value === null || value === "" || value === undefined;
 /**
  * This component only renders the Game Form.
  * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
@@ -48,7 +47,12 @@ const GameForm = (props) => {
         onChangeStep,
         scenario,
         reservation,
+        onSelectClan,
+        setIsChallenge,
+        selectedClans,
+        isChallenge,
     } = props;
+    const {myClan, opponent} = selectedClans || {};
     const getGameTypeLabel = (gameType) => {
         const selected = gameTypes.find(item => item.codigo_juego_tipo === gameType);
         return selected? selected.juego_tipo_nombre : null;
@@ -130,15 +134,16 @@ const GameForm = (props) => {
                     </StepperItem>
                     <StepperItem 
                         title = "Jugadores"
-                        disableNext = { teams.length === 0          }
-                        passed      = { teams.length > 0            }
-                        passedValue = { `Equipos : ${teams.length}` }
-                    >
-                        <FieldSetTitle title={"Equipos del juego"} />
-                        <TeamManager 
-                            teams       = { teams        }
-                            onAddTeam   = { onAddTeam    }
-                            onRemoveTeam= { onRemoveTeam }
+                        disableNext = { isChallenge && (isEmpty(myClan) || isEmpty(opponent)) || (!isChallenge && teams.length === 0)   }
+                        passed      = { isChallenge && (!isEmpty(myClan) && !isEmpty(opponent)) || (!isChallenge && teams.length > 0)     }
+                        passedValue = { !isChallenge? (`Equipos : ${teams.length}`) : `Desafio 1 vs 1`              }
+                    >                        
+                        <TeamsTab 
+                            teams           = { teams        }
+                            onAddTeam       = { onAddTeam    }
+                            onRemoveTeam    = { onRemoveTeam }
+                            onSelectClan    = { onSelectClan }
+                            setIsChallenge  = { setIsChallenge }
                         />
                     </StepperItem>                                        
                     <StepperItem title = "Últimos pasos">
@@ -191,6 +196,10 @@ GameForm.propTypes = {
     gameType         : PropTypes.any,
     gameTypes        : PropTypes.array,
     onChangeStep     : PropTypes.func,
+    onSelectClan     : PropTypes.func,
+    setIsChallenge   : PropTypes.func,
+    selectedClans    : PropTypes.object,
+    isChallenge      : PropTypes.bool,
 };
 
 export default GameForm;

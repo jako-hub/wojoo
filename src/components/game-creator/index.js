@@ -38,6 +38,11 @@ class GameCreatorComponent extends React.Component {
         gameTypes       : [],
         currentStep     : 0,
         reservation     : null,
+        isChallenge     : false,
+        selectedClans   : {
+            myClan      : null,
+            opponent    : null,
+        },
     };
 
     constructor(props) {
@@ -140,6 +145,12 @@ class GameCreatorComponent extends React.Component {
         }));
     }
 
+    onSelectClan(selectedClans) {
+        this.setState({
+            selectedClans
+        });
+    }
+
     async onSubmitForm() {
         const {
             scenario,
@@ -150,6 +161,8 @@ class GameCreatorComponent extends React.Component {
             sendInvitation,
             gameType,
             reservation,
+            isChallenge,
+            selectedClans,
         } = this.state;
         const {
             fromLabel,
@@ -170,6 +183,11 @@ class GameCreatorComponent extends React.Component {
             fecha_hasta : toLabel,
             invitar_amigos : sendInvitation,
             tipo_juego : gameType,
+            desafio : isChallenge,
+            clanes : [
+                {codigo_clan : selectedClans.myClan},
+                {codigo_clan : selectedClans.opponent},
+            ],
         };
 
         this.props.startLoading();
@@ -219,6 +237,12 @@ class GameCreatorComponent extends React.Component {
         });
     }
     
+    setIsChallenge(isChallenge) {
+        this.setState({
+            isChallenge,
+        });
+    }
+
     render() {
         const {
             name,
@@ -235,6 +259,8 @@ class GameCreatorComponent extends React.Component {
             gameType,
             currentStep,
             reservation,
+            selectedClans,
+            isChallenge,
         } = this.state;
         return (
             <ScrollView>                
@@ -248,6 +274,7 @@ class GameCreatorComponent extends React.Component {
                         onChange         = { this.onChange.bind(this)        }
                         teams            = { teams       }
                         gameType         = { gameType    }
+                        isChallenge      = { isChallenge }
                         gameTypes        = { gameTypes   }
                         gameName         = { name        }
                         scenario         = { scenario    }
@@ -259,11 +286,14 @@ class GameCreatorComponent extends React.Component {
                         defStartAt       = { defStartat  }
                         defEndsAt        = { defEndsat   }
                         currentStep      = { currentStep }
+                        selectedClans    = { selectedClans }
                         isValidForm      = { this.isValidForm()            }
                         onAddTeam        = { this.onAddTeam.bind(this)     }
                         onRemoveTeam     = { this.onRemoveTeam.bind(this)  }
                         sendInvitation   = { sendInvitation                }
                         toggleInvitation = { () => this.toggleInvitation() }
+                        onSelectClan     = { this.onSelectClan.bind(this)  }
+                        setIsChallenge   = { this.setIsChallenge.bind(this)}
                     />                    
                 </View>
             </ScrollView>

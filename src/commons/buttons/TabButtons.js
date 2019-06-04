@@ -70,7 +70,9 @@ const styles = StyleSheet.create({
 });
 
 TabButtons.propTypes = {
-    onChange : PropTypes.func,
+    onChange    : PropTypes.func,
+    buttons     : PropTypes.array,
+    currentTab  : PropTypes.any,
 };
 
 export default TabButtons;
