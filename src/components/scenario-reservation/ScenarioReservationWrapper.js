@@ -12,6 +12,10 @@ import {
 import { EmptyText } from '../../commons/others';
 import { AnimatedButtonBottom } from '../../commons/buttons';
 
+/**
+ * This component is a wrapper for the reservation content.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 const ScenarioReservationWrapper = ({
     children,
     loading,
