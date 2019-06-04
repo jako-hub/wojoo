@@ -16,6 +16,8 @@ import {
     removeClanInvitation,
     fetchClanRequestsSended,
     fetchClanRequestsReceived,
+    fetchClansGamePlayer,
+    fetchOtherClans,
 } from '../store/actions/userData.actions';
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -32,6 +34,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     removeClanInvitation,
     fetchClanRequestsSended,
     fetchClanRequestsReceived,
+    fetchClansGamePlayer,
+    fetchOtherClans,
 }, dispatch);
 
 const mapStateToProps = ({session:{userCode}, games:{pendingClose}, userData}) => ({
@@ -65,6 +69,10 @@ export const propTypes = {
     removeClanInvitation        : PropTypes.func,
     fetchClanRequestsSended     : PropTypes.func,
     fetchClanRequestsReceived   : PropTypes.func,
+    fetchClansGamePlayer        : PropTypes.func,
+    fetchOtherClans             : PropTypes.func,
+    clansGamePlayer             : PropTypes.array,
+    otherClans                  : PropTypes.array,
 };
 
 /**

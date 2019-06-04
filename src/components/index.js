@@ -28,6 +28,7 @@ import ClanInvitations      from './clan-invitations';
 import SearchClans          from './search-clans';
 import ScenarioReservation  from './scenario-reservation';
 import ScenarioPicker       from './scenario-picker';
+import ClanChallenge        from './clan-challenge';
 
 export {
     LoginComponent, 
@@ -60,4 +61,5 @@ export {
     SearchClans,
     ScenarioReservation,
     ScenarioPicker,
+    ClanChallenge,
 };
