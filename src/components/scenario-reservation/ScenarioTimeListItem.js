@@ -10,6 +10,10 @@ import {
 import stylesPalette from '../../utils/stylesPalette';
 import { SimpleTouch } from '../../commons/touchables';
 
+/** 
+ * This component renders the time list block.
+ * @author Jorge Alejandro Quiroz Serna <jakop.box@gmail.com>
+ */
 const ScenarioTimeListItem = ({timeLabel, reserved, onSelect, isSelected}) => {
     const stylesItem = [
         styles.root,
@@ -73,21 +77,21 @@ const styles = StyleSheet.create({
     },
     timeWrapper : {
         padding             : 5,
-        backgroundColor : palette.primary.color,
-        flex : 2,
-        justifyContent : "center",
-        alignItems : "center",
+        backgroundColor     : palette.primary.color,
+        flex                : 2,
+        justifyContent      : "center",
+        alignItems          : "center",
     },
     contentWrapper : {
-        flex : 8,
+        flex    : 8,
         padding : 5,
     },
     contentText : {
         textAlign : "center",
     },
     timeText : {
-        fontSize : 13,
-        color : "#fff",
+        fontSize    : 13,
+        color       : "#fff",
     },
     timeTextReserved : {
         color : "#BDBDBD",
@@ -95,7 +99,10 @@ const styles = StyleSheet.create({
 });
 
 ScenarioTimeListItem.propTypes = {
-    timeLabel : PropTypes.string,
+    timeLabel   : PropTypes.string,
+    reserved    : PropTypes.bool,
+    onSelect    : PropTypes.func,
+    isSelected  : PropTypes.bool,
 };
 
 export default ScenarioTimeListItem;
