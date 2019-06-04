@@ -20,6 +20,8 @@ export const SET_CLAN_INVITATIONS                   = '[USER_DATA] SET_CLAN_INVI
 export const REMOVE_CLAN_INVITATION                 = '[USER_DATA] REMOVE_CLAN_INVITATION';
 export const SET_CLAN_INVITATIONS_SENDED            = '[USER_DATA] SET_CLAN_INVITATIONS_SENDED';
 export const SET_CLAN_INVITATIONS_RECEIVED          = '[USER_DATA] SET_CLAN_INVITATIONS_RECEIVED';
+export const SET_CLANS_GAME_PLAYER                  = '[USER_DATA] SET_CLANS_GAME_PLAYER';
+export const SET_OTHER_CLANS                        = '[USER_DATA] SET_OTHER_CLANS';
 
 export const setClanInvitationsSended = (invitations) => ({
     type : SET_CLAN_INVITATIONS_SENDED,
@@ -105,6 +107,16 @@ export const setUserFriendshipRequestsSended = (requests=[]) => ({
     type : SET_USER_FRIENDSHIP_REQUESTS_SENDED,
     requests,
 });
+
+export const setClansGamePlayer = (clans) => ({
+    type : SET_CLANS_GAME_PLAYER,
+    clans,
+});
+
+export const setOtherClans = (clans) => ({
+    type : SET_OTHER_CLANS,
+    clans,
+})
 
 /***************************
  ***** Async functions *****
@@ -375,3 +387,51 @@ export const fetchClanRequestsReceived = () => async (dispatch, getState) => {
     };
     return await fetchData();
 };
+
+export const fetchClansGamePlayer = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.clanesJugador, {
+                jugador : userCode,
+                juego   : 1
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error inesperado al listar los clanes");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setClansGamePlayer(response));
+            }
+        } catch (response) {
+            addMessage("Error al consultar los clanes del jugador");
+            consoleError("Admin clanes: ", response);
+        }
+    };
+    return await fetchData();
+}
+
+export const fetchOtherClans = () => async (dispatch, getState) => {
+    const {session:{userCode}} = getState();
+    const fetchData = async () => {
+        try {
+            const response = await Api.doPost(endpoints.clan.otrosClanes, {
+                jugador : userCode,
+                juego   : 1
+            });
+            const {error, error_controlado} = response;
+            if(error) {
+                addMessage("Ocurrió un error inesperado al listar los clanes");
+            } else if(error_controlado) {
+                addMessage(error_controlado);
+            } else {
+                dispatch(setOtherClans(response));
+            }
+        } catch (response) {
+            addMessage("Error al consultar los clanes del jugador");
+            consoleError("Admin clanes: ", response);
+        }
+    };
+    return await fetchData();
+}

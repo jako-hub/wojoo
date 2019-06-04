@@ -16,6 +16,8 @@ import {
     REMOVE_CLAN_INVITATION,
     SET_CLAN_INVITATIONS_SENDED,
     SET_CLAN_INVITATIONS_RECEIVED,
+    SET_CLANS_GAME_PLAYER,
+    SET_OTHER_CLANS,
 } from '../actions/userData.actions';
 
 const defaultState = {
@@ -30,6 +32,8 @@ const defaultState = {
     photo                       : null,
     verified                    : false,
     moneyPoints                 : 0,
+    clansGamePlayer             : [],
+    otherClans                  : [],
 };
 
 export default gameReducer = (state=defaultState, action) => {
@@ -100,6 +104,14 @@ export default gameReducer = (state=defaultState, action) => {
             ...state,
             receivedClanRequests    : action.invitations,
         });
+        case SET_CLANS_GAME_PLAYER : return({
+            ...state,
+            clansGamePlayer : action.clans
+        });
+        case SET_OTHER_CLANS : return({
+            ...state,
+            otherClans : action.clans
+        })
         default : return ({
             ...state,
         });
