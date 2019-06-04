@@ -7,6 +7,7 @@ import {StyleSheet} from 'react-native';
 import defaultClanImage from '../../assets/images/default-clan-image.png';
 import { SimpleTouch } from '../../commons/touchables';
 import PropTypes from 'prop-types';
+import {IMAGES_SERVER} from 'react-native-dotenv';
 
 /**
  * Componente para el listado de clanes
@@ -41,38 +42,40 @@ const SelectClan = ({onPress, clans=[], name_button='', vs=false, onPressItem, s
                 <View style = { styles.emptyList }>
                     <Text note style = { styles.emptyText }>No hay clanes que mostrar</Text>
                 </View> : 
-                filteredClans.map((item, key) => (
-                    <React.Fragment key={key}>
-                    {item.nombre ? 
-                        <SimpleTouch wrapType="stretch" onPress={() => onPressItem ?  onPressItem(item) : null}>
-                            <View style = { styles.listItem }>
-                                <View style = { styles.imageWrapper }>
-                                    <PhotoDisplay 
-                                        avatar
-                                        imageSource = { defaultClanImage }
-                                    />
+                <View>
+                    {filteredClans.map((item, key) => (
+                    <View key={key}>
+                        {item.nombre ? 
+                            <SimpleTouch wrapType="stretch" onPress={() => onPressItem ?  onPressItem(item) : null}>
+                                <View style = { styles.listItem }>
+                                    <View style = { styles.imageWrapper }>
+                                        <PhotoDisplay 
+                                            avatar
+                                            imageSource = { item.clan_foto? {uri : `${IMAGES_SERVER}${item.clan_foto}` } : defaultClanImage }
+                                        />
+                                    </View>
+                                    <View style = { styles.contentWrapper }>
+                                        <Text>{item.nombre}</Text>
+                                        <RatingStarDisplay value={item.rating} id={key}/>
+                                    </View>
+                                    <View style = { styles.actionsWrapper }>
+                                        <PrettyButton small primary onPress={() => onPress ? onPress(item) : null}>
+                                            {item.name_button ? item.name_button : name_button}
+                                        </PrettyButton>
+                                    </View>
                                 </View>
-                                <View style = { styles.contentWrapper }>
-                                    <Text>{item.nombre}</Text>
-                                    <RatingStarDisplay value={item.rating} id={key}/>
-                                </View>
-                                <View style = { styles.actionsWrapper }>
-                                    <PrettyButton small primary onPress={() => onPress ? onPress(item) : null}>
-                                        {item.name_button ? item.name_button : name_button}
-                                    </PrettyButton>
-                                </View>
+                            </SimpleTouch>
+                            :
+                            <View style={styles.actions}>
+                                <PrettyButton small primary onPress={() => onPress ? onPress(item) : null}>
+                                    {item.name_button ? item.name_button : name_button}
+                                </PrettyButton>
                             </View>
-                        </SimpleTouch>
-                        :
-                        <View style={styles.actions}>
-                            <PrettyButton small primary onPress={() => onPress ? onPress(item) : null}>
-                                {item.name_button ? item.name_button : name_button}
-                            </PrettyButton>
-                        </View>
-                    }
-                    {key === 0 && vs && <SimpleHeader title='VS'/>}
-                    </React.Fragment>
-                ))
+                        }
+                        {key === 0 && vs && <SimpleHeader title='VS'/>}
+                    </View>
+                ))}
+                </View>
             }
         </>
     );

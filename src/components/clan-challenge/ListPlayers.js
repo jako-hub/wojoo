@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import {StyleSheet} from 'react-native';
 import {DEFAULT_USER_IMG, IMAGES_SERVER} from 'react-native-dotenv';
 
+/**
+ * @author Jhoan López <jhoanlt19@gmail.com>
+ * Listar jugadores del clan
+ * @param {*} param0 
+ */
 const ListPlayers = ({players=[]}) => {
     return(
         <View>

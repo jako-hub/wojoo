@@ -36,10 +36,8 @@ class ClanChallenge extends React.PureComponent {
         const {clansGamePlayer=[], fetchClansGamePlayer, otherClans=[], fetchOtherClans} = this.props;        
         this.setState({loading : true});
         if(item.identifier === 1){
-            // if(clansGamePlayer.length === 0) 
             await fetchClansGamePlayer();
         } else {
-            // if(otherClans.length === 0) 
             await fetchOtherClans();
         }
 
@@ -98,7 +96,7 @@ class ClanChallenge extends React.PureComponent {
             myClan   : myClan.codigo_clan,
             opponent : opponent.codigo_clan,
         }
-        this.props.selectedClans && this.props.selectedClans(selectedClans);
+        this.props.onSelectClan && this.props.onSelectClan(selectedClans);
     }
 
     render(){
@@ -132,7 +130,7 @@ class ClanChallenge extends React.PureComponent {
 };
 
 ClanChallenge.propTypes = {
-    selectedClans : PropTypes.func
+    onSelectClan : PropTypes.func
 };
 
 export default withApi(withUserData(ClanChallenge));
